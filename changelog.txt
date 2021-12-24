@@ -1,0 +1,11 @@
+changelog
+V1.0, 24-12-2021:
+    Made the project.
+    Made the folder structure.
+    Made VisualContext for passing through dark/light mode.
+    Made LanguageContext for passing through English/Dutch.
+    Made the NavLinks in the NavBar component.
+    Made it possible to switch Dutch/English with a dropdown button from the NavBar.
+    Made a dropdown menu for the login/registration/profile page.
+    Styled the navigation bar.
+

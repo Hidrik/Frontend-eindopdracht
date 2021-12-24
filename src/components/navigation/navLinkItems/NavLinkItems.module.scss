@@ -1,0 +1,32 @@
+@import '../../../styling/colors';
+@import '../../../styling/fonts';
+
+.navlink {
+  /*Display*/
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  /*Margin, padding border*/
+  margin: 0 40px 0 40px;
+
+  /*Font*/
+  font-family: $font;
+  font-weight: $font-weight-regular;
+  font-size: $font-size-navigation-items;
+  line-height: 75px;
+  text-decoration: none;
+}
+
+.navlink:hover.light, .navlink.light{
+  color: $magnolia ;
+}
+
+.navlink:hover.dark, .navlink.dark{
+  color: $black ;
+}
+
+.navlink:hover.active, .navlink.active {
+  color:$ash-grey;
+}
