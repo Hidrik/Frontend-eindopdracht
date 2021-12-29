@@ -12,23 +12,18 @@ import {LanguageContext} from '../../context/LanguageContext';
 /*Import helpers*/
 
 /*Import style*/
-import styles from './FridgePage.module.css'
-import background from "../../assets/background/background.jpg";
-import Background from "../../components/background/Background";
+import styles from './Container.module.scss'
 
 
-
-
-
-function FridgePage({}) {
+function ProfilePage({children, width}) {
     const {visualMode} = useContext(VisualContext)
     const {language} = useContext(LanguageContext)
 
     /*Return*/
-    return ( <>
-            <Background image={background} style='image'/>
-            Fridge</>
+    return ( <div className={`${styles.container} ${styles[visualMode]} ${styles[width]} `}>
+        {children}
+        </div>
     );
 }
 
-export default FridgePage;
+export default ProfilePage;

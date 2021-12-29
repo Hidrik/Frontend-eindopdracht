@@ -1,5 +1,6 @@
 @import '../../../styling/colors';
 @import '../../../styling/fonts';
+@import '../../../styling/global';
 
 $navbar-height : 80px;
 $flag-height : 30px;
@@ -23,6 +24,10 @@ $flag-padding-top : 10%;
     padding: 0 0 0 0;
 }
 
+.logo-mobile{
+    display: none;
+}
+
 /*Flag dropdown*/
 
 .selector {
@@ -44,5 +49,25 @@ $flag-padding-top : 10%;
 
 .selector:hover .selector__flag__down {display: block;}
 
+.dropdown-nav-style{
+    color: black
+}
 
+@media only screen and (max-width: $mobile-width) {
+    .mobile-flag{
+        height: $flag-height/1.2;
+    }
+
+    .logo-mobile {
+        display: flex;
+        height: $flag-height/1.2;
+        margin-left: 5px;
+    }
+
+
+
+
+
+
+}
 

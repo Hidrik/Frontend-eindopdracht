@@ -1,5 +1,6 @@
-@import '../../../styling/colors';
-@import '../../../styling/fonts';
+@import '../../../../styling/colors';
+@import '../../../../styling/fonts';
+@import '../../../../styling/global';
 
 .navlink {
   /*Display*/
@@ -15,6 +16,7 @@
   font-family: $font;
   font-weight: $font-weight-regular;
   font-size: $font-size-navigation-items;
+  text-shadow: $text-shadow;
   line-height: 75px;
   text-decoration: none;
 }
@@ -29,4 +31,10 @@
 
 .navlink:hover.active, .navlink.active {
   color:$ash-grey;
+}
+
+@media only screen and (max-width: $mobile-width) {
+  .mobile{
+    display: none;
+  }
 }

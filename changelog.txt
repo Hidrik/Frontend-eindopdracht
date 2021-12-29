@@ -8,4 +8,11 @@ V1.0, 24-12-2021:
     Made it possible to switch Dutch/English with a dropdown button from the NavBar.
     Made a dropdown menu for the login/registration/profile page.
     Styled the navigation bar.
+V1.1, 28-12-2021:
+    Continued stiling the navigation bar for small media (phones etc.).
+    Combined both Dropdown components.
+    Made the useLanguageChooser helper function while making use of React hooks.
+    Made the background component.
+    Made the Input components for forms.
+    Started making the profile page.
 

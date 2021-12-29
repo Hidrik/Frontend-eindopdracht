@@ -1,0 +1,42 @@
+@import '../../styling/colors';
+@import '../../styling/fonts';
+@import '../../styling/global';
+
+
+.container{
+  /*Display*/
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  /*Size*/
+  margin: 50px auto auto auto;
+  border-radius: 20px;
+
+  /*Font*/
+  font-family: $font;
+  font-weight: $font-weight-regular;
+  text-shadow: $text-shadow;
+
+  /*style*/
+  opacity: 90%;
+}
+
+.small {
+  width: 40%;
+}
+
+.large {
+  width: 60%;
+}
+
+.light {
+  background-color: $purple-light;
+  color: $magnolia;
+}
+
+.dark {
+  background-color: $purple-dark;
+  color: $black;
+}

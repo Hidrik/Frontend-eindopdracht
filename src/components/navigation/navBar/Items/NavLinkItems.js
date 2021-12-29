@@ -3,7 +3,7 @@ import {NavLink} from 'react-router-dom'
 import {useContext} from "react";
 
 /*Import context*/
-import {VisualContext} from "../../../context/VisualContext";
+import {VisualContext} from "../../../../context/VisualContext";
 
 /*Import assets*/
 
@@ -23,7 +23,7 @@ function NavLinkItems({children, to}) {
     const {visualMode} = useContext(VisualContext)
     /*Return*/
     return (
-        <NavLink to={to} className={`${styles.navlink}  ${styles[visualMode]}`} activeClassName={`${styles.navlink} ${styles.active}`}>
+        <NavLink to={to} className={`${styles.navlink} ${styles[visualMode]} ${styles.mobile}`} activeClassName={`${styles.navlink} ${styles.active}  ${styles.mobile}`}>
             {children}
         </NavLink>
     );

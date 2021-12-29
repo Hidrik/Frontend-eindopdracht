@@ -1,5 +1,5 @@
 /*Import from dependencies*/
-import {useContext, useState} from "react"
+import React, {useContext, useState} from "react"
 import {NavLink, useHistory} from "react-router-dom";
 /*Import context*/
 import {LanguageContext} from "../../../context/LanguageContext"
@@ -9,11 +9,14 @@ import logo from '../../../assets/logo.png'
 import flagDutch from '../../../assets/languages/netherlands.png'
 import flagEnglish from '../../../assets/languages/united-kingdom.png'
 /*Import components*/
-import NavLinkItems from "../navLinkItems/NavLinkItems";
+import NavLinkItems from "./Items/NavLinkItems";
+import Dropdown from "./Dropdown/dropdown/Dropdown";
+
 /*Import helpers*/
+import useLanguageChooser from "../../../helpers/useLanguageChooser";
 /*Import style*/
 import styles from './NavBar.module.scss'
-import DropdownMenu from "../dropdownMenu/DropdownMenu";
+import NavLinkDropdown from "./Dropdown/navLinkDropdown/NavLinkDropdown";
 
 
 
@@ -24,8 +27,12 @@ import DropdownMenu from "../dropdownMenu/DropdownMenu";
 
 
 function NavBar() {
+    /*Styling variables*/
+    const selector = `${styles.selector__flag} ${styles['mobile-flag'] }`
+    const selectorDown = `${styles.selector__flag__down} ${styles['mobile-flag']}`
     /*States*/
-
+    const [showMobileMenu, toggleShowMobileMenu] = useState(false)
+    const [showProfile, toggleShowProfile] = useState(false)
     /*Context*/
     const {language, setDutch, setEnglish} = useContext(LanguageContext)
     const {visualMode} = useContext(VisualContext)
@@ -33,6 +40,7 @@ function NavBar() {
     /*Navigation*/
     const history = useHistory()
 
+    /*Functions*/
     const setLanguage = () => {
         if (language === 'NL') {
             setEnglish()
@@ -45,52 +53,60 @@ function NavBar() {
 
     /*Return*/
     return (<>
-        <nav className={`${styles.navbar} ${styles[visualMode]}`}>
-            {/*Link to homepage*/}
+        <nav className={`${styles.navbar} ${styles[visualMode]} ${styles.mobile}`}>
+            {/*Link to homepage when on desktop*/}
             <NavLinkItems to='/'>
                 <img src={logo} alt='logo' className={styles.logo}/>
             </NavLinkItems>
 
-            {/*Link depends on language*/}
-            {language === 'NL' ?
-                /*Dutch links*/
-                <>
-                    {/*Link to koelkast*/}
-                    <NavLinkItems to='/koelkast'>
-                        Koelkast
-                    </NavLinkItems>
-                    {/*Link to boodschappenlijst*/}
-                    <NavLinkItems to='/boodschappenlijst'>
-                        Boodschappenlijst
-                    </NavLinkItems>
-                </> :
-                /*English links*/
+            {/*Dropdown menu when on mobile*/}
+            <Dropdown style='mobile' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu} button={<img src={logo} alt='logo' className={styles['logo-mobile']}/>}>
+                <NavLinkDropdown to='/fridge' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu}>
+                    {useLanguageChooser('Koelkast', 'Fridge')}
+                </NavLinkDropdown>
+                <NavLinkDropdown to='/grocery-list' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu}>
+                    {useLanguageChooser(`Boodschappen`, 'Grocery list')}
+                </NavLinkDropdown>
+            </Dropdown>
+
+
+            {/*Links*/}
                 <>
                     {/*Link to fridge*/}
                     <NavLinkItems to='/fridge'>
-                        Fridge
+                        {useLanguageChooser('Koelkast', 'Fridge')}
                     </NavLinkItems>
                     {/*Link to grocery list*/}
                     <NavLinkItems to='/grocery-list'>
-                        Grocery list
+                        {useLanguageChooser('Boodschappenlijst', 'Grocery list')}
                     </NavLinkItems>
-                </>}
+                </>
             {/*selector flag menu to choose language*/}
 
             <picture className={styles.selector}>
                 {language === 'NL' ?
-                    <img src={flagDutch} alt='dutch-flag' className={styles.selector__flag}/> :
-                    <img src={flagEnglish} alt='english-flag' className={styles.selector__flag}/>}
+                    <img src={flagDutch} alt='dutch-flag' className={selector}/> :
+                    <img src={flagEnglish} alt='english-flag' className={selector}/>}
                 {language === 'NL' ?
-                    <img src={flagEnglish} alt='english-flag' className={styles.selector__flag__down}
+                    <img src={flagEnglish} alt='english-flag' className={selectorDown}
                          onClick={setLanguage}/> :
-                    <img src={flagDutch} alt='dutch-flag' className={styles.selector__flag__down}
+                    <img src={flagDutch} alt='dutch-flag' className={selectorDown}
                          onClick={setLanguage}/>
                 }
             </picture>
 
             {/*Dropdown for login*/}
-            <DropdownMenu/>
+            <Dropdown style='profile' showMenu={showProfile} toggleShowMenu={toggleShowProfile} button={useLanguageChooser('Profiel','Profile')}>
+                <NavLinkDropdown to='/login' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
+                    {useLanguageChooser('Login','Login')}
+                </NavLinkDropdown>
+                <NavLinkDropdown to='register' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
+                    {useLanguageChooser('Registreer', 'Register')}
+                </NavLinkDropdown>
+                <NavLinkDropdown to='profile' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
+                    {useLanguageChooser('Profiel', 'Profile')}
+                </NavLinkDropdown>
+            </Dropdown>
 
 
 

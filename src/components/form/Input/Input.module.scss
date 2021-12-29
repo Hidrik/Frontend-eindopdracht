@@ -1,0 +1,56 @@
+@import '../../../styling/colors';
+@import '../../../styling/fonts';
+@import '../../../styling/global';
+
+$margin :30px;
+$form-width-username : calc(100% - 2 * #{$margin});
+$form-width-label: 100px;
+$form-width-input-short : calc(100% -  #{$form-width-label} );
+
+
+.input, .text-long, .error, .form__container-short {
+  margin: $margin/4 $margin $margin/4 $margin;
+  padding: 0;
+  border: 0;
+}
+
+.text-short {
+  margin: 0;
+  width: $form-width-label;
+}
+
+.form__container-short{
+  display: flex;
+  flex-direction: row;
+}
+
+.input-long {
+  width: $form-width-username;
+}
+
+.input-short {
+  margin: 0 0 0 30px;
+  width: $form-width-input-short;
+}
+
+/*Colors*/
+
+
+.error {
+  color: $error-message;
+}
+
+.input-long, .input-short {
+  color: $purple-dark;
+}
+
+/*Input background colors*/
+
+.input-short.light, .input-long.light {
+  background-color: white;
+}
+
+.input-long.dark, .input-short.dark {
+  background-color: $magnolia;
+}
+
