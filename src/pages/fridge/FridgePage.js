@@ -26,7 +26,7 @@ function FridgePage({}) {
 
     /*Return*/
     return ( <>
-            <Background image={background} style='image'/>
+            <Background image={background} styling='image'/>
             Fridge</>
     );
 }

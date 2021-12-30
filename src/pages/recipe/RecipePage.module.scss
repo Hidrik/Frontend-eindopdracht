@@ -1,0 +1,108 @@
+@import '../../styling/colors';
+@import '../../styling/fonts';
+@import '../../styling/global';
+
+
+.container__article, .container__article__items__persons, .container__article__footer{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.container__article {
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    flex-basis: 90%;
+}
+
+
+.container__article__items {
+    display: flex;
+    flex-direction: column;
+    margin: 2.5%;
+}
+
+.container__article__footer {
+    justify-content: flex-start;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+}
+
+.container__article__items, .container__article__footer__items {
+    flex-basis: 45%;
+    flex-shrink: 0;
+    flex-grow: 0;
+    font-size: $font-size-summary;
+}
+
+.container__article__items__image {
+    width: 100%;
+    box-shadow: $box-shadow;
+    border-radius: 10px;
+}
+
+.container__article__items__persons {
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+}
+
+.container__article__items__summary a{
+    text-decoration: none;
+}
+
+.container__article__items__summary.light a{
+    color: $purple-dark;
+}
+
+.container__article__items__summary.dark a{
+    color: $ash-grey;
+}
+
+.container__article__footer__items{
+    margin: 3px 5px 3px 30px;
+    flex-basis: calc(25% - 35px);
+    font-size: $font-size-nutrients;
+    min-width: 180px;
+}
+
+.container__article__footer__daily, .container__article__footer__line{
+    flex-basis: 100%;
+}
+
+.container__article__footer__line{
+    height: 3px;
+    border-radius: 1px;
+}
+
+.container__article__footer__line.light{
+    background-color: $purple-dark;
+}
+
+.container__article__footer__line.dark{
+    background-color: $purple-light;
+}
+
+.container__article__items__persons__button-image {
+    height: 20px;
+}
+
+.container__article__items__ingredients{
+    margin-right: 20px;
+}
+
+.container__article__items__persons__button-image.light {
+    fill: $magnolia;
+    color: $magnolia;
+}
+
+.print__logo {
+    width: 20px;
+}
+
+@media only screen and (max-width: $mobile-width) {
+    .container__article__items {
+        flex-basis: 90%;
+    }
+
+}

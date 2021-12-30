@@ -26,6 +26,8 @@ function App() {
     const {visualMode, setDarkMode, setLightMode} = useContext(VisualContext)
 
     return (<>
+        <Background image='None' styling=' '>
+
         <NavBar/>
         <Switch>
             <Route exact path='/'>
@@ -46,10 +48,11 @@ function App() {
             <Route exact path='/profile'>
                 <ProfilePage></ProfilePage>
             </Route>
-            <Route path='/recipe:id'>
+            <Route path='/recipes/:id'>
                 <RecipePage></RecipePage>
             </Route>
         </Switch>
+        </Background>
         <br/>
     </>)
 }

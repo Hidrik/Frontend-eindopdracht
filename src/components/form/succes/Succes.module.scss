@@ -1,0 +1,10 @@
+@import '../../../styling/colors';
+@import '../../../styling/fonts';
+@import '../../../styling/global';
+
+.succes {
+  margin:  $form-margin/4 $form-margin $form-margin/4 $form-margin*2;
+  color: $succes;
+  font-weight: $font-weight-bold;
+  font-size: 30px;
+}

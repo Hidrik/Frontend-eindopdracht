@@ -1,0 +1,1 @@
+export const underscoreToEndpoint = (string) => string.split("_").join(',');

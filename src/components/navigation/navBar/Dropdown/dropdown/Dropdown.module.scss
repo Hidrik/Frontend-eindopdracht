@@ -11,7 +11,7 @@
   align-items: center;
   position: absolute;
   text-align: center;
-
+  z-index: 10;
 
   top: 0%;
   margin-top: 20px;
@@ -21,8 +21,6 @@
   border-radius: 20px ;
   box-shadow: $box-shadow;
 
-
-
   /*Font styling*/
   font-size: $font-size-dropdown-menu;
   font-family: $font;
@@ -30,9 +28,8 @@
   text-shadow: $text-shadow;
 }
 
-
 .profile {
-  left: calc( 100% - 180px);
+  left: calc( 100vw - 180px);
   width: 80px;
 }
 

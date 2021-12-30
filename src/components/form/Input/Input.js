@@ -18,7 +18,7 @@ import styles from './Input.module.scss';
 /*Import images*/
 
 
-function Input({label, register, name, error, condition, value, message, required, styleType, type, validate}) {
+function Input({label, register, name, error, condition, value, message, required, styleType, type, validate, placeholder, typedIn, key}) {
     /*Variables*/
 
 
@@ -30,10 +30,14 @@ function Input({label, register, name, error, condition, value, message, require
 
     /*Return*/
     return (<>
-        <div className={styles[`form__container-${styleType}`]}>
-            <label className={styles[`text-${styleType}`]}>{label}</label>
-            <input name={name} type={type}
-                   className={`${styles.input} ${styles[`input-${styleType}`]} ${styles[visualMode]}`} {...register(name, {
+        <div key={key} className={styles[`form__container-${styleType}`]}>
+            <label key={key}  className={styles[`text-${styleType}`]}>{label}</label>
+            <input key={key}
+                   name={name}
+                   placeholder={placeholder}
+                   type={type}
+                   value={typedIn}
+                        className={`${styles.input} ${styles[`input-${styleType}`]} ${styles[visualMode]} grocery`} {...register(name, {
                     [condition]: {
                         value: value,
                         message: message,
@@ -43,7 +47,7 @@ function Input({label, register, name, error, condition, value, message, require
                 }
             )}/>
         </div>
-        <p className={styles.error}>{error[name] && error[name].message}</p>
+        <p className={`${styles.error} ${styles[styleType]}`}>{error[name] && error[name].message}</p>
     </>);
 }
 

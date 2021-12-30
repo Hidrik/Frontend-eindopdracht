@@ -1,0 +1,9 @@
+@import '../../styling/colors';
+@import '../../styling/fonts';
+@import '../../styling/global';
+
+
+.error {
+    margin: $form-margin/4 $form-margin/2 $form-margin/4 $form-margin;
+    color: $error-message;
+}

@@ -61,6 +61,9 @@ function NavBar() {
 
             {/*Dropdown menu when on mobile*/}
             <Dropdown style='mobile' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu} button={<img src={logo} alt='logo' className={styles['logo-mobile']}/>}>
+                <NavLinkDropdown to='/' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu}>
+                    Home
+                </NavLinkDropdown>
                 <NavLinkDropdown to='/fridge' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu}>
                     {useLanguageChooser('Koelkast', 'Fridge')}
                 </NavLinkDropdown>
@@ -100,10 +103,10 @@ function NavBar() {
                 <NavLinkDropdown to='/login' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
                     {useLanguageChooser('Login','Login')}
                 </NavLinkDropdown>
-                <NavLinkDropdown to='register' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
+                <NavLinkDropdown to='/register' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
                     {useLanguageChooser('Registreer', 'Register')}
                 </NavLinkDropdown>
-                <NavLinkDropdown to='profile' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
+                <NavLinkDropdown to='/profile' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
                     {useLanguageChooser('Profiel', 'Profile')}
                 </NavLinkDropdown>
             </Dropdown>

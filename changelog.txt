@@ -15,4 +15,14 @@ V1.1, 28-12-2021:
     Made the background component.
     Made the Input components for forms.
     Started making the profile page.
-
+V1.2, 29-12-2021, 30-12-2021:
+    Made the Button components.
+    Change components which had style property to styling because of error.
+    Added the language buttons to profile page.
+    Made the mobile version of profilePage.
+    Made the whole registration page.
+    Made the whole login page.
+    Made the homepage with GET-request.
+    Started recipe page GET-request.
+    Made the recipe page.
+    Made the grocery list page.

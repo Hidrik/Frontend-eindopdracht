@@ -1,13 +1,22 @@
+/*TO DO*/
+/*Add functionality to the forms, make them communicate with the backend.*/
+
 /*Import from dependencies*/
-import {useContext, useRef} from "react";
+import {useContext, useRef, useState} from "react";
 import {useForm} from "react-hook-form";
 
 /*Import context*/
 import {VisualContext} from "../../context/VisualContext";
+import {LanguageContext} from "../../context/LanguageContext";
 
 /*Import assets*/
 /*Import components*/
 import Container from "../../components/container/Container";
+import Input from "../../components/form/Input/Input";
+import Button from "../../components/button/Button";
+import Title from "../../components/title/Title";
+import Form from "../../components/form/form/Form";
+import Succes from "../../components/form/succes/Succes";
 
 /*Import helpers*/
 import useLanguageChooser from "../../helpers/useLanguageChooser";
@@ -18,15 +27,25 @@ import Background from "../../components/background/Background";
 
 /*Import images*/
 import background from '../../assets/background/background.jpg';
-import Input from "../../components/form/Input/Input";
+import flagEnglish from '../../assets/languages/united-kingdom.png';
+import flagDutch from '../../assets/languages/netherlands.png';
+
+
 
 
 function ProfilePage({}) {
+    /*States*/
+    const [succesUsername, setSuccesUsername] = useState(false)
+    const [succesPassword, setSuccesPassword] = useState(false)
+    const succesText = useLanguageChooser('Gelukt', 'Succes')
+
     /*Variables*/
     const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+    const gebruiker = 'Hidrik'
 
     /*Context*/
-    const {visualMode, setDarkMode, setLightMode} = useContext(VisualContext)
+    const {setDarkMode, setLightMode} = useContext(VisualContext)
+    const {setDutch, setEnglish} = useContext(LanguageContext)
 
     /*Imports*/
     const {
@@ -34,6 +53,7 @@ function ProfilePage({}) {
         formState: {errors: errorsUsername},
         register: registerUsername
     } = useForm();
+
     const {
         handleSubmit: handleSubmitPassword,
         formState: {errors: errorsPassword},
@@ -44,20 +64,26 @@ function ProfilePage({}) {
     const password = useRef({});
     password.current = watch("newPassword", "");
 
-    const gebruiker = 'Hidrik'
-
     const log = (data) => {
+        setSuccesUsername(true)
+        console.log(data)
+    }
+
+    const log2 = (data) => {
+        setSuccesPassword(true)
         console.log(data)
     }
 
     /*Return*/
     return (<>
-        <Background image={background} style='image'/>
-        <Container width='small'>
-
-            <h1 className={styles.title}>{`${useLanguageChooser('Welkom', 'Welcome')} ${gebruiker}`}</h1>
-
-            <form className={styles.form} onSubmit={handleSubmitUsername(log)}>
+        <Background image={background} styling='image'/>
+        <Container width='small' background='true'>
+            {/*Showing username*/}
+            <Title>{`${useLanguageChooser('Welkom', 'Welcome')} ${gebruiker}`}</Title>
+            {/*Changing username succes*/}
+            {succesUsername && <Succes/>}
+            {/*Form for changing username*/}
+            <Form onSubmit={handleSubmitUsername(log)}>
 
                 <Input required={useLanguageChooser(
                     'Moet ingevoerd worden',
@@ -75,13 +101,15 @@ function ProfilePage({}) {
                        validate=''
                        type='text'/>
 
-                <button type='submit' className={`${styles.button} ${styles[visualMode]}`}>
+                <Button type='submit' styling='None'>
                     {useLanguageChooser('Wijzigen', 'Change')}
-                </button>
+                </Button>
 
-            </form>
-
-            <form className={styles.form} onSubmit={handleSubmitPassword(log)}>
+            </Form>
+            {/*Form for changing password*/}
+            {/*Changing username succes*/}
+            {succesPassword && <Succes/>}
+            <Form onSubmit={handleSubmitPassword(log2)}>
 
                 <p className={styles.text}>{useLanguageChooser('Wijzig wachtwoord:', 'Change password:')}</p>
 
@@ -101,7 +129,7 @@ function ProfilePage({}) {
                        validate=''
                        type='password'/>
 
-                <Input required=''
+                <Input required='Moet ingevoerd worden'
                        register={registerPassword}
                        message={useLanguageChooser(
                            'Moet minimaal 1 hoofdletter, cijfer en 8 characters bevatten',
@@ -118,7 +146,7 @@ function ProfilePage({}) {
                        type='password'/>
 
 
-                <Input required=''
+                <Input required='Moet ingevoerd worden'
                        register={registerPassword}
                        message={useLanguageChooser(
                            'Wachtwoord is niet gelijk',
@@ -128,31 +156,40 @@ function ProfilePage({}) {
                            value === password.current || "The passwords do not match"}
                        error={errorsPassword}
                        label={useLanguageChooser(
-                           'Nieuw herhaald:',
-                           'New repeat:')}
+                           'Herhaald:',
+                           'Repeat:')}
                        name='new_repeat'
                        condition=''
                        styleType='short'
                        type='password'/>
-                <button type='submit' className={`${styles.button} ${styles[visualMode]}`}>
+                <Button type='submit' styling='None'>
                     {useLanguageChooser('Wijzigen', 'Change')}
-                </button>
+                </Button>
 
-            </form>
+
+            </Form>
+            {/*Buttons for choosing between dark/light mode*/}
             <div className={styles['mode-container']}>
-            <button
-                className={`${styles.button} ${styles['mode-button-dark']} ${styles[visualMode]}`}
-                onClick={setDarkMode}>
-                {useLanguageChooser('Donker', 'Dark')}
-            </button>
+                <Button onClick={setDarkMode} styling='mode-button-left' type='button'>
+                    {useLanguageChooser('Donker', 'Dark')}
+                </Button>
+                <Button onClick={setLightMode} styling='mode-button-right' type='button'>
+                    {useLanguageChooser('Light', 'Licht')}
+                </Button>
 
-            <button
-                className={`${styles.button} ${styles['mode-button-light']} ${styles[visualMode]}`}
-                onClick={setLightMode}>
-                {useLanguageChooser('Light', 'Licht')}
-            </button>
+            </div>
+            {/*Buttons for choosing between English/Dutch*/}
+            <div className={styles['mode-container']}>
+                <Button onClick={setEnglish} styling='mode-button-left' type='button'>
+                    <img src={flagEnglish} alt='flag-English' className={styles.flag}/>
+                </Button>
+                <Button onClick={setDutch} styling='mode-button-right' type='button'>
+                    <img src={flagDutch} alt='flag-Dutch' className={styles.flag}/>
+                </Button>
+
             </div>
         </Container>
+
     </>);
 }
 

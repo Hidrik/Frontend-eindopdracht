@@ -20,7 +20,7 @@ import styles from './Background.module.scss'
 
 
 
-function Background({children, image, style}) {
+function Background({children, image, styling}) {
     /*Context*/
     const {visualMode} = useContext(VisualContext)
 
@@ -30,7 +30,7 @@ function Background({children, image, style}) {
 
     /*Return*/
     return (
-<div className={`${styles.background} ${styles[style]} ${styles[visualMode]}`}>
+<div className={`${styles.background} ${styles[styling]} ${styles[visualMode]}`}>
     <img src={image} className={styles.background} alt='background'/>
     {children}
 </div>

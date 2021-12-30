@@ -4,16 +4,23 @@
   position: absolute;
   left: 0px;
   top: 0px;
-  width: 100%;
-  height: 100%;
   z-index: -1;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-attachment: fixed;
 }
 
 .image{
-  background-repeat: no-repeat;
-
   opacity: 60%;
+  height: 100%;
+  background-repeat: repeat-y;
 }
+
+.none.background {
+  display: none;
+}
+
 
 .background.light {
   background-color: $magnolia;

@@ -9,6 +9,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  min-width: 300px;
 
   /*Size*/
   margin: 50px auto auto auto;
@@ -28,7 +29,7 @@
 }
 
 .large {
-  width: 60%;
+  width: 80%;
 }
 
 .light {
@@ -39,4 +40,26 @@
 .dark {
   background-color: $purple-dark;
   color: $black;
+}
+
+.none {
+  background: none;
+}
+
+.recipe {
+  margin-top: 0px;
+}
+
+.recipe.light {
+  background-color: $purple-dark;
+}
+
+.recipe.dark {
+  background-color: $purple-light;
+}
+
+@media only screen and (max-width: $mobile-width) {
+  .small, .large {
+    width: 90%;
+  }
 }

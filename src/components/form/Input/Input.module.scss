@@ -2,16 +2,27 @@
 @import '../../../styling/fonts';
 @import '../../../styling/global';
 
-$margin :30px;
-$form-width-username : calc(100% - 2 * #{$margin});
-$form-width-label: 100px;
-$form-width-input-short : calc(100% -  #{$form-width-label} );
+$form-width-label: 60px;
+$form-input-padding: 5px;
+$form-width-username : calc(100% - 2 * #{$form-margin} - #{$form-input-padding});
+
+$form-width-input-short : calc(100% -  #{$form-width-label} - #{$form-input-padding});
+
 
 
 .input, .text-long, .error, .form__container-short {
-  margin: $margin/4 $margin $margin/4 $margin;
+  margin: $form-margin/4 $form-margin $form-margin/4 $form-margin;
   padding: 0;
   border: 0;
+  outline: none;
+}
+
+.input {
+  padding: 0 0 0 $form-input-padding;
+}
+
+.input::placeholder{
+  color: $purple-dark;
 }
 
 .text-short {
@@ -40,17 +51,71 @@ $form-width-input-short : calc(100% -  #{$form-width-label} );
   color: $error-message;
 }
 
-.input-long, .input-short {
+.input-long, .input-short, .input-grocery {
   color: $purple-dark;
+  height: $input-height;
+  border-radius: 10px;
+  box-shadow: $box-shadow;
+}
+
+.input-search, .input-search:focus {
+  width: 100%;
+  height: $input-height;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 10px 0 0 10px;
+  text-align: center;
+  box-shadow: $box-shadow;
+}
+
+.form__container-search {
+  width: 100%;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+/*Grocery*/
+.form__container-grocery{
+  width: 90%;
+  align-self: center;
+}
+
+.input-grocery{
+  width: 90%;
+  align-self: center;
+}
+
+
+
+
+.error.search, .error.grocery {
+  display: none;
 }
 
 /*Input background colors*/
 
-.input-short.light, .input-long.light {
+.input-short.light, .input-long.light, .input-search.light {
   background-color: white;
+  color: $purple-dark;
 }
 
-.input-long.dark, .input-short.dark {
+.input-long.dark, .input-short.dark, .input-search.dark {
   background-color: $magnolia;
+}
+
+@media only screen and (max-width: $mobile-width) {
+  .input, .text-long {
+    margin: $form-margin-mobile;
+  }
+  .input-long {
+    width: calc(100% - #{$form-margin});
+  }
+
+  .input-search {
+    padding: 0;
+    border: 0;
+    margin: 0;
+  }
 }
 

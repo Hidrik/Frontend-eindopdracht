@@ -15,12 +15,12 @@ import {LanguageContext} from '../../context/LanguageContext';
 import styles from './Container.module.scss'
 
 
-function ProfilePage({children, width}) {
+function ProfilePage({children, width, background}) {
     const {visualMode} = useContext(VisualContext)
     const {language} = useContext(LanguageContext)
 
     /*Return*/
-    return ( <div className={`${styles.container} ${styles[visualMode]} ${styles[width]} `}>
+    return ( <div className={`${styles.container} ${styles[visualMode]} ${styles[width]} ${styles[background]} `}>
         {children}
         </div>
     );

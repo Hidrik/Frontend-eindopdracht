@@ -2,17 +2,8 @@
 @import '../../styling/fonts';
 @import '../../styling/global';
 
-$margin :30px;
-$form-width-username : calc(100% - 2 * #{$margin});
-$form-width-label: 50px;
-$form-width-input-short : calc(100% -  #{$form-width-label} );
-
-.title{
-    align-self: center;
-}
-
-.input, .text, .button, .error, .form__container, .form, .mode-container {
-    margin: $margin/4 $margin $margin/4 $margin;
+.text, .error, .form__container, .mode-container {
+    margin: $form-margin/4 $form-margin $form-margin/4 $form-margin;
     padding: 0;
     border: 0;
 }
@@ -22,47 +13,20 @@ $form-width-input-short : calc(100% -  #{$form-width-label} );
     flex-direction: row;
 }
 
-.form, .mode-container {
+.mode-container {
     width: $form-width-username;
 }
 
-.button {
-    font-family: $font;
-    box-shadow: $box-shadow;
-    border-radius: 10px;
-    padding: 5px;
+.flag {
+    height: 50px;
 }
 
-/*Colors*/
+@media only screen and (max-width: $mobile-width) {
+    .text, .error, .form__container, .mode-container {
+        margin: $form-margin-mobile;
+    }
 
-.button.light {
-    color: $magnolia;
+    .mode-container {
+        width: 100%;
+    }
 }
-
-.button.dark {
-    color: $black;
-}
-
-/*Input and buttons background colors*/
-
-
-.button.light, .button.dark:hover {
-    background-color: $purple-light;
-}
-
-.button.dark, .button.light:hover {
-    background-color: $purple-dark;
-}
-
-.mode-button-dark, .mode-button-light {
-    width: calc( #{$form-width-username} / 2)
-}
-
-.mode-button-dark {
-    margin-right: 0;
-}
-
-.mode-button-light {
-    margin-left: 0;
-}
-
