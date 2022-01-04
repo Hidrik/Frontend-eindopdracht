@@ -4,41 +4,41 @@ import {useForm} from "react-hook-form";
 
 /*Import context*/
 import {VisualContext} from "../../context/VisualContext";
-import {LanguageContext} from '../../context/LanguageContext';
 
 /*Import assets*/
+import background from "../../assets/background/background.jpg";
+import printer from "../../assets/icons/print.svg";
 
 /*Import components*/
 import Background from "../../components/background/Background";
 import Container from "../../components/container/Container";
 import Title from "../../components/title/Title";
-import useLanguageChooser from "../../helpers/useLanguageChooser";
-import Input from "../../components/form/Input/Input";
+import Input from "../../components/Input/Input";
 import Button from "../../components/button/Button";
+import Helper from "../../components/helper/Helper";
 
 /*Import helpers*/
 import print from "../../helpers/print";
 import getInputValue from "../../helpers/getInputValue";
+import useLanguageChooser from "../../helpers/useLanguageChooser";
 
 /*Import style*/
 import styles from './GroceryListPage.module.scss'
-import background from "../../assets/background/background.jpg";
-import printer from "../../assets/icons/print.svg";
 
 
-import TEMPdata from "../../TEMPdata/data2.json";
-import {logDOM} from "@testing-library/react";
 
 
-function GroceryListPage({}) {
-    const {visualMode} = useContext(VisualContext)
-    const {language} = useContext(LanguageContext)
 
-    const { handleSubmit, formState: {errors}, register } = useForm();
+function GroceryListPage() {
+
+    const { formState: {errors}, register } = useForm();
 
     /*States*/
     const [rows, setRows] = useState([]);
     const [numberOfInputs, setNumberOfInputs] = useState(4)
+
+    /*Context*/
+    const {visualMode} = useContext(VisualContext)
 
     /*Variables*/
 
@@ -62,20 +62,20 @@ function GroceryListPage({}) {
     return (
         <>
             <Container width='small' background='normal'>
+                {/*Print button*/}
                 <Button
                     onClick={
                         () => {
                             print('grocery');
                         }}
-                    styling='print'
+                    styling='print-small'
                 >
-                    <img className={styles.print__logo} src={printer} alt='print'/>
+                    <img className={`${styles.print__logo} ${styles[visualMode]}`} src={printer} alt='print'/>
                 </Button>
 
                 <Title styling=''>{useLanguageChooser('Boodschappenlijst', 'Grocery list')}</Title>
                 {rows.map(
                     (row) => {
-                        console.log(row.key)
 
                         if (row.value === '') {
                         return (
@@ -116,19 +116,21 @@ function GroceryListPage({}) {
                     }
 
                     })}
-
+                {/*Extra row button*/}
                 <Button
                     onClick={
                         () => {
-                            setRows(getInputValue(rows))
+                            setRows(getInputValue(rows, 'grocery'))
                             setNumberOfInputs(numberOfInputs+1);
                         }}
-                    styling='refresh'
-                    type='submit'
+                    styling='add-row'
+                    type='button'
                 >
-                    Extra rij
+                    +
                 </Button>
+                <Helper>
 
+                </Helper>
             </Container>
             <Background image={background} styling='image'/>
 

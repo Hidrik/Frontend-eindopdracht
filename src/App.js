@@ -1,16 +1,13 @@
 /*Dependencies*/
-import React, {useContext} from "react";
+import React from "react";
 import {Route, Switch} from "react-router-dom";
 
 /*Context*/
-import {VisualContext} from "./context/VisualContext";
-import {LanguageContext} from "./context/LanguageContext";
 
 /*Components*/
 import NavBar from "./components/navigation/navBar/NavBar";
 
 /*Styles*/
-import styles from './App.scss';
 
 /*Pages*/
 import HomePage from "./pages/home/HomePage";
@@ -23,35 +20,34 @@ import RecipePage from "./pages/recipe/RecipePage";
 import Background from "./components/background/Background";
 
 function App() {
-    const {visualMode, setDarkMode, setLightMode} = useContext(VisualContext)
 
     return (<>
         <Background image='None' styling=' '>
 
-        <NavBar/>
-        <Switch>
-            <Route exact path='/'>
-                <HomePage></HomePage>
-            </Route>
-            <Route exact path='/login'>
-                <LoginPage></LoginPage>
-            </Route>
-            <Route exact path='/fridge'>
-                <FridgePage></FridgePage>
-            </Route>
-            <Route exact path='/grocery-list'>
-                <GroceryListPage></GroceryListPage>
-            </Route>
-            <Route exact path='/register'>
-                <RegistrationPage></RegistrationPage>
-            </Route>
-            <Route exact path='/profile'>
-                <ProfilePage></ProfilePage>
-            </Route>
-            <Route path='/recipes/:id'>
-                <RecipePage></RecipePage>
-            </Route>
-        </Switch>
+            <NavBar/>
+            <Switch>
+                <Route exact path='/'>
+                    <HomePage/>
+                </Route>
+                <Route exact path='/login'>
+                    <LoginPage/>
+                </Route>
+                <Route exact path='/fridge'>
+                    <FridgePage/>
+                </Route>
+                <Route exact path='/grocery-list'>
+                    <GroceryListPage/>
+                </Route>
+                <Route exact path='/register'>
+                    <RegistrationPage/>
+                </Route>
+                <Route exact path='/profile'>
+                    <ProfilePage/>
+                </Route>
+                <Route path='/recipes/:id'>
+                    <RecipePage/>
+                </Route>
+            </Switch>
         </Background>
         <br/>
     </>)

@@ -13,7 +13,7 @@ import searchButton from '../../assets/icons/search-button.svg'
 /*Import components*/
 import Container from "../../components/container/Container";
 import Button from "../../components/button/Button";
-import Input from "../../components/form/Input/Input";
+import Input from "../../components/Input/Input";
 import Title from "../../components/title/Title";
 
 /*Import helpers*/
@@ -26,16 +26,10 @@ import styles from './HomePage.module.scss'
 /*Import images*/
 import background from '../../assets/background/background.jpg'
 
-/*Import data*/
-import TEMPdata from '../../TEMPdata/data.json'
 
-
-
-
-
-function HomePage({}) {
+function HomePage() {
     /*State*/
-    const [endpoint, setEndpoint] = useState('https://api.spoonacular.com/recipes/random?apiKey=6cd3b6f079684676885686cd69de1adb&number=6')
+    const [endpoint] = useState('https://api.spoonacular.com/recipes/random?apiKey=6cd3b6f079684676885686cd69de1adb&number=6')
     const [data, setData] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
 
@@ -58,27 +52,24 @@ function HomePage({}) {
 
     useEffect(() => {
         const source = axios.CancelToken.source();
+
         async function getData() {
             try {
                 const data = await axios.get(endpoint)
                 setData(data.data)
                 setIsLoaded(true)
-                console.log(data)
             } catch (e) {
                 console.error('Recepten ophalen mislukt')
             }
         }
 
-        /*getData()*/
-        setIsLoaded(true)
+        getData()
 
         return function cleanup() {
             source.cancel()
         }
 
     }, [])
-
-    /*TEMPORARY*/
 
     /*Return*/
     return (
@@ -104,6 +95,7 @@ function HomePage({}) {
                         validate=''
                         value=''
                     />
+
                     <Button type='submit' styling='search'>
                         <img src={searchButton} alt='search-button' className={styles.searchbar__button}/>
                     </Button>
@@ -112,7 +104,7 @@ function HomePage({}) {
             <div className={styles['container-recipes']}>
                 {!isLoaded ?
                     <p>Laden...</p> :
-                    TEMPdata.recipes.map((data) => {
+                    data.recipes.map((data) => {
                         return (
                             <NavLink key={data.id} className={styles['container-recipes__container']}
                                      to={`/recipes/${data.id}`}>
@@ -121,7 +113,7 @@ function HomePage({}) {
                                 <Title styling='homepage'>
                                     {data.title}
                                 </Title>
-                            </NavLink> )
+                            </NavLink>)
                     })}
 
 

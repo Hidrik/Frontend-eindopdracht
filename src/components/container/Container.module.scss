@@ -9,7 +9,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  min-width: 300px;
+  min-width: 250px;
 
   /*Size*/
   margin: 50px auto auto auto;
@@ -47,7 +47,7 @@
 }
 
 .recipe {
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .recipe.light {
@@ -56,6 +56,9 @@
 
 .recipe.dark {
   background-color: $purple-light;
+}
+
+.withBackground {
 }
 
 @media only screen and (max-width: $mobile-width) {

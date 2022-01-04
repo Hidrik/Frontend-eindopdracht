@@ -1,0 +1,13 @@
+.print__logo {
+    width: 20px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-shrink: 0;
+    flex-basis: 100%;
+    min-width: 100%;
+}

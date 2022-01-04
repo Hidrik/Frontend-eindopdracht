@@ -26,3 +26,10 @@ V1.2, 29-12-2021, 30-12-2021:
     Started recipe page GET-request.
     Made the recipe page.
     Made the grocery list page.
+V1.3, 04-01-2022:
+    Recipe page finalized
+    Made the instructions button
+    Made the print button change color
+    Made animations and hover animations
+    Made the firebase backend part
+    Almost finished the fridge page

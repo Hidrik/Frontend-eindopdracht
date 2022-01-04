@@ -1,6 +1,6 @@
-@import '../../../styling/colors';
-@import '../../../styling/fonts';
-@import '../../../styling/global';
+@import '../../styling/colors';
+@import '../../styling/fonts';
+@import '../../styling/global';
 
 $form-width-label: 60px;
 $form-input-padding: 5px;
@@ -51,7 +51,7 @@ $form-width-input-short : calc(100% -  #{$form-width-label} - #{$form-input-padd
   color: $error-message;
 }
 
-.input-long, .input-short, .input-grocery {
+.input-long, .input-short, .input-grocery, .input-product, .input-product-good, .input-product-expired {
   color: $purple-dark;
   height: $input-height;
   border-radius: 10px;
@@ -81,15 +81,33 @@ $form-width-input-short : calc(100% -  #{$form-width-label} - #{$form-input-padd
   align-self: center;
 }
 
-.input-grocery{
+.input-grocery {
   width: 90%;
   align-self: center;
 }
 
+/*Fridge*/
+.form__container-product, .form__container-product-good, .form__container-product-expired {
+  min-width: 35%;
+  width: 90%;
+  flex-shrink: 1;
+}
 
+.input-product, .input-product-good, .input-product-expired {
+  width: 90%;
 
+}
 
-.error.search, .error.grocery {
+.input-product-good, .input-product-expired {
+  pointer-events: none;
+}
+
+.input-product-expired {
+  color: red;
+}
+
+/*Remove error when not needed*/
+.error.search, .error.grocery, .error.product, .error.product-good, .error.product-expired {
   display: none;
 }
 

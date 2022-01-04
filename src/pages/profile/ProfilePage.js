@@ -12,11 +12,12 @@ import {LanguageContext} from "../../context/LanguageContext";
 /*Import assets*/
 /*Import components*/
 import Container from "../../components/container/Container";
-import Input from "../../components/form/Input/Input";
+import Input from "../../components/Input/Input";
 import Button from "../../components/button/Button";
 import Title from "../../components/title/Title";
 import Form from "../../components/form/form/Form";
 import Succes from "../../components/form/succes/Succes";
+import Helper from "../../components/helper/Helper";
 
 /*Import helpers*/
 import useLanguageChooser from "../../helpers/useLanguageChooser";
@@ -32,12 +33,11 @@ import flagDutch from '../../assets/languages/netherlands.png';
 
 
 
-
-function ProfilePage({}) {
+function ProfilePage() {
     /*States*/
     const [succesUsername, setSuccesUsername] = useState(false)
     const [succesPassword, setSuccesPassword] = useState(false)
-    const succesText = useLanguageChooser('Gelukt', 'Succes')
+
 
     /*Variables*/
     const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
@@ -58,7 +58,7 @@ function ProfilePage({}) {
         handleSubmit: handleSubmitPassword,
         formState: {errors: errorsPassword},
         register: registerPassword,
-        watch: watch
+        watch
     } = useForm();
 
     const password = useRef({});
@@ -174,7 +174,7 @@ function ProfilePage({}) {
                     {useLanguageChooser('Donker', 'Dark')}
                 </Button>
                 <Button onClick={setLightMode} styling='mode-button-right' type='button'>
-                    {useLanguageChooser('Light', 'Licht')}
+                    {useLanguageChooser('Licht', 'Light')}
                 </Button>
 
             </div>
@@ -188,6 +188,9 @@ function ProfilePage({}) {
                 </Button>
 
             </div>
+            <Helper>
+
+            </Helper>
         </Container>
 
     </>);

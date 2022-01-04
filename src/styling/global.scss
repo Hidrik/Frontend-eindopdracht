@@ -1,7 +1,7 @@
 $mobile-width: 940px;
 
 $form-margin:30px;
-$form-margin-mobile: $form-margin/8 $form-margin/4 $form-margin/8 $form-margin/4;
+$form-margin-mobile: calc( #{$form-margin} / 8) calc(#{$form-margin} / 4) calc(#{$form-margin} / 8) calc(#{$form-margin} / 4);
 $form-width-username : calc(100% - 2 * #{$form-margin});
 $form-width-label: 50px;
 $form-width-input-short : calc(100% -  #{$form-width-label} );

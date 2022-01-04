@@ -1,30 +1,27 @@
 /*Import from dependencies*/
 import {useRef} from "react";
 import {useForm} from "react-hook-form";
-
+import {useHistory} from "react-router-dom";
 /*Import context*/
-
 /*Import assets*/
-
 /*Import components*/
 import Title from "../../components/title/Title";
 import Background from "../../components/background/Background";
 import Container from "../../components/container/Container";
-import Input from "../../components/form/Input/Input";
+import Input from "../../components/Input/Input";
 import Button from "../../components/button/Button";
 import Form from "../../components/form/form/Form";
+import Helper from "../../components/helper/Helper";
 
 /*Import helpers*/
 import useLanguageChooser from "../../helpers/useLanguageChooser";
 
 /*Import style*/
-import styles from './RegistrationPage.module.scss'
-
 /*Import images*/
 import background from "../../assets/background/background.jpg";
-import {useHistory} from "react-router-dom";
 
-function RegistrationPage({}) {
+
+function RegistrationPage() {
     /*States*/
 
     /*Variables*/
@@ -37,7 +34,7 @@ function RegistrationPage({}) {
     /*Context*/
 
     /*Imports*/
-    const { handleSubmit, formState: {errors}, register, watch } = useForm();
+    const {handleSubmit, formState: {errors}, register, watch} = useForm();
     const password = useRef({});
     const history = useHistory();
 
@@ -50,7 +47,7 @@ function RegistrationPage({}) {
     }
 
     /*Return*/
-    return ( <>
+    return (<>
             <Background image={background} styling='image'/>
             <Container width='small' background='true'>
                 <Title>{useLanguageChooser('Registreer', 'Register')}</Title>
@@ -89,7 +86,9 @@ function RegistrationPage({}) {
                            validate=''
                            type='email'/>
                     {/*Password*/}
-                    <Input required='Moet ingevoerd worden'
+                    <Input required={useLanguageChooser(
+                        'Moet ingevoerd worden',
+                        'Must be filled in')}
                            register={register}
                            message={useLanguageChooser(
                                'Moet minimaal 1 hoofdletter, cijfer en 8 characters bevatten',
@@ -124,8 +123,24 @@ function RegistrationPage({}) {
                         {useLanguageChooser('Registreren', 'Register')}
                     </Button>
                 </Form>
+                <Helper>
+                    {useLanguageChooser(
+                        'Op deze pagina kan het profiel aangepast worden. ',
+                        'On this page you can change your profile settings'
+                    )}
+                    <br/>
+                    {useLanguageChooser(
+                        'Het emailadres moet geldig zijn.',
+                        'The emailaddress needs to be valid.'
+                    )}
+                    <br/>
+                    {useLanguageChooser(
+                        'Het wachtwoord moet minimaal 1 hoofdletter, cijfer en 8 characters bevatten.',
+                        ' The password must contain 1 capital letter, number and 8 characters.'
+                    )}
+                </Helper>
             </Container>
-            </>
+        </>
     );
 }
 

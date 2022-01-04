@@ -1,23 +1,14 @@
 /*Import from dependencies*/
 import {useContext} from "react";
-import {useForm} from "react-hook-form";
 
 /*Import context*/
 import {VisualContext} from "../../context/VisualContext";
 
 /*Import assets*/
-
 /*Import components*/
-
 /*Import helpers*/
-
 /*Import style*/
 import styles from './Background.module.scss'
-
-
-
-
-
 
 
 function Background({children, image, styling}) {

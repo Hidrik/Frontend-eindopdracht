@@ -21,17 +21,18 @@
   text-decoration: none;
 }
 
-.navlink:hover.light, .navlink.light{
+.navlink.light{
   color: $magnolia ;
 }
 
-.navlink:hover.dark, .navlink.dark{
+.navlink.dark, .navlink:hover.light{
   color: $black ;
 }
 
-.navlink:hover.active, .navlink.active {
+.navlink:hover.active, .navlink.active, .navlink:hover.dark {
   color:$ash-grey;
 }
+
 
 @media only screen and (max-width: $mobile-width) {
   .mobile{

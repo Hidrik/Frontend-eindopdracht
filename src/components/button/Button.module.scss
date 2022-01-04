@@ -2,6 +2,8 @@
 @import '../../styling/fonts';
 @import '../../styling/global';
 
+$button-width: 50px;
+
 
 .button{
   margin: $form-margin/4 $form-margin $form-margin/4 $form-margin;
@@ -59,9 +61,34 @@
   position: absolute;
 }
 
+
+.add-row {
+  position: relative;
+  left: 85%;
+  font-size: 60px;
+  line-height: 30px;
+}
+
+.remove-row{
+  width: $button-width;
+  flex-shrink: 0;
+}
+
+.add-database{
+  font-size: 30px;
+  line-height: 20px;
+  width: $button-width;
+  flex-shrink: 0;
+}
+
 .print {
   position: absolute;
   left: 85%;
+}
+
+.print-small {
+  position: absolute;
+  left: 60%;
 }
 
 .persons {
@@ -74,5 +101,10 @@
   }
   .search {
     margin-left: 0;
+  }
+
+  .print-small {
+    position: absolute;
+    left: 80%;
   }
 }

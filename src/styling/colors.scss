@@ -1,7 +1,11 @@
 $black : #06070E;
+$black-filter : invert(2%) sepia(12%) saturate(5412%) hue-rotate(208deg) brightness(95%) contrast(99%);;
 $purple-dark : #6320EE;
+$purple-dark-filter : invert(16%) sepia(92%) saturate(3837%) hue-rotate(258deg) brightness(89%) contrast(110%);
 $purple-light : #8075FF;
+$purple-light-filter : invert(49%) sepia(39%) saturate(4396%) hue-rotate(221deg) brightness(101%) contrast(103%);;
 $magnolia : #F8F0FB;
+$magnolia-filter : invert(91%) sepia(2%) saturate(2541%) hue-rotate(214deg) brightness(106%) contrast(97%);;
 $ash-grey : #CAD5CA;
 $error-message : #FF0000;
 $succes : darkgreen;

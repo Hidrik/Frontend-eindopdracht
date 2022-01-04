@@ -4,16 +4,15 @@ import {useHistory} from "react-router-dom";
 import {useState} from "react";
 
 /*Import context*/
-
 /*Import assets*/
-
 /*Import components*/
 import Background from "../../components/background/Background";
 import Container from "../../components/container/Container";
 import Title from "../../components/title/Title";
 import Form from "../../components/form/form/Form";
-import Input from "../../components/form/Input/Input";
+import Input from "../../components/Input/Input";
 import Button from "../../components/button/Button";
+import Helper from "../../components/helper/Helper";
 
 /*Import helpers*/
 import useLanguageChooser from "../../helpers/useLanguageChooser";
@@ -24,7 +23,8 @@ import styles from './LoginPage.module.scss'
 /*Import images*/
 import background from "../../assets/background/background.jpg";
 
-function LoginPage({}) {
+
+function LoginPage() {
     /*States*/
     const [wrongPassword, setWrongPassword] = useState(false);
 
@@ -36,7 +36,7 @@ function LoginPage({}) {
     const wrongPasswordText = useLanguageChooser('Wachtwoord is verkeerd', 'Wrong password');
 
     /*Imports*/
-    const { handleSubmit, formState: {errors}, register } = useForm();
+    const {handleSubmit, formState: {errors}, register} = useForm();
     const history = useHistory();
 
     /*Functions*/
@@ -46,9 +46,9 @@ function LoginPage({}) {
     }
 
     /*Return*/
-    return ( <>
+    return (<>
             <Background image={background} styling='image'/>
-            <Container width='small' background='true'>
+            <Container width='small' background='withBackground'>
                 <Title>Login</Title>
                 {/*Register form*/}
                 <Form onSubmit={handleSubmit(log)}>
@@ -91,7 +91,9 @@ function LoginPage({}) {
                         Login
                     </Button>
                 </Form>
+                <Helper>
 
+                </Helper>
             </Container>
         </>
     );
