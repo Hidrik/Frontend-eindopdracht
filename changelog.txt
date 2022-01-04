@@ -33,3 +33,6 @@ V1.3, 04-01-2022:
     Made animations and hover animations
     Made the firebase backend part
     Almost finished the fridge page
+    Cleaned the code
+V1.4, 04-01-2022:
+    Put firebase config data in .json file.

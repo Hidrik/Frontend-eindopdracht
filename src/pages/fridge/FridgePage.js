@@ -22,6 +22,9 @@ import useLanguageChooser from "../../helpers/useLanguageChooser";
 /*Import style*/
 import styles from './FridgePage.module.scss'
 
+/*Import data*/
+import firebaseConfig from '../../data/firebaseData.json'
+
 
 async function addProduct(database) {
     const db = getFirestore();
@@ -49,15 +52,6 @@ function FridgePage() {
     /*States*/
     const [productData, setProductData] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCmS7_XlRzf61dmKnk_ozxAlgRfhX4I4cc",
-        authDomain: "noviapplication-a51e7.firebaseapp.com",
-        projectId: "noviapplication-a51e7",
-        storageBucket: "noviapplication-a51e7.appspot.com",
-        messagingSenderId: "28659676301",
-        appId: "1:28659676301:web:3912ddbaec22d23e961ec4"
-    };
 
     initializeApp(firebaseConfig);
     const db = getFirestore();
