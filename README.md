@@ -1,15 +1,18 @@
 # Applicatie Hidrik Landlust, Hogeschool Novi
 
 ##Inhoudsopgave
+
 ####- Inleiding
 ####- H1. Gegevens
 ####- H2. Installatie instructies:
 ####- H3. Inloggegevens:
 
 ##Inleiding
+
 Korte beschrijving van functionaliteiten en screenschots van de belangrijkste pagina's.
 
 ##H1. Gegevens 
+
 REACT_APP_API_KEY_SPOONACULAR=6cd3b6f079684676885686cd69de1adb
 REACT_APP_FIREBASE_API_KEY=AIzaSyCmS7_XlRzf61dmKnk_ozxAlgRfhX4I4cc
 REACT_APP_API_KEY_TRANSLATE=d3cbc559e36148bba2ebf046e9e3b833
