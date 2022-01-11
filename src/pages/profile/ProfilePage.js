@@ -38,8 +38,6 @@ import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
 
 
-
-
 function ProfilePage() {
     /*Text*/
     const text = new TEXT()
@@ -48,14 +46,15 @@ function ProfilePage() {
     useDocumentTitle(`${text.homepage} - ${text.profile}`)
 
     /*States*/
+    /*State 0: no text, State 1: succes, State 2: failed*/
     const [succesEmail, setSuccesEmail] = useState(0)
+    /*State 0: no text, State 1: succes, State 2: failed old password, State 3: failed same passwords*/
     const [succesPassword, setSuccesPassword] = useState(0)
 
     /*Context*/
     const {setDarkMode, setLightMode} = useContext(VisualContext)
     const {setDutch, setEnglish} = useContext(LanguageContext)
-    const {user, updateEmail} = useContext(AuthContext)
-    console.log(user)
+    const {user, update, updatePassword} = useContext(AuthContext)
 
     /*Variables*/
     const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
@@ -67,34 +66,46 @@ function ProfilePage() {
     const {
         handleSubmit: handleSubmitEmail,
         formState: {errors: errorsEmail},
-        register: registerEmail
+        register: registerEmail,
     } = useForm();
 
     const {
         handleSubmit: handleSubmitPassword,
         formState: {errors: errorsPassword},
         register: registerPassword,
-        watch
+        watch,
+        reset: resetPasswordInput
     } = useForm();
 
     /*Watch for password*/
     const password = useRef({});
     password.current = watch("newPassword", "");
 
+    /*Functions*/
+    function changePassword(data) {
+        setSuccesPassword(0)
+        if (data.oldPassword === data.newPassword) {
+            setSuccesPassword(3)
+        } else {
+            updatePassword(localStorage.getItem('token'), data.oldPassword, data.newPassword, setSuccesPassword)
+            resetPasswordInput()
+        }
+    }
 
+    function changeEmail(data) {
+        update(localStorage.getItem('token'), 'email', data.email, setSuccesEmail)
+    }
 
     /*Return*/
     return (<>
         <Background image={background} styling='image'/>
         <Container width='small'>
             {/*Showing username*/}
-            <Title>{`${text.welcome} ${user.name}`}</Title>
+            <Title>{`${text.welcome} ${user.username}`}</Title>
             {/*Changing username succes*/}
-            {succesEmail===1 && <Succes succes='succes'/>}
+            {succesEmail === 1 && <Succes succes='succes'/>}
             {/*Form for changing email*/}
-            <Form onSubmit={handleSubmitEmail((data) => {
-                updateEmail(localStorage.getItem('token'), data.email, setSuccesEmail)
-            })}>
+            <Form onSubmit={handleSubmitEmail(changeEmail)}>
 
                 <Input required={text.required}
                        register={registerEmail}
@@ -116,13 +127,7 @@ function ProfilePage() {
             {/*Form for changing password*/}
             {/*Changing username succes*/}
             {succesPassword === 1 && <Succes succes='succes'/>}
-            <Form onSubmit={handleSubmitPassword((data) => {
-                if (data.oldPassword === data.newPassword) {
-                    setSuccesPassword(2)
-                } else {
-                    setSuccesPassword(1)
-                }})}>
-
+            <Form onSubmit={handleSubmitPassword(changePassword)}>
                 <p className={styles.text}>{text.changePassword}</p>
 
                 <Input required={text.required}
@@ -163,8 +168,8 @@ function ProfilePage() {
                        styleType='short'
                        type='password'/>
                 {/*If new and old password are the same*/}
-                {succesPassword === 2 && <Succes succes='failedPassword'/>}
-
+                {succesPassword === 2 && <Succes succes='failedOldPassword'/>}
+                {succesPassword === 3 && <Succes succes='failedSamePassword'/>}
                 <Button type='submit' styling='None'>
                     {text.change}
                 </Button>

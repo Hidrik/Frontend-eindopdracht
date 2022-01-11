@@ -2,7 +2,7 @@
 import {useContext, useEffect, useState} from "react";
 
 import {initializeApp} from "firebase/app";
-import {collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, addDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, addDoc, setDoc} from "firebase/firestore";
 import {useForm} from "react-hook-form";
 
 /*Import context*/
@@ -33,22 +33,7 @@ import firebaseConfig from '../../data/firebaseData.json'
 import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
 
-/*Functions*/
-async function addProduct(database, data, reset) {
-    let db = getFirestore();
-    console.log(data)
-    try {
-        await addDoc(collection(db, database), {product: data.product, date: data.date});
-    } catch (e) {
-        console.error(e)
-    }
-    reset()
-}
 
-async function deleteProduct(database, product) {
-    const db = getFirestore();
-    await deleteDoc(doc(db, database, product));
-}
 
 
 /*Main page function*/
@@ -64,12 +49,13 @@ function FridgePage() {
     /*Dates*/
 
     const today = new Date()
-    const offset = 2
+    const offset = 3
     const redDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
     const yellowDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()+offset}`
 
     /*Imports from dependencies*/
-    const {handleSubmit, formState: {errors}, register, reset} = useForm();
+    const {handleSubmit: handleSubmitNewItem, formState: {errors}, register : registerNewItem, reset} = useForm();
+    const {handleSubmit: handleSubmitSearch, register : registerSearch} = useForm();
 
     /*States*/
     const [productData, setProductData] = useState([])
@@ -84,13 +70,31 @@ function FridgePage() {
     initializeApp(firebaseConfig);
     const db = getFirestore();
 
+    /*Functions*/
+    async function addProduct(database, data) {
+        database = database.toString()
+        try {
+            await setDoc(doc(db, database, `${data.product}${data.date}`), {product: data.product, date: data.date});
+        } catch (e) {
+            console.error(e)
+        }
+        reset()
+    }
+
+    async function deleteProduct(database, product) {
+        database = database.toString()
+        await deleteDoc(doc(db, database, product));
+    }
+
     /*Life cycle method*/
+    /*Get data already in Firestore*/
     useEffect(() => {
         let isMounted = true
         setError(false)
 
         /*Get from API call function*/
         async function getProduct(database) {
+            database = database.toString()
             let dataArray = []
             const q = query(collection(db, database), orderBy("date", "asc"));
             try {
@@ -100,7 +104,6 @@ function FridgePage() {
                         dataArray.push(doc.data())
                     })
                     setProductData(dataArray)
-
                 }
             } catch (e) {
                 setError(true)
@@ -109,7 +112,7 @@ function FridgePage() {
         }
 
         /*Call the get from API function*/
-        getProduct(user.username).then(() => {
+        getProduct(user.id).then(() => {
                 setIsLoaded(true)
             }
         )
@@ -128,7 +131,9 @@ function FridgePage() {
                 {error ? text.productError :
                 /* While loading*/
                 isLoaded ?
-                    productData.map(
+                    <form className={styles.form} onSubmit={handleSubmitSearch((data) => {
+                        console.log(data)})}>
+                        {productData.map(
                         (data) => {
                             return (
                                 <div key={`${data.product}-${data.date}`} className={styles['input-container']}>
@@ -136,18 +141,22 @@ function FridgePage() {
                                         key={`${data.product}-${data.date}`}
                                         styleType={new Date(yellowDate) <= new Date(data.date) ? 'product-good' : new Date(redDate) <= new Date(data.date)? 'product-almost-expired' : 'product-expired'}
                                         type='text'
-                                        typedIn={data.product}/>
+                                        typedIn={data.product}
+                                        register={registerSearch}
+                                        name={`${data.product}-product`}/>
 
                                     <Input
                                         key={`${data.date}-${data.product}`}
                                         styleType={new Date(yellowDate) <= new Date(data.date) ? 'product-good' : new Date(redDate) <= new Date(data.date)? 'product-almost-expired' : 'product-expired'}
                                         type='text'
-                                        typedIn={data.date}/>
+                                        typedIn={data.date}
+                                        register={registerSearch}
+                                        name={`${data.product}-date`}/>
 
                                     <Button
                                         onClick={
                                             () => {
-                                                deleteProduct(user.username, data.product).then(() => {
+                                                deleteProduct(user.id, `${data.product}${data.date}`).then(() => {
                                                         setIsLoaded(false)
                                                 }
                                                 )
@@ -157,13 +166,21 @@ function FridgePage() {
                                     >
                                         remove
                                     </Button>
+                                    <Input
+                                        type='checkbox'
+                                        register={registerSearch}
+                                        styleType='checkbox'
+                                        name={`${data.product}-checkbox`}
+                                    />
                                 </div>
                             )
-                        })
-                    : 'Laden...'}
-                <form className={styles['input-container']} onSubmit={handleSubmit(
+                        })}
+                        <Button type='submit' styling='fridge-search'>{text.search}</Button>
+                    </form>
+                    : text.loading}
+                <form className={styles['input-container']} onSubmit={handleSubmitNewItem(
                     (data) => {
-                        addProduct(user.username, data, reset).then(() => {
+                        addProduct(user.id, data).then(() => {
                             setIsLoaded(false)
                         })
                     })}>
@@ -172,14 +189,14 @@ function FridgePage() {
                         placeholder='product'
                         type='text'
                         required={text.required}
-                        register={register}
+                        register={registerNewItem}
                         error={errors}
                         name='product'/>
 
                     <Input
                         styleType='product'
                         type='date'
-                        register={register}
+                        register={registerNewItem}
                         error={errors}
                         name='date'/>
 

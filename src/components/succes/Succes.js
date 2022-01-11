@@ -35,12 +35,14 @@ function Succes({succes}) {
         switch (succes) {
             case 'succes'           :
                 return text.succes;
-            case 'failedPassword'   :
-                return text.failedPassword;
+            case 'failedOldPassword':
+                return text.failedOldPassword;
             case 'failedUsername'   :
                 return text.failedUsername;
             case 'failedEmail'      :
                 return text.failedEmail;
+            case 'failedSamePassword' :
+                return text.failedSamePassword
             default                 :
                 return text.failedUnknown;
         }

@@ -36,10 +36,12 @@ export default class TEXT {
     manual = useLanguageChooser('Gebruiksaanwijzing', 'Manual')
     profile = useLanguageChooser('Profiel', 'Profile')
     succes = useLanguageChooser('Gelukt!', 'Succes')
-    failedPassword = useLanguageChooser('Wachtwoorden zijn hetzelfde', 'Password is the same')
+    failedOldPassword = useLanguageChooser('Oude wachtwoord incorrect', 'Old password incorrect')
+    failedSamePassword = useLanguageChooser('Wachtwoorden zijn hetzelfde', 'Passwords are the same')
     failedUsername = useLanguageChooser('Gebruiker bestaat al', 'User already exists')
     failedEmail = useLanguageChooser('Email al in gebruik', 'Email already in use')
     failedUnknown = useLanguageChooser('Er is een fout opgetreden', 'An error has occurred')
     homepage = useLanguageChooser('Verspil me niet!', 'Dont waste me!')
     recipe = useLanguageChooser('Recepten', 'Recipes')
+    search = useLanguageChooser('Zoeken', 'Search')
 };

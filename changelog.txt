@@ -44,3 +44,6 @@ V1.5, 05-01-2022, 11-01-2022:
     Added register and login error messages.
     Added the title and favicon.ico to the HTML page.
     Added testpulse to authentication server.
+    Added possibility for same name items in fridge.
+    Added checkbox markers on the fridge page.
+    Changed Firestore functions

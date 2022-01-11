@@ -5,30 +5,41 @@ import {useHistory} from "react-router-dom";
 /*Context*/
 export const AuthContext = createContext({})
 
-function AuthContextProvider({ children }) {
-    /*Hooks*/
-    const history = useHistory()
-
+function AuthContextProvider({children}) {
     /*States*/
     const [authState, setAuthState] = useState({
         user: null,
         status: 'pending',
     })
 
-    /*Functions*/
-    async function login(username, password, setWrongPassword) {
-        const endpoint = `https://polar-lake-14365.herokuapp.com/api/auth/signin`
-        /*Post authentication, get token*/
+    /*Context data*/
+    const data = {
+        ...authState,
+        login: login,
+        logout: logout,
+        register: register,
+        update: update,
+        testLink: testLink,
+        updatePassword : updatePassword
+    };
 
+    /*Hooks*/
+    const history = useHistory()
+
+
+
+    /*Functions*/
+
+    async function login(username, password, setWrongPassword) {
+        const endpoint = `https://frontend-educational-backend.herokuapp.com/api/auth/signin`
+        /*Post authentication, get token*/
         try {
             const result = await axios.post(endpoint, {
                 "username": username,
-                "password" : password,
+                "password": password,
             })
-
             /*Set token in localstorage*/
             localStorage.setItem('token', result.data.accessToken);
-            console.log(result)
             /*Set context data*/
             setAuthState({
                 ...authState,
@@ -41,6 +52,7 @@ function AuthContextProvider({ children }) {
                 status: 'done',
             })
             history.push('/fridge')
+
         } catch (e) {
             if (e.response.data.error === 'Unauthorized') {
                 setWrongPassword(true)
@@ -63,14 +75,14 @@ function AuthContextProvider({ children }) {
     }
 
     async function register(username, email, password, setAlreadyTaken) {
-        const endpoint = `https://polar-lake-14365.herokuapp.com/api/auth/signup`
+        const endpoint = `https://frontend-educational-backend.herokuapp.com/api/auth/signup`
         /*Post authentication, get token*/
         let result
-        try{
-            result = await axios.post(endpoint,{
+        try {
+            result = await axios.post(endpoint, {
                 "username": username,
-                "email" : email,
-                "password" : password,
+                "email": email,
+                "password": password,
                 "role": ["user"]
             })
             console.log(result)
@@ -90,47 +102,80 @@ function AuthContextProvider({ children }) {
 
         }
     }
-    /*NOG NAAR KIJKEN!!!!*/
-    async function updateEmail(token, email, setSuccesEmail) {
 
-        const endpoint = `https://polar-lake-14365.herokuapp.com/api/user`
-        try{
-            await axios.put(endpoint,
+    async function updatePassword(token, oldPassword, newPassword, setSuccesPassword) {
+        let returnValue = false
 
-                {email: email},
-
-                {headers : {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
-                "Access-Control-Allow-Origin": `*`}
+        try {
+            let endpoint = `https://frontend-educational-backend.herokuapp.com/api/auth/signin`
+            /*Post authentication, get token*/
+            const result = await axios.post(endpoint, {
+                "username": authState.user.username,
+                "password": oldPassword,
             })
 
-            setSuccesEmail(1)
+            endpoint = `https://frontend-educational-backend.herokuapp.com/api/user`
+            if (result.status === 200) {
+                await axios.put(endpoint,
+                    {
+                        password: newPassword,
+                        repeatedPassword: newPassword,
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,
+                        }
+                    })
+                setSuccesPassword(1)
+                returnValue = true
+            }
 
         } catch (e) {
-
             console.log(e)
             console.log(e.response)
+            setSuccesPassword(2)
+        }
+        return returnValue
+    }
+
+    async function update(token, key, value, setSucces) {
+        const endpoint = `https://frontend-educational-backend.herokuapp.com/api/user`
+        try {
+            await axios.put(endpoint,
+                {[key]: value},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    }
+                })
+            setSucces(1)
+
+        } catch (e) {
             if (e.response.data.message === "Error: Email is already in use!") {
-                setSuccesEmail(2)
+                setSucces(2)
             }
         }
-
     }
 
     async function getUserInfo(token) {
-        const endpoint = `https://polar-lake-14365.herokuapp.com/api/user`
+        const endpoint = `https://frontend-educational-backend.herokuapp.com/api/user`
         let result
         try {
-            result = await axios.get(endpoint,{ headers : {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,}
+            result = await axios.get(endpoint, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                }
             })
+            console.log(result.data)
+            return await result.data
         } catch (e) {
-            console.log(e.response)
+            return {}
         }
 
-        return await result.data
+
     }
 
     async function testLink() {
@@ -150,17 +195,24 @@ function AuthContextProvider({ children }) {
         const source = axios.CancelToken.source();
         const token = localStorage.getItem('token');
         if (token) {
-            getUserInfo(token).then ((result) => {
-                setAuthState({
-                    ...authState,
-                    user: {
-                        username: result.username,
-                        email: result.email,
-                        id: result.id,
-                        roles: result.roles
-                    },
-                    status: 'done',
-                })
+            getUserInfo(token).then((result) => {
+                if (result) {
+                    setAuthState({
+                        ...authState,
+                        user: {
+                            username: result.username,
+                            email: result.email,
+                            id: result.id,
+                            roles: result.roles
+                        },
+                        status: 'done',
+                    })
+                } else {
+                    setAuthState({
+                        ...authState,
+                        status: 'done',
+                    })
+                }
             })
 
         } else {
@@ -176,15 +228,7 @@ function AuthContextProvider({ children }) {
 
     }, []);
 
-    /*Context data*/
-    const data = {
-        ...authState,
-        login: login,
-        logout: logout,
-        register: register,
-        updateEmail : updateEmail,
-        testLink : testLink
-    };
+
 
     /*Return*/
     return (

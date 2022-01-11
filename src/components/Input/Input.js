@@ -45,7 +45,7 @@ function Input({
     /*Return*/
     return (<>
         <div className={styles[`form__container-${styleType}`]}>
-            <label className={styles[`text-${styleType}`]}>{label}</label>
+            {label && <label className={styles[`text-${styleType}`]}>{label}</label>}
             <input
                 name={name}
                 placeholder={placeholder}
