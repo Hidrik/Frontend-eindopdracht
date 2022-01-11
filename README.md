@@ -1,11 +1,11 @@
 # Applicatie Hidrik Landlust, Hogeschool Novi
 
-##Inhoudsopgave
+## Inhoudsopgave
 
-####- Inleiding
-####- H1. Gegevens
-####- H2. Installatie instructies:
-####- H3. Inloggegevens:
+#### - Inleiding
+#### - H1. Gegevens
+#### - H2. Installatie instructies:
+#### - H3. Inloggegevens:
 
 ##Inleiding
 
