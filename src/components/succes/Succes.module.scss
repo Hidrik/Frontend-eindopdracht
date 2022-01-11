@@ -1,0 +1,18 @@
+@import '../../styling/colors';
+@import '../../styling/fonts';
+@import '../../styling/global';
+
+.succes, .failed {
+  margin:  $form-margin/4 $form-margin $form-margin/4 $form-margin*2;
+  font-weight: $font-weight-bold;
+
+}
+.succes {
+  color: $succes;
+  font-size: 30px;
+}
+
+.failed {
+  color: $error-message;
+  font-size: 20px;
+}
