@@ -7,11 +7,11 @@
 #### - H2. Installatie instructies:
 #### - H3. Inloggegevens:
 
-##Inleiding
+## Inleiding
 
 Korte beschrijving van functionaliteiten en screenschots van de belangrijkste pagina's.
 
-##H1. Gegevens 
+## H1. Gegevens 
 
 REACT_APP_API_KEY_SPOONACULAR=6cd3b6f079684676885686cd69de1adb
 REACT_APP_FIREBASE_API_KEY=AIzaSyCmS7_XlRzf61dmKnk_ozxAlgRfhX4I4cc
@@ -21,7 +21,7 @@ REACT_APP_API_KEY_TRANSLATE=d3cbc559e36148bba2ebf046e9e3b833
 Er mogen op de spoonacular API maar 150 requests per dag gedaan worden.
 Op de translate API mogen er 2 miljoen tekens per dag vertaald worden.
 
-##H2. Installatie instructies:
+## H2. Installatie instructies:
 
 ### Stap 1: `.env file moet gemaakt worden`
 
