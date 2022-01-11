@@ -4,22 +4,36 @@ import React, {useContext, useState} from "react"
 /*Import context*/
 import {LanguageContext} from "../../../context/LanguageContext"
 import {VisualContext} from "../../../context/VisualContext";
+import {AuthContext} from "../../../context/AuthContext";
+
 /*Import assets*/
 import logo from '../../../assets/logo.png'
 import flagDutch from '../../../assets/languages/netherlands.png'
 import flagEnglish from '../../../assets/languages/united-kingdom.png'
+
 /*Import components*/
 import NavLinkItems from "./Items/NavLinkItems";
 import Dropdown from "./Dropdown/dropdown/Dropdown";
-
+import Button from "../../button/Button";
+import NavLinkDropdown from "./Dropdown/navLinkDropdown/NavLinkDropdown";
 /*Import helpers*/
-import useLanguageChooser from "../../../helpers/useLanguageChooser";
+
 /*Import style*/
 import styles from './NavBar.module.scss'
-import NavLinkDropdown from "./Dropdown/navLinkDropdown/NavLinkDropdown";
+
+/*Import constants*/
+import TEXT from "../../../constants/text";
 
 
 function NavBar() {
+
+    /*Text*/
+    const text = new TEXT()
+/*    const fridgeText = useLanguageChooser('Koelkast', 'Fridge')
+    const registerText = useLanguageChooser('Registreer', 'Register')
+    const profileText = useLanguageChooser('Profiel', 'Profile')
+    const groceryText = useLanguageChooser(`Boodschappen`, 'Grocery list')*/
+
     /*Styling variables*/
     const selector = `${styles.selector__flag} ${styles['mobile-flag']}`
     const selectorDown = `${styles.selector__flag__down} ${styles['mobile-flag']}`
@@ -29,6 +43,7 @@ function NavBar() {
     /*Context*/
     const {language, setDutch, setEnglish} = useContext(LanguageContext)
     const {visualMode} = useContext(VisualContext)
+    const {logout, user} = useContext(AuthContext)
 
     /*Navigation*/
 
@@ -56,11 +71,14 @@ function NavBar() {
                     <NavLinkDropdown to='/' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu}>
                         Home
                     </NavLinkDropdown>
-                    <NavLinkDropdown to='/fridge' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu}>
-                        {useLanguageChooser('Koelkast', 'Fridge')}
-                    </NavLinkDropdown>
+                    {user === null ? '' :
+                        <NavLinkDropdown to='/fridge' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu}>
+                            {text.fridge}
+                        </NavLinkDropdown>
+                    }
+
                     <NavLinkDropdown to='/grocery-list' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu}>
-                        {useLanguageChooser(`Boodschappen`, 'Grocery list')}
+                        {text.grocery}
                     </NavLinkDropdown>
                 </Dropdown>
 
@@ -68,12 +86,13 @@ function NavBar() {
                 {/*Links*/}
                 <>
                     {/*Link to fridge*/}
+                    {user === null ? '' :
                     <NavLinkItems to='/fridge'>
-                        {useLanguageChooser('Koelkast', 'Fridge')}
-                    </NavLinkItems>
+                        {text.fridge}
+                    </NavLinkItems>}
                     {/*Link to grocery list*/}
                     <NavLinkItems to='/grocery-list'>
-                        {useLanguageChooser('Boodschappenlijst', 'Grocery list')}
+                        {text.grocery}
                     </NavLinkItems>
                 </>
                 {/*selector flag menu to choose language*/}
@@ -92,16 +111,22 @@ function NavBar() {
 
                 {/*Dropdown for login*/}
                 <Dropdown styling='profile' showMenu={showProfile} toggleShowMenu={toggleShowProfile}
-                          button={useLanguageChooser('Menu', 'Menu')}>
+                          button='Menu'>
+                    {user === null ? '' :
+                        <NavLinkDropdown to='/profile' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
+                            {text.profile}
+                        </NavLinkDropdown>}
+                    {user === null ?
                     <NavLinkDropdown to='/login' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
-                        {useLanguageChooser('Login', 'Login')}
-                    </NavLinkDropdown>
+                        Login
+                    </NavLinkDropdown> :
+                        <NavLinkDropdown to='/' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
+                            <Button onClick={logout} styling='logout'> Logout </Button>
+                        </NavLinkDropdown>}
+                    {user === null ?
                     <NavLinkDropdown to='/register' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
-                        {useLanguageChooser('Registreer', 'Register')}
-                    </NavLinkDropdown>
-                    <NavLinkDropdown to='/profile' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
-                        {useLanguageChooser('Profiel', 'Profile')}
-                    </NavLinkDropdown>
+                        {text.register}
+                    </NavLinkDropdown> : '' }
                 </Dropdown>
 
 

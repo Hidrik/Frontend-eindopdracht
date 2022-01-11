@@ -36,3 +36,11 @@ V1.3, 04-01-2022:
     Cleaned the code
 V1.4, 04-01-2022:
     Put firebase config data in .json file.
+V1.5, 05-01-2022, 11-01-2022:
+    Changed the Input component, now no register, name, required, validated, etc. need to be passed through as props.
+    The text of the page is all in one constant file with a class.
+    Added the possibility to translate on the recipe- and homepage. The recipe data now is automatically translated when application on Dutch.
+    Made AuthContext with login, update, register function. Goes to the NOVI authentication backend.
+    Added register and login error messages.
+    Added the title and favicon.ico to the HTML page.
+    Added testpulse to authentication server.

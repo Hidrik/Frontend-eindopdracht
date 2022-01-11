@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# Applicatie Hidrik Landlust, Hogeschool Novi
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+##Inhoudsopgave
+####- Inleiding
+####- H1. Gegevens
+####- H2. Installatie instructies:
+####- H3. Inloggegevens:
 
-## Available Scripts
+##Inleiding
+Korte beschrijving van functionaliteiten en screenschots van de belangrijkste pagina's.
 
-In the project directory, you can run:
+##H1. Gegevens 
+REACT_APP_API_KEY_SPOONACULAR=6cd3b6f079684676885686cd69de1adb
+REACT_APP_FIREBASE_API_KEY=AIzaSyCmS7_XlRzf61dmKnk_ozxAlgRfhX4I4cc
+REACT_APP_API_KEY_TRANSLATE=d3cbc559e36148bba2ebf046e9e3b833
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Er mogen op de spoonacular API maar 150 requests per dag gedaan worden.
+Op de translate API mogen er 2 miljoen tekens per dag vertaald worden.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+##H2. Installatie instructies:
 
-### `npm test`
+### Stap 1: `.env file moet gemaakt worden`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Er moet een .env file gemaakt worden, 
+hierin moeten de api key van spoonacular en firebase geplaatst worden (zie hoofdstuk 1). 
+Vervolgens moet er een build gedraaid worden om de .env file toe te voegen aan het project.
 
-### `npm run build`
+De variabelen namen van .env zijn te vinden in .env.dist
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Stap 2: `npm install`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Eerst moeten de dependencies geïnstalleerd worden. 
+Doe dit door bovenstaande commande uit te voeren.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Stap 3: `npm run build`
 
-### `npm run eject`
+Bovenstaande commando moet uitgevoerd worden nadat er een .env file gemaakt is.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Stap 4: `npm run start`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Start de applicatie met het bovenstaande commando.
+Open [http://localhost:3000](http://localhost:3000) om de applicatie te bekijken.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Dit commando zal elke keer nadat het programma is afgesloten, opnieuw ingevoerd worden.
 
-## Learn More
+De pagina zal herladen als er aanpassingen gedaan worden in de code.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## H3. Inloggegevens:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Bij de firebase backend kan ingelogd worden met de volgende gegevens:
+- Login: hidriklandlustnovi@gmail.com
+- Wachtwoord: HogeschoolNovi
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Er is al een account aangemaakt, hiervan zijn de gegevens:
+- Login: 
+- Wachtwoord: 

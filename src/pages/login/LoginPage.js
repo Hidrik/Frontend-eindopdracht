@@ -1,10 +1,12 @@
 /*Import from dependencies*/
 import {useForm} from "react-hook-form";
-import {useHistory} from "react-router-dom";
-import {useState} from "react";
+import {useContext, useState} from "react";
 
 /*Import context*/
+import {AuthContext} from "../../context/AuthContext";
+
 /*Import assets*/
+
 /*Import components*/
 import Background from "../../components/background/Background";
 import Container from "../../components/container/Container";
@@ -15,77 +17,76 @@ import Button from "../../components/button/Button";
 import Helper from "../../components/helper/Helper";
 
 /*Import helpers*/
-import useLanguageChooser from "../../helpers/useLanguageChooser";
+
+/*Import constants*/
+import TEXT from "../../constants/text";
 
 /*Import style*/
 import styles from './LoginPage.module.scss'
 
 /*Import images*/
 import background from "../../assets/background/background.jpg";
+import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
+
+
 
 
 function LoginPage() {
+    /*Text*/
+    const text = new TEXT()
+
+    /*Hooks*/
+    useDocumentTitle(`${text.homepage} - login`)
+
     /*States*/
     const [wrongPassword, setWrongPassword] = useState(false);
 
     /*Context*/
+    const {login} = useContext(AuthContext)
 
     /*Variables*/
     const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    const regExEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const wrongPasswordText = useLanguageChooser('Wachtwoord is verkeerd', 'Wrong password');
+    const regExEmail = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     /*Imports*/
     const {handleSubmit, formState: {errors}, register} = useForm();
-    const history = useHistory();
 
     /*Functions*/
-    const log = (data) => {
-        console.log(data)
-        history.push('/fridge')
-    }
 
     /*Return*/
     return (<>
             <Background image={background} styling='image'/>
-            <Container width='small' background='withBackground'>
+            <Container width='small'>
                 <Title>Login</Title>
                 {/*Register form*/}
-                <Form onSubmit={handleSubmit(log)}>
+                <Form onSubmit={handleSubmit((data) => {
+                    login(data.username, data.password, setWrongPassword)})}>
                     {/*Email*/}
-                    <Input required={useLanguageChooser(
-                        'Moet ingevoerd worden',
-                        'Must be filled in')}
+                    <Input required={text.required}
                            register={register}
-                           message={useLanguageChooser(
-                               'Voer een juist email-adres in',
-                               'Email address is not correct')}
+                           message=''
                            value={regExEmail}
                            error={errors}
-                           label='Email:'
-                           name='email'
-                           condition='pattern'
+                           label={text.username}
+                           name='username'
+                           condition=''
                            styleType='long'
                            validate=''
-                           type='email'/>
+                           type='text'/>
                     {/*Password*/}
-                    <Input required='Moet ingevoerd worden'
+                    <Input required={text.required}
                            register={register}
-                           message={useLanguageChooser(
-                               'Moet minimaal 1 hoofdletter, cijfer en 8 characters bevatten',
-                               'Must contain 1 capital letter, number and 8 characters')}
+                           message={text.passwordMessage}
                            value={regExPassword}
                            error={errors}
-                           label={useLanguageChooser(
-                               'Wachtwoord:',
-                               'Password:')}
+                           label={text.password}
                            name='password'
                            condition='pattern'
                            styleType='long'
                            validate=''
                            type='password'/>
                     {/*Error when password is wrong*/}
-                    {wrongPassword && <p className={styles.error}>{wrongPasswordText}</p>}
+                    {wrongPassword && <p className={styles.error}>{text.wrongPassword}</p>}
                     {/*Submit button*/}
                     <Button type='submit' styling='long'>
                         Login

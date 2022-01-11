@@ -1,13 +1,15 @@
 /*Import from dependencies*/
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
+import {AiOutlinePlusCircle} from "react-icons/ai";
 
 /*Import context*/
-import {VisualContext} from "../../context/VisualContext";
 
 /*Import assets*/
 import background from "../../assets/background/background.jpg";
-import printer from "../../assets/icons/print.svg";
+
+/*Import constants*/
+import TEXT from "../../constants/text";
 
 /*Import components*/
 import Background from "../../components/background/Background";
@@ -16,29 +18,40 @@ import Title from "../../components/title/Title";
 import Input from "../../components/Input/Input";
 import Button from "../../components/button/Button";
 import Helper from "../../components/helper/Helper";
+import PrintLogo from "../../components/printLogo/PrintLogo";
 
 /*Import helpers*/
 import print from "../../helpers/print";
-import getInputValue from "../../helpers/getInputValue";
-import useLanguageChooser from "../../helpers/useLanguageChooser";
 
 /*Import style*/
 import styles from './GroceryListPage.module.scss'
+import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
 
-
+function getInputValue(array, data) {
+    console.log(data)
+    for (let i = 0; i < array.length; i++) {
+        array[i].value = data[`input${array[i].key}`];
+    }
+    return array
+}
 
 
 function GroceryListPage() {
+    /*Text*/
+    const text = new TEXT()
 
-    const { formState: {errors}, register } = useForm();
+    /*Hooks*/
+    useDocumentTitle(`${text.homepage} - ${text.grocery}`)
+
+    /*Imports from dependencies*/
+    const {handleSubmit, register} = useForm();
 
     /*States*/
     const [rows, setRows] = useState([]);
     const [numberOfInputs, setNumberOfInputs] = useState(4)
 
     /*Context*/
-    const {visualMode} = useContext(VisualContext)
 
     /*Variables*/
 
@@ -46,22 +59,22 @@ function GroceryListPage() {
     useEffect(() => {
         /*Create empty array*/
         let array = []
-        for (let i=0; i < numberOfInputs; i++) {
+        for (let i = 0; i < numberOfInputs; i++) {
             array.push(
                 {
                     'value': '',
-                    'key' : i
+                    'key': i
                 })
         }
         setRows(array)
     }, [numberOfInputs])
 
 
-
     /*Return*/
     return (
         <>
-            <Container width='small' background='normal'>
+            <Container width='small'>
+
                 {/*Print button*/}
                 <Button
                     onClick={
@@ -70,64 +83,49 @@ function GroceryListPage() {
                         }}
                     styling='print-small'
                 >
-                    <img className={`${styles.print__logo} ${styles[visualMode]}`} src={printer} alt='print'/>
+                    <PrintLogo/>
                 </Button>
 
-                <Title styling=''>{useLanguageChooser('Boodschappenlijst', 'Grocery list')}</Title>
-                {rows.map(
-                    (row) => {
+                {/*Grocery list*/}
+                <Title styling=''>{text.grocery}</Title>
+                <form className={styles.form} onSubmit={handleSubmit((data) => {
+                    getInputValue(rows, data)
+                    setNumberOfInputs(numberOfInputs + 1)
+                })}>
+                    {/*Check if a value is defined, otherwise make empty boxes*/}
+                    {rows.map(
+                        (row) => {
 
-                        if (row.value === '') {
-                        return (
-                            <Input
-                                key={row.key}
-                                required=''
-                                register={register}
-                                message=''
-                                value=''
-                                error={errors}
-                                label=''
-                                name={`input${row.key}`}
-                                condition='pattern'
-                                styleType='grocery'
-                                validate=''
-                                placeholder='Product'
-                                type='text'/>
-                        )
-                    } else {
-                        return(
-                            <Input
-                                key={row.key}
-                                required=''
-                                register={register}
-                                message=''
-                                value=''
-                                error={errors}
-                                label=''
-                                name={`input${row.key}`}
-                                condition='pattern'
-                                styleType='grocery'
-                                validate=''
-                                placeholder=''
-                                type='text'
-                                typedIn={row.value}/>
-                            )
+                            if (row.value === '') {
+                                return (
+                                    <Input
+                                        key={row.key}
+                                        name={`input${row.key}`}
+                                        styleType='grocery'
+                                        placeholder='Product'
+                                        type='text'
+                                        register={register}/>
+                                )
+                            } else {
+                                return (
+                                    <Input
+                                        key={row.key}
+                                        name={`input${row.key}`}
+                                        styleType='grocery'
+                                        type='text'
+                                        register={register}
+                                        typedIn={row.value}/>
+                                )
+                            }
 
-                    }
+                        })}
+                    {/*Extra row button*/}
+                    <Button styling='add-row' type='submit'>
+                        <AiOutlinePlusCircle/>
+                    </Button>
+                </form>
 
-                    })}
-                {/*Extra row button*/}
-                <Button
-                    onClick={
-                        () => {
-                            setRows(getInputValue(rows, 'grocery'))
-                            setNumberOfInputs(numberOfInputs+1);
-                        }}
-                    styling='add-row'
-                    type='button'
-                >
-                    +
-                </Button>
+                {/*Page instructions/helper*/}
                 <Helper>
 
                 </Helper>

@@ -6,16 +6,17 @@ $manual-margin : 30px;
 
 .manual-icon{
   height: 30px;
+  width: 30px;
   padding: 10px;
   align-self: flex-end;
 }
 
 .manual-icon.light {
-  filter: $magnolia-filter;
+  color: $magnolia;
 }
 
 .manual-icon.dark {
-  filter: $black-filter;
+  color: $black;
 }
 
 .manual {

@@ -1,13 +1,19 @@
 /*Import from dependencies*/
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 
 import {initializeApp} from "firebase/app";
-import {collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, setDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, addDoc} from "firebase/firestore";
 import {useForm} from "react-hook-form";
 
 /*Import context*/
+import {AuthContext} from "../../context/AuthContext";
+
 /*Import assets*/
 import background from "../../assets/background/background.jpg";
+
+/*Import constants*/
+import TEXT from "../../constants/text";
+
 /*Import components*/
 import Background from "../../components/background/Background";
 import Container from "../../components/container/Container";
@@ -17,25 +23,26 @@ import Helper from "../../components/helper/Helper";
 import Input from "../../components/Input/Input";
 
 /*Import helpers*/
-import useLanguageChooser from "../../helpers/useLanguageChooser";
+
 
 /*Import style*/
 import styles from './FridgePage.module.scss'
 
 /*Import data*/
 import firebaseConfig from '../../data/firebaseData.json'
+import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
 
-async function addProduct(database) {
-    const db = getFirestore();
-    const product = document.getElementById('product').value
-    const date = document.getElementById('date').value
-    document.getElementById('product').value = ''
+/*Functions*/
+async function addProduct(database, data, reset) {
+    let db = getFirestore();
+    console.log(data)
     try {
-        await setDoc(doc(db, database, product), {product: product, date: date});
+        await addDoc(collection(db, database), {product: data.product, date: data.date});
     } catch (e) {
         console.error(e)
     }
+    reset()
 }
 
 async function deleteProduct(database, product) {
@@ -43,76 +50,107 @@ async function deleteProduct(database, product) {
     await deleteDoc(doc(db, database, product));
 }
 
-function FridgePage() {
-    const today = new Date()
-    const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
 
-    const {formState: {errors}, register} = useForm();
+/*Main page function*/
+function FridgePage() {
+    /*Text*/
+    const text = new TEXT()
+
+    /*Hooks*/
+    useDocumentTitle(`${text.homepage} - ${text.fridge}`)
+
+    /*Variables*/
+
+    /*Dates*/
+
+    const today = new Date()
+    const offset = 2
+    const redDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
+    const yellowDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()+offset}`
+
+    /*Imports from dependencies*/
+    const {handleSubmit, formState: {errors}, register, reset} = useForm();
 
     /*States*/
     const [productData, setProductData] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
+    const [error, setError] = useState(false)
 
+    /*Context*/
+    const {user} = useContext(AuthContext)
+
+    /*Firebase app*/
+    firebaseConfig.apiKey = process.env.REACT_APP_FIREBASE_API_KEY
     initializeApp(firebaseConfig);
     const db = getFirestore();
 
+    /*Life cycle method*/
     useEffect(() => {
+        let isMounted = true
+        setError(false)
 
-
+        /*Get from API call function*/
         async function getProduct(database) {
             let dataArray = []
             const q = query(collection(db, database), orderBy("date", "asc"));
             try {
-                const querySnapshot = await getDocs(q);
-                querySnapshot.forEach((doc) => {
-                    dataArray.push(doc.data())
-                });
-                setProductData(dataArray)
-                setIsLoaded(true)
+                if (isMounted) {
+                    const querySnapshot = await getDocs(q);
+                    querySnapshot.forEach((doc) => {
+                        dataArray.push(doc.data())
+                    })
+                    setProductData(dataArray)
+
+                }
             } catch (e) {
+                setError(true)
                 console.error(e)
             }
         }
 
-        getProduct('fridge')
+        /*Call the get from API function*/
+        getProduct(user.username).then(() => {
+                setIsLoaded(true)
+            }
+        )
+
+        return function cleanup() {
+            isMounted = false
+        }
     }, [isLoaded])
 
     /*Return*/
     return (
         <>
-            <Container width='small' background='normal'>
-                <Title styling=''>{useLanguageChooser('Koelkast', 'Fridge')}</Title>
-                {isLoaded ?
-
+            <Container width='small'>
+                <Title styling=''>{text.fridge}</Title>
+                {/*If data cant be fetched*/}
+                {error ? text.productError :
+                /* While loading*/
+                isLoaded ?
                     productData.map(
                         (data) => {
                             return (
                                 <div key={`${data.product}-${data.date}`} className={styles['input-container']}>
                                     <Input
                                         key={`${data.product}-${data.date}`}
-                                        register={register}
-                                        error={errors}
-                                        name={`input${data.product}`}
-                                        condition='pattern'
-                                        styleType={new Date(date) <= new Date(data.date) ? 'product-good' : 'product-expired'}
+                                        styleType={new Date(yellowDate) <= new Date(data.date) ? 'product-good' : new Date(redDate) <= new Date(data.date)? 'product-almost-expired' : 'product-expired'}
                                         type='text'
                                         typedIn={data.product}/>
 
                                     <Input
                                         key={`${data.date}-${data.product}`}
-                                        register={register}
-                                        error={errors}
-                                        name={`input${data.date}`}
-                                        condition='pattern'
-                                        styleType={new Date(date) <= new Date(data.date) ? 'product-good' : 'product-expired'}
+                                        styleType={new Date(yellowDate) <= new Date(data.date) ? 'product-good' : new Date(redDate) <= new Date(data.date)? 'product-almost-expired' : 'product-expired'}
                                         type='text'
                                         typedIn={data.date}/>
 
                                     <Button
                                         onClick={
                                             () => {
-                                                deleteProduct('fridge', data.product)
-                                                setIsLoaded(false)
+                                                deleteProduct(user.username, data.product).then(() => {
+                                                        setIsLoaded(false)
+                                                }
+                                                )
                                             }}
                                         styling='remove-row'
                                         type='button'
@@ -123,38 +161,35 @@ function FridgePage() {
                             )
                         })
                     : 'Laden...'}
-                <div className={styles['input-container']}>
+                <form className={styles['input-container']} onSubmit={handleSubmit(
+                    (data) => {
+                        addProduct(user.username, data, reset).then(() => {
+                            setIsLoaded(false)
+                        })
+                    })}>
                     <Input
-                        register={register}
-                        error={errors}
-                        name='emptyProduct'
-                        condition='pattern'
                         styleType='product'
                         placeholder='product'
                         type='text'
-                        id='product'/>
-
-                    <Input
+                        required={text.required}
                         register={register}
                         error={errors}
-                        name='emptyDate'
-                        condition='pattern'
+                        name='product'/>
+
+                    <Input
                         styleType='product'
                         type='date'
-                        id='date'/>
+                        register={register}
+                        error={errors}
+                        name='date'/>
 
                     <Button
-                        onClick={
-                            () => {
-                                addProduct('fridge')
-                                setIsLoaded(false)
-                            }}
                         styling='add-database'
-                        type='button'
+                        type='submit'
                     >
                         +
                     </Button>
-                </div>
+                </form>
                 {/*Extra row button*/}
                 <Helper>
 

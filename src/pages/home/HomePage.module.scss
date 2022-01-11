@@ -34,8 +34,16 @@ $container-width : 60%;
 
 .searchbar__button {
   height: 20px;
-  color: $purple-dark;
 }
+
+.searchbar__button.light{
+  filter: $magnolia-filter;
+}
+
+.searchbar__button.dark {
+  filter: $black-filter;
+}
+
 
 /*Recipes*/
 .container-recipes {

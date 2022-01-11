@@ -32,7 +32,6 @@ function Input({
                    validate,
                    placeholder,
                    typedIn,
-                   id
                }) {
     /*Variables*/
 
@@ -51,9 +50,8 @@ function Input({
                 name={name}
                 placeholder={placeholder}
                 type={type}
-                value={typedIn}
-                id={id}
-                className={`${styles.input} ${styles[`input-${styleType}`]} ${styles[visualMode]} ${styleType}`} {...register(name, {
+                defaultValue={typedIn}
+                className={`${styles.input} ${styles[`input-${styleType}`]} ${styles[visualMode]} ${styleType}`} {...register ? {...register(name, {
                     [condition]: {
                         value: value,
                         message: message,
@@ -61,9 +59,9 @@ function Input({
                     required: required,
                     validate: validate,
                 }
-            )}/>
+            )} : ''}/>
         </div>
-        <p className={`${styles.error} ${styles[styleType]}`}>{error[name] && error[name].message}</p>
+        {error ? <p className={`${styles.error} ${styles[styleType]}`}>{error[name] && error[name].message}</p> : ''}
     </>);
 }
 

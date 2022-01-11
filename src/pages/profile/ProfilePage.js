@@ -8,19 +8,23 @@ import {useForm} from "react-hook-form";
 /*Import context*/
 import {VisualContext} from "../../context/VisualContext";
 import {LanguageContext} from "../../context/LanguageContext";
+import {AuthContext} from "../../context/AuthContext";
+
+/*Import constants*/
+import TEXT from "../../constants/text";
 
 /*Import assets*/
+
 /*Import components*/
 import Container from "../../components/container/Container";
 import Input from "../../components/Input/Input";
 import Button from "../../components/button/Button";
 import Title from "../../components/title/Title";
 import Form from "../../components/form/form/Form";
-import Succes from "../../components/form/succes/Succes";
+import Succes from "../../components/succes/Succes";
 import Helper from "../../components/helper/Helper";
 
 /*Import helpers*/
-import useLanguageChooser from "../../helpers/useLanguageChooser";
 
 /*Import style*/
 import styles from './ProfilePage.module.scss'
@@ -30,28 +34,40 @@ import Background from "../../components/background/Background";
 import background from '../../assets/background/background.jpg';
 import flagEnglish from '../../assets/languages/united-kingdom.png';
 import flagDutch from '../../assets/languages/netherlands.png';
+import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
+
+
 
 
 
 function ProfilePage() {
+    /*Text*/
+    const text = new TEXT()
+
+    /*Hooks*/
+    useDocumentTitle(`${text.homepage} - ${text.profile}`)
+
     /*States*/
-    const [succesUsername, setSuccesUsername] = useState(false)
-    const [succesPassword, setSuccesPassword] = useState(false)
-
-
-    /*Variables*/
-    const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-    const gebruiker = 'Hidrik'
+    const [succesEmail, setSuccesEmail] = useState(0)
+    const [succesPassword, setSuccesPassword] = useState(0)
 
     /*Context*/
     const {setDarkMode, setLightMode} = useContext(VisualContext)
     const {setDutch, setEnglish} = useContext(LanguageContext)
+    const {user, updateEmail} = useContext(AuthContext)
+    console.log(user)
+
+    /*Variables*/
+    const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+    const regExEmail = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+    /*Destructured*/
 
     /*Imports*/
     const {
-        handleSubmit: handleSubmitUsername,
-        formState: {errors: errorsUsername},
-        register: registerUsername
+        handleSubmit: handleSubmitEmail,
+        formState: {errors: errorsEmail},
+        register: registerEmail
     } = useForm();
 
     const {
@@ -61,84 +77,72 @@ function ProfilePage() {
         watch
     } = useForm();
 
+    /*Watch for password*/
     const password = useRef({});
     password.current = watch("newPassword", "");
 
-    const log = (data) => {
-        setSuccesUsername(true)
-        console.log(data)
-    }
 
-    const log2 = (data) => {
-        setSuccesPassword(true)
-        console.log(data)
-    }
 
     /*Return*/
     return (<>
         <Background image={background} styling='image'/>
-        <Container width='small' background='true'>
+        <Container width='small'>
             {/*Showing username*/}
-            <Title>{`${useLanguageChooser('Welkom', 'Welcome')} ${gebruiker}`}</Title>
+            <Title>{`${text.welcome} ${user.name}`}</Title>
             {/*Changing username succes*/}
-            {succesUsername && <Succes/>}
-            {/*Form for changing username*/}
-            <Form onSubmit={handleSubmitUsername(log)}>
+            {succesEmail===1 && <Succes succes='succes'/>}
+            {/*Form for changing email*/}
+            <Form onSubmit={handleSubmitEmail((data) => {
+                updateEmail(localStorage.getItem('token'), data.email, setSuccesEmail)
+            })}>
 
-                <Input required={useLanguageChooser(
-                    'Moet ingevoerd worden',
-                    'Must be filled in')}
-                       register={registerUsername}
-                       message=''
-                       value=''
-                       error={errorsUsername}
-                       label={useLanguageChooser(
-                           'Gebruikersnaam wijzigen:',
-                           'Change username:')}
-                       name='userName'
-                       condition=''
+                <Input required={text.required}
+                       register={registerEmail}
+                       message={text.emailMessage}
+                       value={regExEmail}
+                       error={errorsEmail}
+                       label={text.changeEmail}
+                       name='email'
+                       condition='pattern'
                        styleType='long'
                        validate=''
-                       type='text'/>
+                       type='email'/>
 
                 <Button type='submit' styling='None'>
-                    {useLanguageChooser('Wijzigen', 'Change')}
+                    {text.change}
                 </Button>
 
             </Form>
             {/*Form for changing password*/}
             {/*Changing username succes*/}
-            {succesPassword && <Succes/>}
-            <Form onSubmit={handleSubmitPassword(log2)}>
+            {succesPassword === 1 && <Succes succes='succes'/>}
+            <Form onSubmit={handleSubmitPassword((data) => {
+                if (data.oldPassword === data.newPassword) {
+                    setSuccesPassword(2)
+                } else {
+                    setSuccesPassword(1)
+                }})}>
 
-                <p className={styles.text}>{useLanguageChooser('Wijzig wachtwoord:', 'Change password:')}</p>
+                <p className={styles.text}>{text.changePassword}</p>
 
-                <Input required={useLanguageChooser(
-                    'Moet ingevoerd worden',
-                    'Must be filled in')}
+                <Input required={text.required}
                        register={registerPassword}
                        message=''
                        value=''
                        error={errorsPassword}
-                       label={useLanguageChooser(
-                           'Oud:',
-                           'Old:')}
-                       name='old'
+                       label={text.old}
+                       name='oldPassword'
                        condition=''
                        styleType='short'
                        validate=''
                        type='password'/>
 
-                <Input required='Moet ingevoerd worden'
+                <Input required={text.required}
                        register={registerPassword}
-                       message={useLanguageChooser(
-                           'Moet minimaal 1 hoofdletter, cijfer en 8 characters bevatten',
-                           'Must contain 1 capital letter, number and 8 characters')}
+                       message={text.passwordMessage}
                        value={regExPassword}
                        error={errorsPassword}
-                       label={useLanguageChooser(
-                           'Nieuw:',
-                           'New:')}
+                       label={text.new}
                        name='newPassword'
                        condition='pattern'
                        styleType='short'
@@ -146,35 +150,33 @@ function ProfilePage() {
                        type='password'/>
 
 
-                <Input required='Moet ingevoerd worden'
+                <Input required={text.required}
                        register={registerPassword}
-                       message={useLanguageChooser(
-                           'Wachtwoord is niet gelijk',
-                           "The passwords do not match")}
+                       message={text.passwordMatch}
                        value=''
                        validate={value =>
-                           value === password.current || "The passwords do not match"}
+                           value === password.current || text.passwordMatch}
                        error={errorsPassword}
-                       label={useLanguageChooser(
-                           'Herhaald:',
-                           'Repeat:')}
-                       name='new_repeat'
+                       label={text.repeat}
+                       name='newRepeat'
                        condition=''
                        styleType='short'
                        type='password'/>
+                {/*If new and old password are the same*/}
+                {succesPassword === 2 && <Succes succes='failedPassword'/>}
+
                 <Button type='submit' styling='None'>
-                    {useLanguageChooser('Wijzigen', 'Change')}
+                    {text.change}
                 </Button>
-
-
             </Form>
+
             {/*Buttons for choosing between dark/light mode*/}
             <div className={styles['mode-container']}>
                 <Button onClick={setDarkMode} styling='mode-button-left' type='button'>
-                    {useLanguageChooser('Donker', 'Dark')}
+                    {text.dark}
                 </Button>
                 <Button onClick={setLightMode} styling='mode-button-right' type='button'>
-                    {useLanguageChooser('Licht', 'Light')}
+                    {text.light}
                 </Button>
 
             </div>

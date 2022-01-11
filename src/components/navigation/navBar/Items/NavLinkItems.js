@@ -23,7 +23,7 @@ function NavLinkItems({children, to}) {
     const {visualMode} = useContext(VisualContext)
     /*Return*/
     return (
-        <NavLink to={to} className={`${styles.navlink} ${styles[visualMode]} ${styles.mobile}`} activeClassName={`${styles.navlink} ${styles.active}  ${styles.mobile}`}>
+        <NavLink to={to} className={`${styles.navlink} ${styles[visualMode]} ${styles.mobile}`} activeClassName={`${styles.active}`}>
             {children}
         </NavLink>
     );

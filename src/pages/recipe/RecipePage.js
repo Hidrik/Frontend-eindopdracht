@@ -3,14 +3,12 @@ import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import parse from 'html-react-parser';
+import {AiOutlineMinusCircle, AiOutlinePlusCircle} from 'react-icons/ai'
 
 /*Import context*/
 import {VisualContext} from "../../context/VisualContext";
-
+import {LanguageContext} from "../../context/LanguageContext";
 /*Import assets*/
-import add from '../../assets/icons/add.svg'
-import minus from '../../assets/icons/minus.png'
-import printer from '../../assets/icons/print.svg'
 
 /*Import components*/
 import Container from "../../components/container/Container";
@@ -19,34 +17,99 @@ import Title from "../../components/title/Title";
 
 /*Import helpers*/
 import {underscoreToEndpoint} from "../../helpers/underscoreToEndpoint";
-import useLanguageChooser from "../../helpers/useLanguageChooser";
 import print from "../../helpers/print";
-
+import translate, {abortTranslation} from "../../helpers/translate";
 
 /*Import style*/
 import styles from './RecipePage.module.scss'
+import PrintLogo from "../../components/printLogo/PrintLogo";
+import TEXT from "../../constants/text";
+import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
-/*IMPORT TEMP!!!*/
+
+
+async function translateAll(result) {
+
+/*Add al translated items together so only one api call has to be made*/
+    /*Items to split on*/
+    const splitstring = '** '
+    const splitstringItems = '++ '
+
+    /*Make the string which needs to be translated and add summary and title*/
+    let translateText = `${result.data.summary}${splitstring}${result.data.title}${splitstring}`
+
+
+    /*Add the ingredient names to the string*/
+    for (let i = 0; i < result.data.extendedIngredients.length; i++ ) {
+        translateText += `${result.data.extendedIngredients[i].name}${splitstringItems}`
+        if (i === (result.data.extendedIngredients.length-1)) {
+            translateText += splitstring
+        }
+    }
+
+    /*Add the instructions to the string*/
+    for (let i = 0; i < result.data.analyzedInstructions[0].steps.length; i++) {
+        translateText += `${result.data.analyzedInstructions[0].steps[i].step}${splitstringItems}`
+        if (i === (result.data.analyzedInstructions[0].steps.length-1)) {
+            translateText += splitstring
+        }
+    }
+
+    /*Add the nutritions to the string*/
+    for (let i = 0; i < result.data.nutrition.nutrients.length; i++) {
+        translateText += `${result.data.nutrition.nutrients[i].name}${splitstringItems}`
+        /*result.data.nutrition.nutrients[i].name = await translate(result.data.nutrition.nutrients[i].name, 'en','nl')*/
+    }
+
+/*Translate the string (API call)*/
+    translateText = await translate(translateText, 'en', 'nl')
+
+/*Split the string again and fill results with the translated text*/
+    /*Split*/
+    const translatedArray = translateText.split(splitstring)
+
+    /*Replace English summary with Dutch summary*/
+    result.data.summary = translatedArray[0]
+
+    /*Replace English title with Dutch title*/
+    result.data.title = translatedArray[1]
+
+    /*Replace English ingredient names with Dutch ingredient names*/
+    for (let i = 0; i < result.data.extendedIngredients.length; i++) {
+        result.data.extendedIngredients[i].name = translatedArray[2].split(splitstringItems)[i]
+    }
+
+    /*Replace English instructions with Dutch instructions*/
+    for (let i = 0; i < result.data.analyzedInstructions[0].steps.length; i++) {
+        result.data.analyzedInstructions[0].steps[i].step = translatedArray[3].split(splitstringItems)[i]
+    }
+
+    /*Replace English nutrients with Dutch nutrients*/
+    for (let i = 0; i < result.data.nutrition.nutrients.length; i++) {
+        result.data.nutrition.nutrients[i].name = translatedArray[4].split(splitstringItems)[i]
+    }
+/*Return result but await the result*/
+    return result
+
+}
 
 
 
 
 function RecipePage() {
-    /*Variables*/
-    const personsText = useLanguageChooser('Personen', 'Servings')
-    const nutrientsText = useLanguageChooser('Voedingswaarden', 'Nutrients')
-    const dailyText = useLanguageChooser('Van dagelijkse behoefte', 'Of daily need')
-    const ingredientsText = useLanguageChooser('Ingrediënten', 'Ingredients')
-    const instructionsText = useLanguageChooser('Bereidingswijze', 'Instructions')
-    const loadingText = useLanguageChooser('Laden...', 'Loading...')
-    const noRecipeText = useLanguageChooser('Er kan geen recept gevonden worden.', 'No recipe could be found.')
-    const getDataErrorText = useLanguageChooser("Recept ophalen mislukt', 'Couldn't fetch recipe")
+    /*Text*/
+    const text = new TEXT()
+
+    /*Hooks*/
+    useDocumentTitle(`${text.homepage} - ${text.recipe}`)
 
     /*React variables*/
     const {id} = useParams();
+
+    /*Data*/
     const [data, setData] = useState({})
+    const [originalData, setOriginalData] = useState({})
     const [isLoaded, setIsLoaded] = useState(false)
-    const [apiKey] = useState('6cd3b6f079684676885686cd69de1adb')
     const [endpoint, setEndpoint] = useState('')
     const [first, setFirst] = useState(true)
     const [recipeId, setRecipeId] = useState('notANumber')
@@ -54,59 +117,88 @@ function RecipePage() {
     const [refreshButton, setRefreshButton] = useState(false)
     const [offset, setOffset] = useState(0)
     const [noRecipe, setNoRecipe] = useState(false)
+    const [error, setError] = useState(false)
 
     const {visualMode} = useContext(VisualContext)
+    const {language} = useContext(LanguageContext)
 
     /*Life cycle*/
     useEffect(( ) => {
         const source = axios.CancelToken.source();
+        setIsLoaded(false)
+        setNoRecipe(false)
+        setError(false)
 
         async function getData() {
 
             try {
                 const result = await axios.get(endpoint)
+                /*If recipe is received*/
                 if (isNaN(recipeId) && isNaN(id)) {
-                    setEndpoint(`https://api.spoonacular.com/recipes/${result.data.results[0].id}/information?includeNutrition=true&apiKey=${apiKey}`)
-                    setRecipeId(result.data.results[0].id)
+                    if (result.data.results.length === 0) {
+                        setNoRecipe(true)
+                    } else{
+                        setEndpoint(`https://api.spoonacular.com/recipes/${result.data.results[0].id}/information?includeNutrition=true&apiKey=${process.env.REACT_APP_API_KEY_SPOONACULAR}`)
+                        setRecipeId(result.data.results[0].id)
+                    }
                 } else {
-                    setData(result.data)
-                    console.log(result.data)
+                    setOriginalData(result.data)
+                    if (language === 'NL') {
+                        translateAll(result).then((result) => {
+                            setData(result.data)
+                            setIsLoaded(true)
+                        })
+                    } else {
+                        setData(result.data)
+                        setIsLoaded(true)
+                    }
+
                     setPersons(result.data.servings)
-                    setIsLoaded(true)
                 }
+
+
+            /*When no data can be received*/
             } catch (e) {
-                console.error(getDataErrorText)
-                setNoRecipe(true)
+                console.error(text.getDataError, e)
+                setError(true)
             }
         }
-
         /*If number, then user clicked on recipe on homepage*/
         if (first) {
             if (isNaN(id)) {
                 const ingredients = underscoreToEndpoint(id)
-                setEndpoint(`https://api.spoonacular.com/recipes/complexSearch?includeIngredients=${ingredients}&number=1&addRecipeNutrition=true&offset=${offset}&apiKey=${apiKey}`)
-                setRecipeId('notANumber')
+                setEndpoint(`https://api.spoonacular.com/recipes/complexSearch?includeIngredients=${ingredients}&number=1&addRecipeNutrition=true&offset=${offset}&apiKey=${process.env.REACT_APP_API_KEY_SPOONACULAR}`)
                 setRefreshButton(true)
             } else {
-                setEndpoint(`https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${apiKey}`)
+                setEndpoint(`https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${process.env.REACT_APP_API_KEY_SPOONACULAR}`)
             }
             setFirst(false)
 
         } else {
-
             /*Call the function*/
             getData()
         }
 
         return function cleanup() {
             source.cancel()
+            abortTranslation()
         }
     }, [first, recipeId])
 
+    /*When changing language, no api call has to be made but the original data is restored.*/
+    useEffect( () => {
+        if (!first) {
+            setData(originalData)
+        }
+    }, [language])
+
     /*Return*/
-    return (<Container background='normal' width='large'>
+    return (<Container width='large'>
+            {/*If no data could be fetched*/}
+            {!error ? <>
+
             {/*If no recipe can be shown, dont show the buttons*/}
-            {noRecipe ? '' :<>
+            {noRecipe ? '' : <>
                 {/*Refresh button only when search for recipe*/}
                 {refreshButton ?
                 <Button
@@ -128,7 +220,7 @@ function RecipePage() {
                     }}
                 styling='print'
             >
-                <img className={`${styles.print__logo} ${styles[visualMode]}`} src={printer} alt='recipe'/>
+                <PrintLogo/>
             </Button>
             </>}
 
@@ -140,21 +232,22 @@ function RecipePage() {
                 <aside className={styles.container__article__items}>
                     <img src={data.image} alt={data.title} className={styles.container__article__items__image}/>
                     <div className={styles.container__article__items__persons}>
-                        <p>{personsText}</p>
+                        <p>{text.persons}</p>
                         <Button type='button' styling='persons' disabled={persons === 1} onClick={() => {
                             setPersons(persons - 1)
                         }}>
-                            <img
+                            <AiOutlineMinusCircle
                                 className={`${styles['container__article__items__persons__button-image']} ${styles[visualMode]}`}
-                                src={minus} alt='minus'/>
+                            />
                         </Button>
                         <p>{persons}</p>
                         <Button type='button' styling='persons' onClick={() => {
                             setPersons(persons + 1)
                         }}>
-                            <img
+
+                            <AiOutlinePlusCircle
                                 className={`${styles['container__article__items__persons__button-image']} ${styles[visualMode]}`}
-                                src={add} alt='minus'/>
+                            />
                         </Button>
                     </div>
                 </aside>
@@ -172,9 +265,9 @@ function RecipePage() {
 
                 {/*Ingredients*/}
                 <aside className={`${styles.container__article__items} recipe`}>
-                    <Container background='recipe' width='large'>
+                    <Container width='large' background='recipe'>
                         <Title styling='recipe'>
-                            {ingredientsText}
+                            {text.ingredients}
                         </Title>
                         <ul className={styles.container__article__items__ingredients}>
                             {data.extendedIngredients.map((ingredients) => {
@@ -187,31 +280,33 @@ function RecipePage() {
                 {/*Instructions*/}
                 <aside className={`${styles.container__article__items} recipe`}>
                     <Title styling='recipe'>
-                        {instructionsText}
+                        {text.instructions}
                     </Title>
                     <ol>
                         {data.analyzedInstructions[0].steps.length !== 0 ?
                             data.analyzedInstructions[0].steps.map((instructions) => {
                             return <li key={`${offset}-${instructions.number}`}>{instructions.step}</li>
-                        }) : <li>Geen instructies</li>}
+                        }) : text.noInstructions}
                     </ol>
                 </aside>
 
                 {/*Nutrients*/}
                 <footer className={styles.container__article__footer}>
                     <div className={`${styles.container__article__footer__line} ${styles[visualMode]}`}/>
-                    <Title styling='recipe'>{nutrientsText}</Title>
+                    <Title styling='recipe'>{text.nutrients}</Title>
                     {data.nutrition.nutrients.map((nutrient) => {
                         return (
                             <p key={nutrient.name} className={styles.container__article__footer__items}>
                                 {`${nutrient.name}: ${nutrient.amount} ${nutrient.unit} (${nutrient.percentOfDailyNeeds}%)*`}
                             </p>)
                     })}
-                    <p className={`${styles.container__article__footer__items} ${styles.container__article__footer__daily}`}>*{dailyText}</p>
+                    <p className={`${styles.container__article__footer__items} ${styles.container__article__footer__daily}`}>*{text.daily}</p>
                 </footer>
             </article>
                 /*Otherwise its loading or no recipe could be shown*/
-            : <Title styling='recipe'>{noRecipe ? noRecipeText : loadingText}</Title>}</Container>
+            : <Title styling='recipe'>{noRecipe ? text.noRecipe : text.loading}</Title>}
+            </> : <Title styling='recipe'>{text.noRecipe}</Title>}
+            </Container>
     );
 }
 

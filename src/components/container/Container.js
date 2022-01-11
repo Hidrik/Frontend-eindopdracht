@@ -3,7 +3,6 @@ import {useContext} from "react";
 
 /*Import context*/
 import {VisualContext} from "../../context/VisualContext";
-import {LanguageContext} from '../../context/LanguageContext';
 
 /*Import assets*/
 
@@ -15,9 +14,8 @@ import {LanguageContext} from '../../context/LanguageContext';
 import styles from './Container.module.scss'
 
 
-function ProfilePage({children, width, background}) {
+function Container({children, width, background}) {
     const {visualMode} = useContext(VisualContext)
-    const {language} = useContext(LanguageContext)
 
     /*Return*/
     return ( <div className={`${styles.container} ${styles[visualMode]} ${styles[width]} ${styles[background]} `}>
@@ -26,4 +24,4 @@ function ProfilePage({children, width, background}) {
     );
 }
 
-export default ProfilePage;
+export default Container;

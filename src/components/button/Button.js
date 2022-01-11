@@ -13,7 +13,6 @@ import {VisualContext} from "../../context/VisualContext";
 
 /*Import style*/
 import styles from './Button.module.scss'
-import useLanguageChooser from "../../helpers/useLanguageChooser";
 
 /*Import images*/
 

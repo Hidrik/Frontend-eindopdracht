@@ -19,6 +19,10 @@ $form-width-input-short : calc(100% -  #{$form-width-label} - #{$form-input-padd
 
 .input {
   padding: 0 0 0 $form-input-padding;
+  color: $purple-dark;
+  height: $input-height;
+  border-radius: 10px;
+  box-shadow: $box-shadow;
 }
 
 .input::placeholder{
@@ -51,12 +55,6 @@ $form-width-input-short : calc(100% -  #{$form-width-label} - #{$form-input-padd
   color: $error-message;
 }
 
-.input-long, .input-short, .input-grocery, .input-product, .input-product-good, .input-product-expired {
-  color: $purple-dark;
-  height: $input-height;
-  border-radius: 10px;
-  box-shadow: $box-shadow;
-}
 
 .input-search, .input-search:focus {
   width: 100%;
@@ -87,23 +85,27 @@ $form-width-input-short : calc(100% -  #{$form-width-label} - #{$form-input-padd
 }
 
 /*Fridge*/
-.form__container-product, .form__container-product-good, .form__container-product-expired {
+.form__container-product, .form__container-product-good, .form__container-product-expired, .form__container-product-almost-expired {
   min-width: 35%;
   width: 90%;
   flex-shrink: 1;
 }
 
-.input-product, .input-product-good, .input-product-expired {
+.input-product, .input-product-good, .input-product-expired, .input-product-almost-expired {
   width: 90%;
 
 }
 
-.input-product-good, .input-product-expired {
+.input-product-good, .input-product-expired, .input-product-almost-expired {
   pointer-events: none;
 }
 
 .input-product-expired {
-  color: red;
+  color: $error-message;
+}
+
+.input-product-almost-expired {
+  color: $almost-expired;
 }
 
 /*Remove error when not needed*/

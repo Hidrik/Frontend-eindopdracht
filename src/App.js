@@ -1,13 +1,16 @@
 /*Dependencies*/
-import React from "react";
-import {Route, Switch} from "react-router-dom";
+import React, {useContext} from "react";
+import {Redirect, Route, Switch} from "react-router-dom";
 
 /*Context*/
+import {AuthContext} from "./context/AuthContext";
 
 /*Components*/
 import NavBar from "./components/navigation/navBar/NavBar";
-
+import Background from "./components/background/Background";
 /*Styles*/
+
+/*Helpers*/
 
 /*Pages*/
 import HomePage from "./pages/home/HomePage";
@@ -17,10 +20,13 @@ import GroceryListPage from "./pages/groceryList/GroceryListPage";
 import RegistrationPage from "./pages/registration/RegistrationPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import RecipePage from "./pages/recipe/RecipePage";
-import Background from "./components/background/Background";
+
+
+
+
 
 function App() {
-
+    const {user} = useContext(AuthContext)
     return (<>
         <Background image='None' styling=' '>
 
@@ -30,19 +36,19 @@ function App() {
                     <HomePage/>
                 </Route>
                 <Route exact path='/login'>
-                    <LoginPage/>
+                    {user === null ?  <LoginPage/> : <Redirect to='/'/>}
                 </Route>
                 <Route exact path='/fridge'>
-                    <FridgePage/>
+                    {user === null ? <Redirect to='/'/> : <FridgePage/>}
                 </Route>
                 <Route exact path='/grocery-list'>
                     <GroceryListPage/>
                 </Route>
                 <Route exact path='/register'>
-                    <RegistrationPage/>
+                    {user === null ?  <RegistrationPage/> : <Redirect to='/'/>}
                 </Route>
                 <Route exact path='/profile'>
-                    <ProfilePage/>
+                    {user === null ? <Redirect to='/'/> : <ProfilePage/>}
                 </Route>
                 <Route path='/recipes/:id'>
                     <RecipePage/>

@@ -5,7 +5,7 @@
 $button-width: 50px;
 
 
-.button{
+.button {
   margin: $form-margin/4 $form-margin $form-margin/4 $form-margin;
   border: 0;
   font-family: $font;
@@ -16,11 +16,11 @@ $button-width: 50px;
 
 /*Colors*/
 
-.button.light {
+.button.light, {
   color: $magnolia;
 }
 
-.button.dark {
+.button.dark, {
   color: $black;
 }
 
@@ -61,12 +61,19 @@ $button-width: 50px;
   position: absolute;
 }
 
-
 .add-row {
   position: relative;
   left: 85%;
-  font-size: 60px;
+  font-size: 30px;
   line-height: 30px;
+}
+
+.add-row.light svg {
+  color: $magnolia;
+}
+
+.add-row.dark svg {
+  color: $black;
 }
 
 .remove-row{
@@ -95,6 +102,21 @@ $button-width: 50px;
   margin: 5px;
 }
 
+.logout {
+  box-shadow: none;
+  margin: 0;
+  font-size: $font-size-dropdown-menu;
+  background-color: transparent !important;
+}
+
+.logout.light:hover {
+  color: $black;
+}
+
+.logout.dark:hover {
+  color: $ash-grey;
+}
+
 @media only screen and (max-width: $mobile-width) {
   .button {
     margin: $form-margin-mobile;
@@ -106,5 +128,9 @@ $button-width: 50px;
   .print-small {
     position: absolute;
     left: 80%;
+  }
+
+  .logout{
+    margin: 0;
   }
 }

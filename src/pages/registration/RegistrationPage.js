@@ -1,9 +1,14 @@
 /*Import from dependencies*/
-import {useRef} from "react";
+import {useContext, useRef, useState} from "react";
 import {useForm} from "react-hook-form";
-import {useHistory} from "react-router-dom";
+
 /*Import context*/
+import {AuthContext} from "../../context/AuthContext";
 /*Import assets*/
+
+/*Import constants*/
+import TEXT from "../../constants/text";
+
 /*Import components*/
 import Title from "../../components/title/Title";
 import Background from "../../components/background/Background";
@@ -12,71 +17,78 @@ import Input from "../../components/Input/Input";
 import Button from "../../components/button/Button";
 import Form from "../../components/form/form/Form";
 import Helper from "../../components/helper/Helper";
+import Succes from "../../components/succes/Succes";
 
 /*Import helpers*/
-import useLanguageChooser from "../../helpers/useLanguageChooser";
 
 /*Import style*/
+import styles from './RegistrationPage.module.scss'
+
 /*Import images*/
 import background from "../../assets/background/background.jpg";
+import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
 
 function RegistrationPage() {
-    /*States*/
+    /*Text*/
+    const text = new TEXT()
 
+    /*Hooks*/
+    useDocumentTitle(`${text.homepage} - ${text.register}`)
+
+    /*States*/
+    /*Initial and ok: 0, Username already taken: 1, Email already taken: 2, Unknown error: 3*/
+    const [alreadyTaken, setAlreadyTaken] = useState(0)
     /*Variables*/
     const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-    const regExEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    const passwordMatchText = useLanguageChooser(
-        'Wachtwoord is niet gelijk',
-        "The passwords do not match")
+    const regExEmail = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+    /*Text*/
+    /*    const registerText = useLanguageChooser('Registreren', 'Register')
+        const passwordMatchText = useLanguageChooser('Wachtwoord is niet gelijk',"The passwords do not match")
+        const requiredText = useLanguageChooser('Moet ingevoerd worden','Must be filled in')
+        const usernameText = useLanguageChooser('Gebruikersnaam:', 'Username:')
+        const emailText = useLanguageChooser('Voer een juist email-adres in', 'Email address is not correct')
+        const passwordMessageText = useLanguageChooser('Moet minimaal 1 hoofdletter, cijfer en 8 characters bevatten', 'Must contain 1 capital letter, number and 8 characters')
+        const passwordText = useLanguageChooser('Wachtwoord:', 'Password:')
+        const repeatText = useLanguageChooser('Herhaald:', 'Repeat:')*/
 
     /*Context*/
+    const {register: registerUser} = useContext(AuthContext)
 
     /*Imports*/
     const {handleSubmit, formState: {errors}, register, watch} = useForm();
     const password = useRef({});
-    const history = useHistory();
 
     password.current = watch("password", "");
 
     /*Functions*/
-    const log = (data) => {
-        console.log(data)
-        history.push('/login')
-    }
 
     /*Return*/
     return (<>
             <Background image={background} styling='image'/>
-            <Container width='small' background='true'>
-                <Title>{useLanguageChooser('Registreer', 'Register')}</Title>
+            <Container width='small'>
+                <Title>{text.register}</Title>
                 {/*Register form*/}
-                <Form onSubmit={handleSubmit(log)}>
+                <Form onSubmit={handleSubmit((data) => {
+                    registerUser(data.username, data.email, data.password, setAlreadyTaken)
+                })}>
                     {/*Username*/}
-                    <Input required={useLanguageChooser(
-                        'Moet ingevoerd worden',
-                        'Must be filled in')}
+                    <Input required={text.required}
                            register={register}
                            message=''
                            value=''
                            error={errors}
-                           label={useLanguageChooser(
-                               'Gebruikersnaam:',
-                               'Username:')}
-                           name='userName'
+                           label={text.username}
+                           name='username'
                            condition=''
                            styleType='long'
                            validate=''
                            type='text'/>
                     {/*Email*/}
-                    <Input required={useLanguageChooser(
-                        'Moet ingevoerd worden',
-                        'Must be filled in')}
+                    <Input required={text.required}
                            register={register}
-                           message={useLanguageChooser(
-                               'Voer een juist email-adres in',
-                               'Email address is not correct')}
+                           message={text.email}
                            value={regExEmail}
                            error={errors}
                            label='Email:'
@@ -86,59 +98,38 @@ function RegistrationPage() {
                            validate=''
                            type='email'/>
                     {/*Password*/}
-                    <Input required={useLanguageChooser(
-                        'Moet ingevoerd worden',
-                        'Must be filled in')}
+                    <Input required={text.required}
                            register={register}
-                           message={useLanguageChooser(
-                               'Moet minimaal 1 hoofdletter, cijfer en 8 characters bevatten',
-                               'Must contain 1 capital letter, number and 8 characters')}
+                           message={text.passwordMessage}
                            value={regExPassword}
                            error={errors}
-                           label={useLanguageChooser(
-                               'Wachtwoord:',
-                               'Password:')}
+                           label={text.password}
                            name='password'
                            condition='pattern'
                            styleType='long'
                            validate=''
                            type='password'/>
                     {/*Password repeat*/}
-                    <Input required='Moet ingevoerd worden'
+                    <Input required={text.required}
                            register={register}
                            message=''
                            value=''
                            validate={value =>
-                               value === password.current || passwordMatchText}
+                               value === password.current || text.passwordMatch}
                            error={errors}
-                           label={useLanguageChooser(
-                               'Herhaald:',
-                               'Repeat:')}
+                           label={text.repeat}
                            name='repeat'
                            condition=''
                            styleType='long'
                            type='password'/>
                     {/*Submit button*/}
                     <Button type='submit' styling='long'>
-                        {useLanguageChooser('Registreren', 'Register')}
+                        {text.register}
                     </Button>
                 </Form>
-                <Helper>
-                    {useLanguageChooser(
-                        'Op deze pagina kan het profiel aangepast worden. ',
-                        'On this page you can change your profile settings'
-                    )}
-                    <br/>
-                    {useLanguageChooser(
-                        'Het emailadres moet geldig zijn.',
-                        'The emailaddress needs to be valid.'
-                    )}
-                    <br/>
-                    {useLanguageChooser(
-                        'Het wachtwoord moet minimaal 1 hoofdletter, cijfer en 8 characters bevatten.',
-                        ' The password must contain 1 capital letter, number and 8 characters.'
-                    )}
-                </Helper>
+                {(alreadyTaken !== 0) && <Succes
+                    succes={alreadyTaken === 1 ? 'failedUsername' : alreadyTaken === 2 ? 'failedEmail' : 'failedUnknown'}/>}
+                <Helper page='registration'/>
             </Container>
         </>
     );

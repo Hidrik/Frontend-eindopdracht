@@ -2,7 +2,7 @@
 import {useContext} from "react";
 
 /*Import context*/
-import {LanguageContext} from '../context/LanguageContext';
+import {LanguageContext} from '../../context/LanguageContext';
 
 /*Import assets*/
 

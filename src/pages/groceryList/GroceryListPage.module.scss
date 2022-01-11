@@ -2,14 +2,6 @@
 @import '../../styling/fonts';
 @import '../../styling/global';
 
-.print__logo {
-  width: 20px;
-}
-
-.print__logo.light {
-  filter: $magnolia-filter;
-}
-
-.print__logo.dark {
-  filter: $black-filter;
+.form {
+  width: 100%;
 }

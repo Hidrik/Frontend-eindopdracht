@@ -28,6 +28,11 @@
   color: $ash-grey;
 }
 
+button {
+  background-image: none;
+  background-color: transparent;
+}
+
 @media only screen and (max-width: $mobile-width) {
   .mobile {
     left: calc(100% - 120px);
