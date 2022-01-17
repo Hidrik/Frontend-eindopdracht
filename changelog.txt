@@ -46,4 +46,8 @@ V1.5, 05-01-2022, 11-01-2022:
     Added testpulse to authentication server.
     Added possibility for same name items in fridge.
     Added checkbox markers on the fridge page.
-    Changed Firestore functions
+    Changed Firestore functions.
+V1.6, 17-01-2022:
+    Added ErrorStates constants.
+    Made the AuthenticationContext better and more readable.
+    Added helper states and text.

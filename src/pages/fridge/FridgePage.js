@@ -2,8 +2,9 @@
 import {useContext, useEffect, useState} from "react";
 
 import {initializeApp} from "firebase/app";
-import {collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, addDoc, setDoc} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDocs, getFirestore, orderBy, query, setDoc} from "firebase/firestore";
 import {useForm} from "react-hook-form";
+import {useHistory} from "react-router-dom";
 
 /*Import context*/
 import {AuthContext} from "../../context/AuthContext";
@@ -12,7 +13,7 @@ import {AuthContext} from "../../context/AuthContext";
 import background from "../../assets/background/background.jpg";
 
 /*Import constants*/
-import TEXT from "../../constants/text";
+import Text from "../../constants/Text";
 
 /*Import components*/
 import Background from "../../components/background/Background";
@@ -23,14 +24,17 @@ import Helper from "../../components/helper/Helper";
 import Input from "../../components/Input/Input";
 
 /*Import helpers*/
-
+import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
 /*Import style*/
 import styles from './FridgePage.module.scss'
 
 /*Import data*/
 import firebaseConfig from '../../data/firebaseData.json'
-import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
+import {spaceToUnderscore} from "../../helpers/spaceToUnderscore";
+import translate from "../../helpers/translate";
+import {LanguageContext} from "../../context/LanguageContext";
+
 
 
 
@@ -39,10 +43,11 @@ import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 /*Main page function*/
 function FridgePage() {
     /*Text*/
-    const text = new TEXT()
+    const text = new Text()
 
     /*Hooks*/
     useDocumentTitle(`${text.homepage} - ${text.fridge}`)
+    const history = useHistory()
 
     /*Variables*/
 
@@ -54,7 +59,7 @@ function FridgePage() {
     const yellowDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()+offset}`
 
     /*Imports from dependencies*/
-    const {handleSubmit: handleSubmitNewItem, formState: {errors}, register : registerNewItem, reset} = useForm();
+    const {handleSubmit: handleSubmitNewItem, register : registerNewItem, reset} = useForm();
     const {handleSubmit: handleSubmitSearch, register : registerSearch} = useForm();
 
     /*States*/
@@ -64,6 +69,7 @@ function FridgePage() {
 
     /*Context*/
     const {user} = useContext(AuthContext)
+    const {language} = useContext(LanguageContext)
 
     /*Firebase app*/
     firebaseConfig.apiKey = process.env.REACT_APP_FIREBASE_API_KEY
@@ -84,6 +90,24 @@ function FridgePage() {
     async function deleteProduct(database, product) {
         database = database.toString()
         await deleteDoc(doc(db, database, product));
+    }
+
+    function search(data) {
+        let search = ''
+        for (let key in data) {
+            if (key.slice(-8) === 'checkbox' && data[key] === true) {
+                search += `${key.split('-')[0]} `
+            }
+        }
+        if (search) {
+            if (language === 'NL') {
+                translate(search.slice(0, -1), 'nl', 'en').then((data) => {
+                    history.push(`/recipes/${spaceToUnderscore(data)}`)
+                })
+            } else {
+                history.push(`/recipes/${spaceToUnderscore(search)}`)
+            }
+        }
     }
 
     /*Life cycle method*/
@@ -131,8 +155,7 @@ function FridgePage() {
                 {error ? text.productError :
                 /* While loading*/
                 isLoaded ?
-                    <form className={styles.form} onSubmit={handleSubmitSearch((data) => {
-                        console.log(data)})}>
+                    <form className={styles.form} onSubmit={handleSubmitSearch(search)}>
                         {productData.map(
                         (data) => {
                             return (
@@ -164,7 +187,7 @@ function FridgePage() {
                                         styling='remove-row'
                                         type='button'
                                     >
-                                        remove
+                                        {text.remove}
                                     </Button>
                                     <Input
                                         type='checkbox'
@@ -188,16 +211,13 @@ function FridgePage() {
                         styleType='product'
                         placeholder='product'
                         type='text'
-                        required={text.required}
                         register={registerNewItem}
-                        error={errors}
                         name='product'/>
 
                     <Input
                         styleType='product'
                         type='date'
                         register={registerNewItem}
-                        error={errors}
                         name='date'/>
 
                     <Button
@@ -206,9 +226,16 @@ function FridgePage() {
                     >
                         +
                     </Button>
+                    {/*Hidden box for outlining*/}
+                    <Input
+                        type='checkbox'
+                        register={registerSearch}
+                        styleType='checkbox-hidden'
+                        name='pass'
+                    />
                 </form>
                 {/*Extra row button*/}
-                <Helper>
+                <Helper page='fridge'>
 
                 </Helper>
             </Container>

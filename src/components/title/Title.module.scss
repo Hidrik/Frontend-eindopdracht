@@ -2,15 +2,30 @@
 @import '../../styling/fonts';
 @import '../../styling/global';
 
-
+/*Title stile*/
 .title{
   align-self: center;
 }
+
+/*Helper component*/
 
 .helper {
   padding: 0;
   margin: 0;
 }
+
+/*Recipepage*/
+
+.recipe{
+  font-size: 32px;
+  margin: 0 0 5px 0;
+  line-height: 32px;
+  flex-basis: 100%;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/*Homepage*/
 
 .homepage {
   text-align: center;
@@ -24,15 +39,6 @@
   box-shadow: $box-shadow;
 }
 
-.recipe{
-  font-size: 32px;
-  margin: 0 0 5px 0;
-  line-height: 32px;
-  flex-basis: 100%;
-  flex-shrink: 0;
-  text-align: center;
-}
-
 .homepage.light {
   color: $purple-light;
   border-color: $purple-light;
@@ -41,4 +47,21 @@
 .homepage.dark {
   color: $magnolia;
   border-color: $purple-dark;
+}
+
+/*Not found page*/
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.not-found.light {
+   color: $purple-light;
+ }
+
+.not-found.dark {
+  color: $purple-dark
 }

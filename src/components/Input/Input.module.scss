@@ -11,7 +11,7 @@ $form-width-input-short : calc(100% -  #{$form-width-label} - #{$form-input-padd
 
 
 .input, .text-long, .error, .form__container-short {
-  margin: $form-margin/4 $form-margin $form-margin/4 $form-margin;
+  margin: calc(#{$form-margin}/4) $form-margin calc(#{$form-margin}/4) $form-margin;
   padding: 0;
   border: 0;
   outline: none;
@@ -39,11 +39,11 @@ $form-width-input-short : calc(100% -  #{$form-width-label} - #{$form-input-padd
   flex-direction: row;
 }
 
-.input-long {
+.form__container__input-long {
   width: $form-width-username;
 }
 
-.input-short {
+.form__container__input-short {
   margin: 0 0 0 30px;
   width: $form-width-input-short;
 }
@@ -56,7 +56,7 @@ $form-width-input-short : calc(100% -  #{$form-width-label} - #{$form-input-padd
 }
 
 
-.input-search, .input-search:focus {
+.form__container__input-search, .form__container__input-search:focus {
   width: 100%;
   height: $input-height;
   padding: 0;
@@ -79,7 +79,7 @@ $form-width-input-short : calc(100% -  #{$form-width-label} - #{$form-input-padd
   align-self: center;
 }
 
-.input-grocery {
+.form__container__input-grocery {
   width: 90%;
   align-self: center;
 }
@@ -91,44 +91,59 @@ $form-width-input-short : calc(100% -  #{$form-width-label} - #{$form-input-padd
   flex-shrink: 1;
 }
 
-.input-product, .input-product-good, .input-product-expired, .input-product-almost-expired {
+.form__container__input-product, .form__container__input-product-good, .form__container__input-product-expired, .form__container__input-product-almost-expired {
   width: 90%;
 
 }
 
-.input-product-good, .input-product-expired, .input-product-almost-expired {
+.form__container__input-product-good, .form__container__input-product-expired, .form__container__input-product-almost-expired {
   pointer-events: none;
 }
 
-.input-product-expired {
+.form__container__input-product-expired {
   color: $error-message;
 }
 
-.input-product-almost-expired {
+.form__container__input-product-almost-expired {
   color: $almost-expired;
 }
 
-
-/*Input background colors*/
-
-.input-short.light, .input-long.light, .input-search.light {
+.form__container__input-short.light, .form__container__input-long.light, .form__container__input-search.light {
   background-color: white;
   color: $purple-dark;
 }
 
-.input-long.dark, .input-short.dark, .input-search.dark {
+.form__container__input-long.dark, .form__container__input-short.dark, .form__container__input-search.dark {
   background-color: $magnolia;
+}
+
+
+/*Checkbox fridge page*/
+.form__container__input-checkbox, .form__container__input-checkbox-hidden {
+  color: transparent;
+  appearance: none;
+  width: 30px;
+  margin: 0 10px 0 0;
+  border: 2px solid $purple-light
+}
+
+.form__container__input-checkbox:checked {
+  background: $succes;
+}
+
+.form__container__input-checkbox-hidden {
+  visibility: hidden;
 }
 
 @media only screen and (max-width: $mobile-width) {
   .input, .text-long {
     margin: $form-margin-mobile;
   }
-  .input-long {
+  .form__container__input-long {
     width: calc(100% - #{$form-margin});
   }
 
-  .input-search {
+  .form__container__input-search {
     padding: 0;
     border: 0;
     margin: 0;

@@ -51,7 +51,7 @@ function Input({
                 placeholder={placeholder}
                 type={type}
                 defaultValue={typedIn}
-                className={`${styles.input} ${styles[`input-${styleType}`]} ${styles[visualMode]} ${styleType}`} {...register ? {...register(name, {
+                className={`${styles.input} ${styles[`form__container__input-${styleType}`]} ${styles[visualMode]} ${styleType}`} {...register ? {...register(name, {
                     [condition]: {
                         value: value,
                         message: message,

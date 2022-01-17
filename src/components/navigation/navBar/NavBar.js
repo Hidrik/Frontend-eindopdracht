@@ -22,17 +22,13 @@ import NavLinkDropdown from "./Dropdown/navLinkDropdown/NavLinkDropdown";
 import styles from './NavBar.module.scss'
 
 /*Import constants*/
-import TEXT from "../../../constants/text";
+import Text from "../../../constants/Text";
 
 
 function NavBar() {
 
     /*Text*/
-    const text = new TEXT()
-/*    const fridgeText = useLanguageChooser('Koelkast', 'Fridge')
-    const registerText = useLanguageChooser('Registreer', 'Register')
-    const profileText = useLanguageChooser('Profiel', 'Profile')
-    const groceryText = useLanguageChooser(`Boodschappen`, 'Grocery list')*/
+    const text = new Text()
 
     /*Styling variables*/
     const selector = `${styles.selector__flag} ${styles['mobile-flag']}`
@@ -48,13 +44,13 @@ function NavBar() {
     /*Navigation*/
 
     /*Functions*/
-    const setLanguage = () => {
-        if (language === 'NL') {
-            setEnglish()
-        } else if (language === 'EN') {
-            setDutch()
-        }
-    }
+    /*    const setLanguage = () => {
+            if (language === 'NL') {
+                setEnglish()
+            } else if (language === 'EN') {
+                setDutch()
+            }
+        }*/
 
 
     /*Return*/
@@ -71,8 +67,9 @@ function NavBar() {
                     <NavLinkDropdown to='/' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu}>
                         Home
                     </NavLinkDropdown>
-                    {user === null ? '' :
-                        <NavLinkDropdown to='/fridge' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu}>
+                    {user === null
+                        ? ''
+                        : <NavLinkDropdown to='/fridge' showMenu={showMobileMenu} toggleShowMenu={toggleShowMobileMenu}>
                             {text.fridge}
                         </NavLinkDropdown>
                     }
@@ -86,10 +83,12 @@ function NavBar() {
                 {/*Links*/}
                 <>
                     {/*Link to fridge*/}
-                    {user === null ? '' :
-                    <NavLinkItems to='/fridge'>
-                        {text.fridge}
-                    </NavLinkItems>}
+                    {user === null
+                        ? ''
+                        : <NavLinkItems to='/fridge'>
+                            {text.fridge}
+                        </NavLinkItems>}
+
                     {/*Link to grocery list*/}
                     <NavLinkItems to='/grocery-list'>
                         {text.grocery}
@@ -98,35 +97,39 @@ function NavBar() {
                 {/*selector flag menu to choose language*/}
 
                 <picture className={styles.selector}>
-                    {language === 'NL' ?
-                        <img src={flagDutch} alt='dutch-flag' className={selector}/> :
-                        <img src={flagEnglish} alt='english-flag' className={selector}/>}
-                    {language === 'NL' ?
-                        <img src={flagEnglish} alt='english-flag' className={selectorDown}
-                             onClick={setLanguage}/> :
-                        <img src={flagDutch} alt='dutch-flag' className={selectorDown}
-                             onClick={setLanguage}/>
+                    {language === 'NL'
+                        ? <img src={flagDutch} alt='dutch-flag' className={selector}/>
+                        : <img src={flagEnglish} alt='english-flag' className={selector}/>}
+                    {language === 'NL'
+                        ? <img src={flagEnglish} alt='english-flag' className={selectorDown} onClick={setEnglish}/>
+                        : <img src={flagDutch} alt='dutch-flag' className={selectorDown} onClick={setDutch}/>
                     }
                 </picture>
 
-                {/*Dropdown for login*/}
+                {/*Dropdown for menu*/}
                 <Dropdown styling='profile' showMenu={showProfile} toggleShowMenu={toggleShowProfile}
                           button='Menu'>
-                    {user === null ? '' :
-                        <NavLinkDropdown to='/profile' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
+
+                    {user === null
+                        ? ''
+                        : <NavLinkDropdown to='/profile' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
                             {text.profile}
                         </NavLinkDropdown>}
-                    {user === null ?
-                    <NavLinkDropdown to='/login' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
-                        Login
-                    </NavLinkDropdown> :
-                        <NavLinkDropdown to='/' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
+
+                    {user === null
+                        ?
+                        <NavLinkDropdown to='/login' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
+                            Login
+                        </NavLinkDropdown>
+                        : <NavLinkDropdown to='/' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
                             <Button onClick={logout} styling='logout'> Logout </Button>
                         </NavLinkDropdown>}
+
                     {user === null ?
-                    <NavLinkDropdown to='/register' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
-                        {text.register}
-                    </NavLinkDropdown> : '' }
+                        <NavLinkDropdown to='/register' showMenu={showProfile} toggleShowMenu={toggleShowProfile}>
+                            {text.register}
+                        </NavLinkDropdown> : ''}
+
                 </Dropdown>
 
 

@@ -83,7 +83,7 @@ $button-width: 50px;
 }
 
 .remove-row{
-  width: $button-width;
+  flex-basis: $button-width;
   flex-shrink: 0;
 }
 
@@ -121,6 +121,10 @@ $button-width: 50px;
 
 .logout.dark:hover {
   color: $ash-grey;
+}
+
+.button:disabled {
+  opacity: 0 !important; /*Important, because even when hovered over => still opacity: 0*/
 }
 
 @media only screen and (max-width: $mobile-width) {

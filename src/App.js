@@ -20,6 +20,7 @@ import GroceryListPage from "./pages/groceryList/GroceryListPage";
 import RegistrationPage from "./pages/registration/RegistrationPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import RecipePage from "./pages/recipe/RecipePage";
+import NotFoundPage from "./pages/notFound/NotFoundPage";
 
 
 
@@ -53,9 +54,9 @@ function App() {
                 <Route path='/recipes/:id'>
                     <RecipePage/>
                 </Route>
+                <Route><NotFoundPage/></Route>
             </Switch>
         </Background>
-        <br/>
     </>)
 }
 

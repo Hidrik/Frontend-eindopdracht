@@ -7,7 +7,7 @@ import {AuthContext} from "../../context/AuthContext";
 /*Import assets*/
 
 /*Import constants*/
-import TEXT from "../../constants/text";
+import Text from "../../constants/Text";
 
 /*Import components*/
 import Title from "../../components/title/Title";
@@ -17,7 +17,7 @@ import Input from "../../components/Input/Input";
 import Button from "../../components/button/Button";
 import Form from "../../components/form/form/Form";
 import Helper from "../../components/helper/Helper";
-import Succes from "../../components/succes/Succes";
+import Success from "../../components/success/Success";
 
 /*Import helpers*/
 
@@ -28,30 +28,27 @@ import styles from './RegistrationPage.module.scss'
 import background from "../../assets/background/background.jpg";
 import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
+/*Constants*/
+import ErrorStates from "../../constants/ErrorStates";
+
 
 function RegistrationPage() {
     /*Text*/
-    const text = new TEXT()
+    const text = new Text()
+
+    /*Error*/
+    const state = new ErrorStates()
 
     /*Hooks*/
     useDocumentTitle(`${text.homepage} - ${text.register}`)
 
     /*States*/
     /*Initial and ok: 0, Username already taken: 1, Email already taken: 2, Unknown error: 3*/
-    const [alreadyTaken, setAlreadyTaken] = useState(0)
+    const [success, setSuccess] = useState(state.noError)
     /*Variables*/
     const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
     const regExEmail = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-    /*Text*/
-    /*    const registerText = useLanguageChooser('Registreren', 'Register')
-        const passwordMatchText = useLanguageChooser('Wachtwoord is niet gelijk',"The passwords do not match")
-        const requiredText = useLanguageChooser('Moet ingevoerd worden','Must be filled in')
-        const usernameText = useLanguageChooser('Gebruikersnaam:', 'Username:')
-        const emailText = useLanguageChooser('Voer een juist email-adres in', 'Email address is not correct')
-        const passwordMessageText = useLanguageChooser('Moet minimaal 1 hoofdletter, cijfer en 8 characters bevatten', 'Must contain 1 capital letter, number and 8 characters')
-        const passwordText = useLanguageChooser('Wachtwoord:', 'Password:')
-        const repeatText = useLanguageChooser('Herhaald:', 'Repeat:')*/
 
     /*Context*/
     const {register: registerUser} = useContext(AuthContext)
@@ -71,7 +68,7 @@ function RegistrationPage() {
                 <Title>{text.register}</Title>
                 {/*Register form*/}
                 <Form onSubmit={handleSubmit((data) => {
-                    registerUser(data.username, data.email, data.password, setAlreadyTaken)
+                    registerUser(data.username, data.email, data.password, setSuccess)
                 })}>
                     {/*Username*/}
                     <Input required={text.required}
@@ -127,8 +124,13 @@ function RegistrationPage() {
                         {text.register}
                     </Button>
                 </Form>
-                {(alreadyTaken !== 0) && <Succes
-                    succes={alreadyTaken === 1 ? 'failedUsername' : alreadyTaken === 2 ? 'failedEmail' : 'failedUnknown'}/>}
+                {(success !== state.noError) && <Success
+                    succes={
+                    success === state.failedUsername
+                        ? state.failedUsername
+                        : success === state.failedEmail
+                            ? state.failedEmail
+                            : state.failedUnknown}/>}
                 <Helper page='registration'/>
             </Container>
         </>

@@ -19,7 +19,7 @@ import Input from "../../components/Input/Input";
 import Title from "../../components/title/Title";
 
 /*Import constants*/
-import TEXT from "../../constants/text";
+import Text from "../../constants/Text";
 
 /*Import helpers*/
 import {spaceToUnderscore} from "../../helpers/spaceToUnderscore";
@@ -33,9 +33,7 @@ import styles from './HomePage.module.scss'
 import background from '../../assets/background/background.jpg'
 
 
-
-
-async function translateAll(data) {
+async function translateRecipeTitles(data) {
     /*Add all titles to one string from data*/
     let translateString = ''
     translateString += data.recipes.map((data) => {
@@ -57,8 +55,11 @@ async function translateAll(data) {
 }
 
 function HomePage() {
+    /*Axios canceltoken*/
+    const source = axios.CancelToken.source();
+
     /*Text*/
-    const text = new TEXT()
+    const text = new Text()
 
     /*Hooks*/
     useDocumentTitle(text.homepage)
@@ -71,7 +72,7 @@ function HomePage() {
     const [first, setFirst] = useState(true)
 
     /*Imports*/
-    const {handleSubmit, formState: {errors}, register} = useForm();
+    const {handleSubmit, register} = useForm();
     const history = useHistory();
 
     /*Context*/
@@ -92,23 +93,23 @@ function HomePage() {
 
     /*Life cylce*/
     useEffect(() => {
-        const source = axios.CancelToken.source();
+
         let isMounted = true
 
         async function getData() {
             try {
-                const data = await axios.get(endpoint)
-                if (language === 'NL') {
-                    translateAll(data.data).then((result) => {
-                            if (isMounted) {
+                if (isMounted) {
+                    const data = await axios.get(endpoint)
+                    if (language === 'NL') {
+                        translateRecipeTitles(data.data).then((result) => {
                                 setData(result)
                                 setIsLoaded(true)
                             }
-                        }
-                    )
-                } else {
-                    setData(data.data)
-                    setIsLoaded(true)
+                        )
+                    } else {
+                        setData(data.data)
+                        setIsLoaded(true)
+                    }
                 }
 
             } catch (e) {
@@ -129,17 +130,22 @@ function HomePage() {
 
 
     /*Life cycle hook to start up the authentication server, only once. This can be removed if another server is used*/
-    useEffect( () => {
-        testLink().then( () => {
-            setFirst(false)
-            }
-        )
+    useEffect(() => {
+        let isMounted = true
+        if (isMounted) {
+            testLink().then(() => {
+                    setFirst(false)
+                }
+            )
+        }
+        return function cleanup() {
+            isMounted = false;
+        }
     }, [first])
 
     /*Return*/
     return (
         <>
-
             {/*Searchbox*/}
             <Container width='large' background='none'>
                 {/*Searchbox background image*/}
@@ -152,7 +158,6 @@ function HomePage() {
                         placeholder={text.searchIngredients}
                         required={true}
                         register={register}
-                        error={errors}
                         name='search'
 
                     />
@@ -165,22 +170,21 @@ function HomePage() {
 
             {/*Small recipe containers*/}
             <div className={styles['container-recipes']}>
-                {error ? <Title>{text.errorIngredients}</Title> :
-                    !isLoaded ?
-                        <p>Laden...</p> :
-                        data.recipes.map((data) => {
+                {error
+                    ? <Title>{text.errorIngredients}</Title>
+                    : !isLoaded
+                        ? <p>Laden...</p>
+                        : data.recipes.map((data) => {
                             return (
                                 <NavLink key={data.id} className={styles['container-recipes__container']}
                                          to={`/recipes/${data.id}`}>
-                                    <img src={data.image} alt='recipe'
+                                    <img src={data.image} alt={data.title}
                                          className={`${styles['container-recipes__container__image']} ${styles[visualMode]}`}/>
                                     <Title styling='homepage'>
                                         {data.title}
                                     </Title>
                                 </NavLink>)
                         })}
-
-
             </div>
 
         </>

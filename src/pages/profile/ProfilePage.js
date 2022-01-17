@@ -11,7 +11,7 @@ import {LanguageContext} from "../../context/LanguageContext";
 import {AuthContext} from "../../context/AuthContext";
 
 /*Import constants*/
-import TEXT from "../../constants/text";
+import Text from "../../constants/Text";
 
 /*Import assets*/
 
@@ -21,7 +21,7 @@ import Input from "../../components/Input/Input";
 import Button from "../../components/button/Button";
 import Title from "../../components/title/Title";
 import Form from "../../components/form/form/Form";
-import Succes from "../../components/succes/Succes";
+import Success from "../../components/success/Success";
 import Helper from "../../components/helper/Helper";
 
 /*Import helpers*/
@@ -35,21 +35,23 @@ import background from '../../assets/background/background.jpg';
 import flagEnglish from '../../assets/languages/united-kingdom.png';
 import flagDutch from '../../assets/languages/netherlands.png';
 import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
+import ErrorStates from "../../constants/ErrorStates";
 
 
 
 function ProfilePage() {
     /*Text*/
-    const text = new TEXT()
+    const text = new Text()
+    const state = new ErrorStates()
 
     /*Hooks*/
     useDocumentTitle(`${text.homepage} - ${text.profile}`)
 
     /*States*/
-    /*State 0: no text, State 1: succes, State 2: failed*/
-    const [succesEmail, setSuccesEmail] = useState(0)
-    /*State 0: no text, State 1: succes, State 2: failed old password, State 3: failed same passwords*/
-    const [succesPassword, setSuccesPassword] = useState(0)
+    /*State 0: no text, State 1: success, State 2: failed*/
+    const [successEmail, setSuccessEmail] = useState(state.noError)
+    /*State 0: no text, State 1: success, State 2: failed old password, State 3: failed same passwords, State 4: Cant update password*/
+    const [successPassword, setSuccessPassword] = useState(state.noError)
 
     /*Context*/
     const {setDarkMode, setLightMode} = useContext(VisualContext)
@@ -83,17 +85,17 @@ function ProfilePage() {
 
     /*Functions*/
     function changePassword(data) {
-        setSuccesPassword(0)
+        setSuccessPassword(state.noError)
         if (data.oldPassword === data.newPassword) {
-            setSuccesPassword(3)
+            setSuccessPassword(state.failedOldPassword)
         } else {
-            updatePassword(localStorage.getItem('token'), data.oldPassword, data.newPassword, setSuccesPassword)
+            updatePassword(data.oldPassword, data.newPassword, setSuccessPassword)
             resetPasswordInput()
         }
     }
 
     function changeEmail(data) {
-        update(localStorage.getItem('token'), 'email', data.email, setSuccesEmail)
+        update('email', data.email, setSuccessEmail)
     }
 
     /*Return*/
@@ -102,8 +104,8 @@ function ProfilePage() {
         <Container width='small'>
             {/*Showing username*/}
             <Title>{`${text.welcome} ${user.username}`}</Title>
-            {/*Changing username succes*/}
-            {succesEmail === 1 && <Succes succes='succes'/>}
+            {/*Changing username success*/}
+            {successEmail === state.success && <Success succes={state.success}/>}
             {/*Form for changing email*/}
             <Form onSubmit={handleSubmitEmail(changeEmail)}>
 
@@ -124,9 +126,10 @@ function ProfilePage() {
                 </Button>
 
             </Form>
+            {successEmail === state.failedEmail && <Success succes={state.failedEmail}/>}
             {/*Form for changing password*/}
-            {/*Changing username succes*/}
-            {succesPassword === 1 && <Succes succes='succes'/>}
+            {/*Changing username success*/}
+            {successPassword === state.success && <Success succes={state.success}/>}
             <Form onSubmit={handleSubmitPassword(changePassword)}>
                 <p className={styles.text}>{text.changePassword}</p>
 
@@ -168,8 +171,9 @@ function ProfilePage() {
                        styleType='short'
                        type='password'/>
                 {/*If new and old password are the same*/}
-                {succesPassword === 2 && <Succes succes='failedOldPassword'/>}
-                {succesPassword === 3 && <Succes succes='failedSamePassword'/>}
+                {successPassword === state.failedOldPassword && <Success succes={state.failedOldPassword}/>}
+                {successPassword === state.failedSamePassword && <Success succes={state.failedSamePassword}/>}
+                {successPassword === state.failedUpdatePassword && <Success succes={state.failedUpdatePassword}/>}
                 <Button type='submit' styling='None'>
                     {text.change}
                 </Button>
@@ -195,9 +199,7 @@ function ProfilePage() {
                 </Button>
 
             </div>
-            <Helper>
-
-            </Helper>
+            <Helper page='profile'/>
         </Container>
 
     </>);

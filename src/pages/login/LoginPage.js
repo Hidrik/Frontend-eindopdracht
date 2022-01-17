@@ -19,7 +19,7 @@ import Helper from "../../components/helper/Helper";
 /*Import helpers*/
 
 /*Import constants*/
-import TEXT from "../../constants/text";
+import Text from "../../constants/Text";
 
 /*Import style*/
 import styles from './LoginPage.module.scss'
@@ -27,19 +27,23 @@ import styles from './LoginPage.module.scss'
 /*Import images*/
 import background from "../../assets/background/background.jpg";
 import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
+import ErrorStates from "../../constants/ErrorStates";
 
 
 
 
 function LoginPage() {
     /*Text*/
-    const text = new TEXT()
+    const text = new Text()
+
+    /*Error*/
+    const state = new ErrorStates()
 
     /*Hooks*/
     useDocumentTitle(`${text.homepage} - login`)
 
     /*States*/
-    const [wrongPassword, setWrongPassword] = useState(false);
+    const [wrongPassword, setWrongPassword] = useState(state.noError);
 
     /*Context*/
     const {login} = useContext(AuthContext)
@@ -86,7 +90,7 @@ function LoginPage() {
                            validate=''
                            type='password'/>
                     {/*Error when password is wrong*/}
-                    {wrongPassword && <p className={styles.error}>{text.wrongPassword}</p>}
+                    {wrongPassword === state.failedOldPassword && <p className={styles.error}>{text.wrongPassword}</p>}
                     {/*Submit button*/}
                     <Button type='submit' styling='long'>
                         Login

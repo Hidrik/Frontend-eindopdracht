@@ -9,7 +9,7 @@ import {AiOutlinePlusCircle} from "react-icons/ai";
 import background from "../../assets/background/background.jpg";
 
 /*Import constants*/
-import TEXT from "../../constants/text";
+import Text from "../../constants/Text";
 
 /*Import components*/
 import Background from "../../components/background/Background";
@@ -39,7 +39,7 @@ function getInputValue(array, data) {
 
 function GroceryListPage() {
     /*Text*/
-    const text = new TEXT()
+    const text = new Text()
 
     /*Hooks*/
     useDocumentTitle(`${text.homepage} - ${text.grocery}`)
@@ -126,7 +126,7 @@ function GroceryListPage() {
                 </form>
 
                 {/*Page instructions/helper*/}
-                <Helper>
+                <Helper page='grocery'>
 
                 </Helper>
             </Container>

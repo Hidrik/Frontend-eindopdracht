@@ -2,12 +2,12 @@
 @import '../../styling/fonts';
 @import '../../styling/global';
 
-.succes, .failed {
+.success, .failed {
   margin:  $form-margin/4 $form-margin $form-margin/4 $form-margin*2;
   font-weight: $font-weight-bold;
 
 }
-.succes {
+.success {
   color: $succes;
   font-size: 30px;
 }
