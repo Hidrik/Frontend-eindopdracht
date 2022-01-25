@@ -16,7 +16,7 @@ export default class TextClass {
     light = useLanguageChooser('Licht', 'Light')
     username = useLanguageChooser('Gebruikersnaam:', 'Username:')
     password = useLanguageChooser('Wachtwoord:', 'Password:')
-    grocery = useLanguageChooser('Boodschappenlijst', 'Grocery list')
+    grocery = useLanguageChooser('Boodschappen', 'Groceries')
     profile = useLanguageChooser('Profiel', 'Profile')
     success = useLanguageChooser('Gelukt!', 'Success')
     fridge = useLanguageChooser('Koelkast', 'Fridge')

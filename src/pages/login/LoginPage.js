@@ -31,10 +31,6 @@ import styles from './LoginPage.module.scss'
 import background from "../../assets/background/background.jpg";
 
 
-
-
-
-
 function LoginPage() {
     /*Constants*/
     const text = new TextClass()
