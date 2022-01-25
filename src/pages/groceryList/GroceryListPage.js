@@ -9,7 +9,7 @@ import {AiOutlinePlusCircle} from "react-icons/ai";
 import background from "../../assets/background/background.jpg";
 
 /*Import constants*/
-import Text from "../../constants/Text";
+import TextClass from "../../constants/TextClass";
 
 /*Import components*/
 import Background from "../../components/background/Background";
@@ -28,33 +28,24 @@ import styles from './GroceryListPage.module.scss'
 import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
 
-function getInputValue(array, data) {
-    console.log(data)
-    for (let i = 0; i < array.length; i++) {
-        array[i].value = data[`input${array[i].key}`];
-    }
-    return array
-}
-
-
 function GroceryListPage() {
+
     /*Text*/
-    const text = new Text()
-
-    /*Hooks*/
-    useDocumentTitle(`${text.homepage} - ${text.grocery}`)
-
-    /*Imports from dependencies*/
-    const {handleSubmit, register} = useForm();
+    const text = new TextClass()
 
     /*States*/
     const [rows, setRows] = useState([]);
     const [numberOfInputs, setNumberOfInputs] = useState(4)
 
+    /*Hooks*/
+    useDocumentTitle(`${text.homepage} - ${text.grocery}`)
+
+    /*Imports from dependencies*/
+    const {handleSubmit} = useForm();
+
     /*Context*/
 
     /*Variables*/
-
 
     useEffect(() => {
         /*Create empty array*/
@@ -62,7 +53,6 @@ function GroceryListPage() {
         for (let i = 0; i < numberOfInputs; i++) {
             array.push(
                 {
-                    'value': '',
                     'key': i
                 })
         }
@@ -88,36 +78,20 @@ function GroceryListPage() {
 
                 {/*Grocery list*/}
                 <Title styling=''>{text.grocery}</Title>
-                <form className={styles.form} onSubmit={handleSubmit((data) => {
-                    getInputValue(rows, data)
+                <form className={styles.form} onSubmit={handleSubmit(() => {
                     setNumberOfInputs(numberOfInputs + 1)
                 })}>
-                    {/*Check if a value is defined, otherwise make empty boxes*/}
+                    {/*Make inputboxes */}
                     {rows.map(
                         (row) => {
-
-                            if (row.value === '') {
                                 return (
                                     <Input
                                         key={row.key}
                                         name={`input${row.key}`}
                                         styleType='grocery'
                                         placeholder='Product'
-                                        type='text'
-                                        register={register}/>
+                                        type='text'/>
                                 )
-                            } else {
-                                return (
-                                    <Input
-                                        key={row.key}
-                                        name={`input${row.key}`}
-                                        styleType='grocery'
-                                        type='text'
-                                        register={register}
-                                        typedIn={row.value}/>
-                                )
-                            }
-
                         })}
                     {/*Extra row button*/}
                     <Button styling='add-row' type='submit'>

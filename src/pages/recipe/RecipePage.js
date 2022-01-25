@@ -23,7 +23,7 @@ import translate, {abortTranslation} from "../../helpers/translate";
 /*Import style*/
 import styles from './RecipePage.module.scss'
 import PrintLogo from "../../components/printLogo/PrintLogo";
-import Text from "../../constants/Text";
+import TextClass from "../../constants/TextClass";
 import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
 
@@ -124,13 +124,7 @@ async function translateAll(result) {
 
 function RecipePage() {
     /*Text*/
-    const text = new Text()
-
-    /*Hooks*/
-    useDocumentTitle(`${text.homepage} - ${text.recipe}`)
-
-    /*React variables*/
-    const {id} = useParams();
+    const text = new TextClass()
 
     /*States*/
     const [data, setData] = useState({})
@@ -147,6 +141,12 @@ function RecipePage() {
 
     const {visualMode} = useContext(VisualContext)
     const {language} = useContext(LanguageContext)
+
+    /*Hooks*/
+    useDocumentTitle(`${text.homepage} - ${text.recipe}`)
+
+    /*React variables*/
+    const {id} = useParams();
 
     /*Life cycle*/
     useEffect(() => {
@@ -216,8 +216,12 @@ function RecipePage() {
 
     /*When changing language, no api call has to be made but the original data is restored.*/
     useEffect(() => {
-        if (!first) {
+        let isMounted = true
+        if (!first && isMounted) {
             setData(originalData)
+        }
+        return function cleanup() {
+            isMounted = false
         }
     }, [language])
 
@@ -239,7 +243,7 @@ function RecipePage() {
                                 }}
                             styling='refresh'
                         >
-                            Refresh
+                            {text.refresh}
                         </Button> : ''}
 
                     {/*Button for printing*/}

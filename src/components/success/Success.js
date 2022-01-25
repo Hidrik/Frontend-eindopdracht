@@ -11,7 +11,7 @@
 
 /*Import style*/
 import styles from './Success.module.scss'
-import Text from "../../constants/Text";
+import TextClass from "../../constants/TextClass";
 import ErrorStates from "../../constants/ErrorStates";
 
 /*Import images*/
@@ -20,7 +20,7 @@ import ErrorStates from "../../constants/ErrorStates";
 
 function Success({succes: success}) {
     /*Text*/
-    const text = new Text()
+    const text = new TextClass()
 
     /*error*/
     const error = new ErrorStates()

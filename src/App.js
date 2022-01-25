@@ -8,6 +8,7 @@ import {AuthContext} from "./context/AuthContext";
 /*Components*/
 import NavBar from "./components/navigation/navBar/NavBar";
 import Background from "./components/background/Background";
+
 /*Styles*/
 
 /*Helpers*/
@@ -21,10 +22,6 @@ import RegistrationPage from "./pages/registration/RegistrationPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import RecipePage from "./pages/recipe/RecipePage";
 import NotFoundPage from "./pages/notFound/NotFoundPage";
-
-
-
-
 
 function App() {
     const {user} = useContext(AuthContext)
@@ -54,7 +51,12 @@ function App() {
                 <Route path='/recipes/:id'>
                     <RecipePage/>
                 </Route>
-                <Route><NotFoundPage/></Route>
+                <Route>
+                    {/*I chose for a NotFoundPage but redirect could also be used like this:
+                    <Redirect to='/'/>
+                    */}
+                    <NotFoundPage/>
+                </Route>
             </Switch>
         </Background>
     </>)

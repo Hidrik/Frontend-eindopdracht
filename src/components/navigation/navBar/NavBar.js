@@ -22,13 +22,13 @@ import NavLinkDropdown from "./Dropdown/navLinkDropdown/NavLinkDropdown";
 import styles from './NavBar.module.scss'
 
 /*Import constants*/
-import Text from "../../../constants/Text";
+import TextClass from "../../../constants/TextClass";
 
 
 function NavBar() {
 
     /*Text*/
-    const text = new Text()
+    const text = new TextClass()
 
     /*Styling variables*/
     const selector = `${styles.selector__flag} ${styles['mobile-flag']}`

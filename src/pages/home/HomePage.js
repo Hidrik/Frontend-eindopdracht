@@ -19,7 +19,7 @@ import Input from "../../components/Input/Input";
 import Title from "../../components/title/Title";
 
 /*Import constants*/
-import Text from "../../constants/Text";
+import TextClass from "../../constants/TextClass";
 
 /*Import helpers*/
 import {spaceToUnderscore} from "../../helpers/spaceToUnderscore";
@@ -55,14 +55,8 @@ async function translateRecipeTitles(data) {
 }
 
 function HomePage() {
-    /*Axios canceltoken*/
-    const source = axios.CancelToken.source();
-
     /*Text*/
-    const text = new Text()
-
-    /*Hooks*/
-    useDocumentTitle(text.homepage)
+    const text = new TextClass()
 
     /*State*/
     const [endpoint] = useState(`https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY_SPOONACULAR}&number=6`)
@@ -70,6 +64,14 @@ function HomePage() {
     const [isLoaded, setIsLoaded] = useState(false)
     const [error, setError] = useState(false)
     const [first, setFirst] = useState(true)
+
+    /*Axios canceltoken*/
+    const source = axios.CancelToken.source();
+
+    /*Hooks*/
+    useDocumentTitle(text.homepage)
+
+
 
     /*Imports*/
     const {handleSubmit, register} = useForm();
@@ -93,12 +95,11 @@ function HomePage() {
 
     /*Life cylce*/
     useEffect(() => {
-
         let isMounted = true
-
         async function getData() {
-            try {
-                if (isMounted) {
+            if (isMounted) {
+                try {
+
                     const data = await axios.get(endpoint)
                     if (language === 'NL') {
                         translateRecipeTitles(data.data).then((result) => {
@@ -110,14 +111,14 @@ function HomePage() {
                         setData(data.data)
                         setIsLoaded(true)
                     }
-                }
 
-            } catch (e) {
-                setError(true)
-                console.error('Recepten ophalen mislukt')
+
+                } catch (e) {
+                    setError(true)
+                    console.error(e.response)
+                }
             }
         }
-
         getData()
 
         return function cleanup() {

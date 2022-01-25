@@ -1,6 +1,6 @@
 import useLanguageChooser from "../helpers/hooks/useLanguageChooser";
 
-export default class Text {
+export default class TextClass {
 /*Words*/
     persons  = useLanguageChooser('Personen', 'Servings')
     nutrients = useLanguageChooser('Voedingswaarden', 'Nutrients')
@@ -14,7 +14,7 @@ export default class Text {
     repeat = useLanguageChooser('Herhaald:', 'Repeat:')
     dark = useLanguageChooser('Donker', 'Dark')
     light = useLanguageChooser('Licht', 'Light')
-    username = useLanguageChooser('Gebruikersnaam', 'Username')
+    username = useLanguageChooser('Gebruikersnaam:', 'Username:')
     password = useLanguageChooser('Wachtwoord:', 'Password:')
     grocery = useLanguageChooser('Boodschappenlijst', 'Grocery list')
     profile = useLanguageChooser('Profiel', 'Profile')
@@ -25,6 +25,8 @@ export default class Text {
     search = useLanguageChooser('Zoeken', 'Search')
     remove = useLanguageChooser('Verwijder','Remove')
     minutes = useLanguageChooser('Minuten','Minutes')
+    refresh = useLanguageChooser('Refresh','Refresh')
+    email = useLanguageChooser('Email', 'Email')
 
 /*Sentences*/
     daily = useLanguageChooser('Van dagelijkse behoefte', 'Of daily need')
@@ -42,7 +44,7 @@ export default class Text {
     productError = useLanguageChooser('Producten kunnen niet opgehaald worden', "Products can't be fetched")
 
     /*Forms*/
-    email = useLanguageChooser('Voer een juist email-adres in', 'Email address is not correct')
+
     required = useLanguageChooser('Moet ingevoerd worden', 'Must be filled in')
     emailMessage = useLanguageChooser('Voer een juist email-adres in', 'Email address is not correct')
     changeEmail = useLanguageChooser('Email wijzigen:', 'Change email:')

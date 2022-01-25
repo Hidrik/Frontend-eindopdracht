@@ -17,40 +17,38 @@ import Button from "../../components/button/Button";
 import Helper from "../../components/helper/Helper";
 
 /*Import helpers*/
+import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
 /*Import constants*/
-import Text from "../../constants/Text";
+import TextClass from "../../constants/TextClass";
+import ErrorStates from "../../constants/ErrorStates";
+import RegExpr from '../../constants/RegExpr'
 
 /*Import style*/
 import styles from './LoginPage.module.scss'
 
 /*Import images*/
 import background from "../../assets/background/background.jpg";
-import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
-import ErrorStates from "../../constants/ErrorStates";
+
+
 
 
 
 
 function LoginPage() {
-    /*Text*/
-    const text = new Text()
-
-    /*Error*/
+    /*Constants*/
+    const text = new TextClass()
     const state = new ErrorStates()
-
-    /*Hooks*/
-    useDocumentTitle(`${text.homepage} - login`)
+    const regEx = new RegExpr()
 
     /*States*/
     const [wrongPassword, setWrongPassword] = useState(state.noError);
 
+    /*Hooks*/
+    useDocumentTitle(`${text.homepage} - login`)
+
     /*Context*/
     const {login} = useContext(AuthContext)
-
-    /*Variables*/
-    const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    const regExEmail = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     /*Imports*/
     const {handleSubmit, formState: {errors}, register} = useForm();
@@ -69,7 +67,7 @@ function LoginPage() {
                     <Input required={text.required}
                            register={register}
                            message=''
-                           value={regExEmail}
+                           value=''
                            error={errors}
                            label={text.username}
                            name='username'
@@ -81,7 +79,7 @@ function LoginPage() {
                     <Input required={text.required}
                            register={register}
                            message={text.passwordMessage}
-                           value={regExPassword}
+                           value={regEx.password}
                            error={errors}
                            label={text.password}
                            name='password'
@@ -96,11 +94,8 @@ function LoginPage() {
                         Login
                     </Button>
                 </Form>
-                <Helper>
-
-                </Helper>
-            </Container>
-        </>
+                <Helper page='login'/>
+            </Container>        </>
     );
 }
 

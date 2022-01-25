@@ -11,7 +11,9 @@ import {LanguageContext} from "../../context/LanguageContext";
 import {AuthContext} from "../../context/AuthContext";
 
 /*Import constants*/
-import Text from "../../constants/Text";
+import TextClass from "../../constants/TextClass";
+import ErrorStates from "../../constants/ErrorStates";
+import RegExpr from "../../constants/RegExpr";
 
 /*Import assets*/
 
@@ -25,7 +27,7 @@ import Success from "../../components/success/Success";
 import Helper from "../../components/helper/Helper";
 
 /*Import helpers*/
-
+import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 /*Import style*/
 import styles from './ProfilePage.module.scss'
 import Background from "../../components/background/Background";
@@ -34,18 +36,16 @@ import Background from "../../components/background/Background";
 import background from '../../assets/background/background.jpg';
 import flagEnglish from '../../assets/languages/united-kingdom.png';
 import flagDutch from '../../assets/languages/netherlands.png';
-import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
-import ErrorStates from "../../constants/ErrorStates";
+
+
 
 
 
 function ProfilePage() {
-    /*Text*/
-    const text = new Text()
+    /*Constants*/
+    const text = new TextClass()
     const state = new ErrorStates()
-
-    /*Hooks*/
-    useDocumentTitle(`${text.homepage} - ${text.profile}`)
+    const regEx = new RegExpr()
 
     /*States*/
     /*State 0: no text, State 1: success, State 2: failed*/
@@ -53,14 +53,15 @@ function ProfilePage() {
     /*State 0: no text, State 1: success, State 2: failed old password, State 3: failed same passwords, State 4: Cant update password*/
     const [successPassword, setSuccessPassword] = useState(state.noError)
 
+
+
+    /*Hooks*/
+    useDocumentTitle(`${text.homepage} - ${text.profile}`)
+
     /*Context*/
     const {setDarkMode, setLightMode} = useContext(VisualContext)
     const {setDutch, setEnglish} = useContext(LanguageContext)
     const {user, update, updatePassword} = useContext(AuthContext)
-
-    /*Variables*/
-    const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-    const regExEmail = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
     /*Destructured*/
 
@@ -112,7 +113,7 @@ function ProfilePage() {
                 <Input required={text.required}
                        register={registerEmail}
                        message={text.emailMessage}
-                       value={regExEmail}
+                       value={regEx.email}
                        error={errorsEmail}
                        label={text.changeEmail}
                        name='email'
@@ -148,7 +149,7 @@ function ProfilePage() {
                 <Input required={text.required}
                        register={registerPassword}
                        message={text.passwordMessage}
-                       value={regExPassword}
+                       value={regEx.password}
                        error={errorsPassword}
                        label={text.new}
                        name='newPassword'

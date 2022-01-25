@@ -13,7 +13,7 @@ import {AuthContext} from "../../context/AuthContext";
 import background from "../../assets/background/background.jpg";
 
 /*Import constants*/
-import Text from "../../constants/Text";
+import TextClass from "../../constants/TextClass";
 
 /*Import components*/
 import Background from "../../components/background/Background";
@@ -35,15 +35,17 @@ import {spaceToUnderscore} from "../../helpers/spaceToUnderscore";
 import translate from "../../helpers/translate";
 import {LanguageContext} from "../../context/LanguageContext";
 
-
-
-
-
-
 /*Main page function*/
 function FridgePage() {
     /*Text*/
-    const text = new Text()
+    const text = new TextClass()
+
+    /*States*/
+    const [productData, setProductData] = useState([])
+    const [isLoaded, setIsLoaded] = useState(false)
+    const [error, setError] = useState(false)
+
+
 
     /*Hooks*/
     useDocumentTitle(`${text.homepage} - ${text.fridge}`)
@@ -61,11 +63,6 @@ function FridgePage() {
     /*Imports from dependencies*/
     const {handleSubmit: handleSubmitNewItem, register : registerNewItem, reset} = useForm();
     const {handleSubmit: handleSubmitSearch, register : registerSearch} = useForm();
-
-    /*States*/
-    const [productData, setProductData] = useState([])
-    const [isLoaded, setIsLoaded] = useState(false)
-    const [error, setError] = useState(false)
 
     /*Context*/
     const {user} = useContext(AuthContext)
@@ -203,9 +200,11 @@ function FridgePage() {
                     : text.loading}
                 <form className={styles['input-container']} onSubmit={handleSubmitNewItem(
                     (data) => {
-                        addProduct(user.id, data).then(() => {
-                            setIsLoaded(false)
-                        })
+                        if (data.product !== '') {
+                            addProduct(user.id, data).then(() => {
+                                setIsLoaded(false)
+                            })
+                        }
                     })}>
                     <Input
                         styleType='product'

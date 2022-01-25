@@ -7,7 +7,7 @@ import {AuthContext} from "../../context/AuthContext";
 /*Import assets*/
 
 /*Import constants*/
-import Text from "../../constants/Text";
+import TextClass from "../../constants/TextClass";
 
 /*Import components*/
 import Title from "../../components/title/Title";
@@ -22,7 +22,7 @@ import Success from "../../components/success/Success";
 /*Import helpers*/
 
 /*Import style*/
-import styles from './RegistrationPage.module.scss'
+import styles from './RegistrationPage.module.scss'   /*Not used but still could be used in further versions*/
 
 /*Import images*/
 import background from "../../assets/background/background.jpg";
@@ -30,25 +30,23 @@ import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
 /*Constants*/
 import ErrorStates from "../../constants/ErrorStates";
+import RegExpr from "../../constants/RegExpr";
 
 
 function RegistrationPage() {
-    /*Text*/
-    const text = new Text()
-
-    /*Error*/
+    /*Constants*/
+    const text = new TextClass()
     const state = new ErrorStates()
-
-    /*Hooks*/
-    useDocumentTitle(`${text.homepage} - ${text.register}`)
+    const regEx = new RegExpr()
 
     /*States*/
     /*Initial and ok: 0, Username already taken: 1, Email already taken: 2, Unknown error: 3*/
     const [success, setSuccess] = useState(state.noError)
-    /*Variables*/
-    const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-    const regExEmail = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
+
+
+    /*Hooks*/
+    useDocumentTitle(`${text.homepage} - ${text.register}`)
 
     /*Context*/
     const {register: registerUser} = useContext(AuthContext)
@@ -85,10 +83,10 @@ function RegistrationPage() {
                     {/*Email*/}
                     <Input required={text.required}
                            register={register}
-                           message={text.email}
-                           value={regExEmail}
+                           message={text.emailMessage}
+                           value={regEx.email}
                            error={errors}
-                           label='Email:'
+                           label={text.email}
                            name='email'
                            condition='pattern'
                            styleType='long'
@@ -98,7 +96,7 @@ function RegistrationPage() {
                     <Input required={text.required}
                            register={register}
                            message={text.passwordMessage}
-                           value={regExPassword}
+                           value={regEx.password}
                            error={errors}
                            label={text.password}
                            name='password'
