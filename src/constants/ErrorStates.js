@@ -6,5 +6,6 @@ export default class ErrorStates {
     failedSamePassword = 4
     failedUpdatePassword = 5
     failedUsername = 6
+    failedSearch = 7
     failedUnknown = 100
 };

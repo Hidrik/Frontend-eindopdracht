@@ -44,9 +44,9 @@ function Helper({page}) {
                         <p>Op deze pagina kunnen producten met houdbaarheidsdatum worden toegevoegd.</p>
                         <p>De producten worden op basis van houdbaarheidsdatum gesorteerd.</p>
                         <p>Er moet een product en datum ingevoerd worden, anders wordt het product niet opgeslagen.</p>
-                        <p>Producten kunnen verwijderd worden door op 'Verwijder' te klikken</p>
+                        <p>Producten kunnen verwijderd worden door op 'Verwijder' te klikken.</p>
                         <p>Door op de knop rechts naast de 'verwijder' knop te klikken, kunnen producten geselecteerd worden.
-                        Deze geselecteerde producten kunnen vervolgens gebruikt worden om een recept mee te zoeken door op 'Zoeken' te klikken</p>
+                        Deze geselecteerde producten kunnen vervolgens gebruikt worden om een recept mee te zoeken door op 'Zoeken' te klikken.</p>
                     </article>
                 case 'grocery'          :
                     return <article className={styles.text}>
@@ -94,7 +94,7 @@ function Helper({page}) {
                         <p>Products with their expiration date could be added on this page.</p>
                         <p>Products are sorted on expiration date.</p>
                         <p>A product name and date must be entered, otherwise no product can be added.</p>
-                        <p>Products could be removed by pressing 'Remove'</p>
+                        <p>Products could be removed by pressing 'Remove'.</p>
                         <p>By pressing the button right of the 'remove' button, products could be selected.
                             These selected products could then be used to search recipes by pressing 'Search'.</p>
                     </article>
@@ -102,8 +102,8 @@ function Helper({page}) {
                     return <article className={styles.text}>
                         <p>A grocery list can be made on this page.</p>
                         <p>Products can be typed in the input bars.</p>
-                        <p>New input bars could be added by pressing <AiOutlinePlusCircle/></p>
-                        <p>The list can be printed by pressing <AiOutlinePrinter/></p>
+                        <p>New input bars could be added by pressing <AiOutlinePlusCircle/>.</p>
+                        <p>The list can be printed by pressing <AiOutlinePrinter/>.</p>
                     </article>
                 case 'home'             :
                     return <article className={styles.text}>

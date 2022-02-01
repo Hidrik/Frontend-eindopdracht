@@ -8,12 +8,14 @@ import {useHistory} from "react-router-dom";
 
 /*Import context*/
 import {AuthContext} from "../../context/AuthContext";
+import {LanguageContext} from "../../context/LanguageContext";
 
 /*Import assets*/
 import background from "../../assets/background/background.jpg";
 
 /*Import constants*/
 import TextClass from "../../constants/TextClass";
+import ErrorStates from "../../constants/ErrorStates";
 
 /*Import components*/
 import Background from "../../components/background/Background";
@@ -22,28 +24,35 @@ import Button from "../../components/button/Button";
 import Title from "../../components/title/Title";
 import Helper from "../../components/helper/Helper";
 import Input from "../../components/Input/Input";
+import Success from "../../components/success/Success";
 
 /*Import helpers*/
 import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
+import translate from "../../helpers/translate";
+import {spaceToUnderscore} from "../../helpers/spaceToUnderscore";
 
 /*Import style*/
 import styles from './FridgePage.module.scss'
 
 /*Import data*/
 import firebaseConfig from '../../data/firebaseData.json'
-import {spaceToUnderscore} from "../../helpers/spaceToUnderscore";
-import translate from "../../helpers/translate";
-import {LanguageContext} from "../../context/LanguageContext";
+
+
+
+
+
 
 /*Main page function*/
 function FridgePage() {
     /*Text*/
     const text = new TextClass()
+    const searchError = new ErrorStates()
 
     /*States*/
     const [productData, setProductData] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
     const [error, setError] = useState(false)
+    const [noneSelected, setNoneSelected] = useState(false)
 
 
 
@@ -96,7 +105,7 @@ function FridgePage() {
                 search += `${key.split('-')[0]} `
             }
         }
-        if (search) {
+        if (search !== '') {
             if (language === 'NL') {
                 translate(search.slice(0, -1), 'nl', 'en').then((data) => {
                     history.push(`/recipes/${spaceToUnderscore(data)}`)
@@ -104,6 +113,8 @@ function FridgePage() {
             } else {
                 history.push(`/recipes/${spaceToUnderscore(search)}`)
             }
+        } else {
+            setNoneSelected(true)
         }
     }
 
@@ -233,10 +244,9 @@ function FridgePage() {
                         name='pass'
                     />
                 </form>
+                {noneSelected && <Success succes={searchError.failedSearch}/>}
                 {/*Extra row button*/}
-                <Helper page='fridge'>
-
-                </Helper>
+                <Helper page='fridge'/>
             </Container>
             <Background image={background} styling='image'/>
 

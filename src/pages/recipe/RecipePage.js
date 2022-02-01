@@ -38,7 +38,6 @@ async function translateAll(result) {
         /*Make the string which needs to be translated and add summary and title*/
         let translateText = `${result.data.summary}${splitstring}${result.data.title}${splitstring}`
 
-
         /*Add the ingredient names to the string*/
         if (result.data.extendedIngredients.length !== 0) {
             for (let i = 0; i < result.data.extendedIngredients.length; i++) {
@@ -48,9 +47,8 @@ async function translateAll(result) {
                 }
             }
         } else {
-            translateText += `notAvailable${splitstring}`
+            translateText += `not available${splitstring}`
         }
-
 
         /*Add the instructions to the string*/
         if (result.data.analyzedInstructions.length !== 0) {
@@ -61,7 +59,7 @@ async function translateAll(result) {
                 }
             }
         } else {
-            translateText += `notAvailable${splitstring}`
+            translateText += `not available${splitstring}`
         }
 
         /*Add the nutritions to the string*/
@@ -71,9 +69,8 @@ async function translateAll(result) {
                 /*result.data.nutrition.nutrients[i].name = await translate(result.data.nutrition.nutrients[i].name, 'en','nl')*/
             }
         } else {
-            translateText += `notAvailable${splitstring}`
+            translateText += `not available${splitstring}`
         }
-
 
         /*Translate the string (API call)*/
         translateText = await translate(translateText, 'en', 'nl')
@@ -111,8 +108,6 @@ async function translateAll(result) {
                 result.data.nutrition.nutrients[i].name = translatedArray[4].split(splitstringItems)[i]
             }
         }
-
-        /*Return result but await the result*/
 
     } catch (e) {
         console.log(e)
@@ -320,7 +315,7 @@ function RecipePage() {
                                 {text.instructions}
                             </Title>
                             <ol>
-                                {data.analyzedInstructions[0].steps.length !== 0
+                                {data.analyzedInstructions.length !== 0
                                     ? data.analyzedInstructions[0].steps.map((instructions) => {
                                         return <li
                                             key={`${data.id}-${offset}-${instructions.number}`}>{instructions.step}</li>

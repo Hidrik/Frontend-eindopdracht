@@ -15,10 +15,6 @@ function Background({children, image, styling}) {
     /*Context*/
     const {visualMode} = useContext(VisualContext)
 
-
-    /*Imports*/
-
-
     /*Return*/
     return (
 <div className={`${styles.background} ${styles[styling]} ${styles[visualMode]}`}>

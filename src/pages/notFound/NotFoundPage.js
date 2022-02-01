@@ -12,16 +12,12 @@ import Background from "../../components/background/Background";
 import Title from "../../components/title/Title";
 import Button from "../../components/button/Button";
 
-
 /*Styles*/
 
 /*Helpers*/
 import useDocumentTitle from "../../helpers/hooks/useDocumentTitle";
 
 /*Pages*/
-
-
-
 
 
 function NotFoundPage() {

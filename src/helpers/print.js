@@ -10,7 +10,7 @@ export default function print(className) {
     } else if (className === 'grocery') {
         WinPrint.document.write('<ul style="list-style-type:circle; font-size:25px;">')
         for (let i = 0; i < prtContent.length; i++) {
-            if (prtContent[i].value != ''){
+            if (prtContent[i].value){
                 WinPrint.document.write(`<li>${prtContent[i].value}</li>`)
             }
         }

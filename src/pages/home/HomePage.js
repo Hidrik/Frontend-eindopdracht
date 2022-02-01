@@ -172,7 +172,7 @@ function HomePage() {
             {/*Small recipe containers*/}
             <div className={styles['container-recipes']}>
                 {error
-                    ? <Title>{text.errorIngredients}</Title>
+                    ? <Title>{text.getDataError}</Title>
                     : !isLoaded
                         ? <p>Laden...</p>
                         : data.recipes.map((data) => {

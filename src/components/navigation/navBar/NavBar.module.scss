@@ -12,6 +12,10 @@ $flag-padding-top : 10%;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    max-height: 70px;
+
+    /*Shadow*/
+    box-shadow: $box-shadow;
 
 }
 
@@ -61,13 +65,17 @@ $flag-padding-top : 10%;
 }
 
 @media only screen and (max-width: $mobile-width) {
+    .navbar{
+        height: 35px;
+    }
+
     .mobile-flag{
-        height: $flag-height/1.2;
+        height: calc(#{$flag-height}/1.2);
     }
 
     .logo-mobile {
         display: flex;
-        height: $flag-height/1.2;
+        height: calc(#{$flag-height}/1.2);
         margin-left: 5px;
     }
 

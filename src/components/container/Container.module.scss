@@ -22,6 +22,7 @@
 
   /*style*/
   opacity: 90%;
+  box-shadow: $box-shadow;
 }
 
 .small {
@@ -44,6 +45,7 @@
 
 .none {
   background: none;
+  box-shadow: none;
 }
 
 .recipe {
@@ -56,9 +58,6 @@
 
 .recipe.dark {
   background-color: $purple-light;
-}
-
-.withBackground {
 }
 
 @media only screen and (max-width: $mobile-width) {

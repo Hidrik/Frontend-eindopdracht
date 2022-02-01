@@ -36,15 +36,13 @@ export default class TextClass {
 
     /*Fetching*/
     noRecipe = useLanguageChooser('Er kan geen recept gevonden worden.', 'No recipe could be found.')
-    getDataError = useLanguageChooser("Recept ophalen mislukt', 'Couldn't fetch recipe")
+    getDataError = useLanguageChooser("Recept ophalen mislukt, probeer later opnieuw.', 'Couldn't fetch recipe, try again later.")
     noInstructions = useLanguageChooser('Geen instructies beschikbaar.', 'No instructions available.')
     noIngredients = useLanguageChooser('Geen ingrediënten gevonden.', 'No ingredients available.')
     noNutrients = useLanguageChooser('Geen voedingswaarden gevonden.', 'No nutrients available.')
-    errorIngredients = useLanguageChooser('Kan geen recept opgehaald worden.', 'Recipes cant be fetched.')
-    productError = useLanguageChooser('Producten kunnen niet opgehaald worden', "Products can't be fetched")
+    productError = useLanguageChooser('Producten kunnen niet opgehaald worden, probeer later opnieuw.', "Products can't be fetched, try again later.")
 
     /*Forms*/
-
     required = useLanguageChooser('Moet ingevoerd worden', 'Must be filled in')
     emailMessage = useLanguageChooser('Voer een juist email-adres in', 'Email address is not correct')
     changeEmail = useLanguageChooser('Email wijzigen:', 'Change email:')
@@ -54,11 +52,12 @@ export default class TextClass {
     wrongPassword = useLanguageChooser('Wachtwoord is verkeerd', 'Wrong password')
 
     /*Failed*/
+    failedSearch = useLanguageChooser('Er moet een product geselecteerd worden.','A product must be selected.')
     failedOldPassword = useLanguageChooser('Oude wachtwoord incorrect', 'Old password incorrect')
     failedSamePassword = useLanguageChooser('Wachtwoorden zijn hetzelfde', 'Passwords are the same')
     failedUsername = useLanguageChooser('Gebruiker bestaat al', 'User already exists')
     failedEmail = useLanguageChooser('Email al in gebruik', 'Email already in use')
-    failedUnknown = useLanguageChooser('Er is een fout opgetreden', 'An error has occurred')
+    failedUnknown = useLanguageChooser('Er is een fout opgetreden, probeer later opnieuw', 'An error has occurred, try again later')
     failedUpdatePassword = useLanguageChooser('Kan wachtwoord niet updaten', "Can't update password")
 
     /*Pages*/

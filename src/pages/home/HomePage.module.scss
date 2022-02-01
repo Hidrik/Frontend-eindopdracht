@@ -11,6 +11,7 @@ $container-width : 60%;
   top: 0;
   border-radius: 20px;
   opacity: 80%;
+  object-fit: cover;
   width: $container-width;
   height: $container-height;
   align-self: center;
@@ -76,6 +77,7 @@ $container-width : 60%;
 
 .container-recipes__container__image {
   width: $recipe-container-width;
+  object-fit: cover;
   margin: 0;
   padding: 0;
   border: solid 1px;

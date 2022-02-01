@@ -51,3 +51,7 @@ V1.6, 17-01-2022:
     Added ErrorStates constants.
     Made the AuthenticationContext better and more readable.
     Added helper states and text.
+V1.7, 01-02-2022:
+    Fine-tuned the code. Removed some excessive code.
+    Wrote tests for two helper functions (underscoreToEndpoint, spaceToUnderscore).
+    Added content to the README.md.

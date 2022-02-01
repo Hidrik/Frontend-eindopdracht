@@ -33,6 +33,7 @@ function NavBar() {
     /*Styling variables*/
     const selector = `${styles.selector__flag} ${styles['mobile-flag']}`
     const selectorDown = `${styles.selector__flag__down} ${styles['mobile-flag']}`
+
     /*States*/
     const [showMobileMenu, toggleShowMobileMenu] = useState(false)
     const [showProfile, toggleShowProfile] = useState(false)
@@ -41,17 +42,7 @@ function NavBar() {
     const {visualMode} = useContext(VisualContext)
     const {logout, user} = useContext(AuthContext)
 
-    /*Navigation*/
-
     /*Functions*/
-    /*    const setLanguage = () => {
-            if (language === 'NL') {
-                setEnglish()
-            } else if (language === 'EN') {
-                setDutch()
-            }
-        }*/
-
 
     /*Return*/
     return (<>
