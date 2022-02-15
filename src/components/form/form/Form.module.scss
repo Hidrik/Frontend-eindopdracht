@@ -1,0 +1,17 @@
+@import '../../../styling/colors';
+@import '../../../styling/fonts';
+@import '../../../styling/global';
+
+.form {
+  margin: $form-margin/4 $form-margin $form-margin/4 $form-margin;
+  padding: 0;
+  border: 0;
+  width: $form-width-username;
+}
+
+@media only screen and (max-width: $mobile-width) {
+  .form {
+    margin: $form-margin-mobile;
+    width: 100%;
+  }
+}

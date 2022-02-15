@@ -1,0 +1,29 @@
+@import '../../styling/colors';
+
+.background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  overflow: auto;
+}
+
+.image{
+  opacity: 60%;
+  height: 100%;
+}
+
+.none.background {
+  display: none;
+}
+
+.background.light {
+  background-color: $magnolia;
+}
+
+.background.dark {
+  background-color: $black;
+}

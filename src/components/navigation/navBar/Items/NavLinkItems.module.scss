@@ -1,0 +1,41 @@
+@import '../../../../styling/colors';
+@import '../../../../styling/fonts';
+@import '../../../../styling/global';
+
+.navlink {
+  /*Display*/
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  /*Margin, padding border*/
+  margin: 0 40px 0 40px;
+
+  /*Font*/
+  font-family: $font;
+  font-weight: $font-weight-regular;
+  font-size: $font-size-navigation-items;
+  text-shadow: $text-shadow;
+  line-height: 75px;
+  text-decoration: none;
+}
+
+.navlink.light{
+  color: $magnolia ;
+}
+
+.navlink.dark, .navlink:hover.light{
+  color: $black ;
+}
+
+.navlink:hover.active, .navlink.active, .navlink:hover.dark {
+  color:$ash-grey;
+}
+
+
+@media only screen and (max-width: $mobile-width) {
+  .mobile{
+    display: none;
+  }
+}

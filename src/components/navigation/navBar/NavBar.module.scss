@@ -1,0 +1,83 @@
+@import '../../../styling/colors';
+@import '../../../styling/fonts';
+@import '../../../styling/global';
+
+$navbar-height : 80px;
+$flag-height : 30px;
+$flag-padding-top : 10%;
+
+.navbar{
+    /*Position*/
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    max-height: 70px;
+
+    /*Shadow*/
+    box-shadow: $box-shadow;
+
+}
+
+.navbar.light {background-color:$purple-light;}
+
+.navbar.dark {background-color:$purple-dark;}
+
+.logo {
+    height: 70px;
+    padding: 0 0 0 0;
+    transform: rotate(0deg);
+    transition: transform 1s;
+}
+
+.logo:hover {
+    transform: rotate(360deg);
+    transition: transform 1s;
+}
+
+.logo-mobile{
+    display: none;
+}
+
+/*Flag dropdown*/
+
+.selector {
+    margin-left: auto;
+    align-self: flex-start;
+}
+
+.selector__flag, .selector__flag__down{
+    height: $flag-height;
+    background: none;
+    margin: $flag-padding-top 0 0 0;
+    padding: 0;
+    border: none;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+}
+
+.selector__flag__down, .menu__login__down {display: none;}
+
+.selector:hover .selector__flag__down {display: block;}
+
+.dropdown-nav-style{
+    color: black
+}
+
+@media only screen and (max-width: $mobile-width) {
+    .navbar{
+        height: 35px;
+    }
+
+    .mobile-flag{
+        height: calc(#{$flag-height}/1.2);
+    }
+
+    .logo-mobile {
+        display: flex;
+        height: calc(#{$flag-height}/1.2);
+        margin-left: 5px;
+    }
+
+}
+

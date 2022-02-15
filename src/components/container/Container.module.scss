@@ -1,0 +1,67 @@
+@import '../../styling/colors';
+@import '../../styling/fonts';
+@import '../../styling/global';
+
+
+.container{
+  /*Display*/
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: 250px;
+
+  /*Size*/
+  margin: 50px auto auto auto;
+  border-radius: 20px;
+
+  /*Font*/
+  font-family: $font;
+  font-weight: $font-weight-regular;
+  text-shadow: $text-shadow;
+
+  /*style*/
+  opacity: 90%;
+  box-shadow: $box-shadow;
+}
+
+.small {
+  width: 40%;
+}
+
+.large {
+  width: 80%;
+}
+
+.light {
+  background-color: $purple-light;
+  color: $magnolia;
+}
+
+.dark {
+  background-color: $purple-dark;
+  color: $black;
+}
+
+.none {
+  background: none;
+  box-shadow: none;
+}
+
+.recipe {
+  margin-top: 0;
+}
+
+.recipe.light {
+  background-color: $purple-dark;
+}
+
+.recipe.dark {
+  background-color: $purple-light;
+}
+
+@media only screen and (max-width: $mobile-width) {
+  .small, .large {
+    width: 90%;
+  }
+}

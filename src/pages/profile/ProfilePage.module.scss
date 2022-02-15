@@ -1,0 +1,32 @@
+@import '../../styling/colors';
+@import '../../styling/fonts';
+@import '../../styling/global';
+
+.text, .error, .form__container, .mode-container {
+    margin: $form-margin/4 $form-margin $form-margin/4 $form-margin;
+    padding: 0;
+    border: 0;
+}
+
+.form__container{
+    display: flex;
+    flex-direction: row;
+}
+
+.mode-container {
+    width: $form-width-username;
+}
+
+.flag {
+    height: 50px;
+}
+
+@media only screen and (max-width: $mobile-width) {
+    .text, .error, .form__container, .mode-container {
+        margin: $form-margin-mobile;
+    }
+
+    .mode-container {
+        width: 100%;
+    }
+}

@@ -1,0 +1,21 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap');
+
+
+
+$font : 'Oswald', Arial, sans-serif;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
+
+
+$font-size-standard: 1em;
+$text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+/*Navigation*/
+$font-size-dropdown-menu: $font-size-standard * 1;
+$font-size-navigation-items: $font-size-standard * 3;
+
+/*Recipe*/
+$font-size-summary: $font-size-standard * 1;
+$font-size-nutrients: $font-size-standard * 0.8;
+

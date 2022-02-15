@@ -1,0 +1,146 @@
+@import '../../styling/colors';
+@import '../../styling/fonts';
+@import '../../styling/global';
+
+$button-width: 50px;
+
+
+.button {
+  margin: $form-margin/4 $form-margin $form-margin/4 $form-margin;
+  border: 0;
+  font-family: $font;
+  box-shadow: $box-shadow;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+/*Colors*/
+
+.button.light, {
+  color: $magnolia;
+}
+
+.button.dark, {
+  color: $black;
+}
+
+/*Buttons background colors*/
+
+
+.button.light, .button.dark:hover {
+  background-color: $purple-light;
+}
+
+.button.dark, .button.light:hover {
+  background-color: $purple-dark;
+}
+
+.mode-button-left, .mode-button-right {
+  width: calc( #{$form-width-username} / 2)
+}
+
+.long {
+  width: calc(100% - 2 * #{$form-margin})
+}
+
+.mode-button-left {
+  margin-right: 0;
+}
+
+.mode-button-right {
+  margin-left: 0;
+}
+
+.search {
+  margin-left: 0;
+  height: $input-height;
+  border-radius: 0 10px 10px 0;
+}
+
+.refresh {
+  position: absolute;
+}
+
+.fridge-search{
+  position: absolute;
+  top: 150px;
+  font-size: 25px;
+}
+
+.add-row {
+  position: relative;
+  left: 85%;
+  font-size: 30px;
+  line-height: 30px;
+}
+
+.add-row.light svg {
+  color: $magnolia;
+}
+
+.add-row.dark svg {
+  color: $black;
+}
+
+.remove-row{
+  flex-basis: $button-width;
+  flex-shrink: 0;
+}
+
+.add-database{
+  font-size: 30px;
+  line-height: 20px;
+  width: $button-width;
+  flex-shrink: 0;
+}
+
+.print {
+  position: absolute;
+  left: 85%;
+}
+
+.print-small {
+  position: absolute;
+  left: 60%;
+}
+
+.persons {
+  margin: 5px;
+}
+
+.logout {
+  box-shadow: none;
+  margin: 0;
+  font-size: $font-size-dropdown-menu;
+  background-color: transparent !important;
+}
+
+.logout.light:hover {
+  color: $black;
+}
+
+.logout.dark:hover {
+  color: $ash-grey;
+}
+
+.button:disabled {
+  opacity: 0 !important; /*Important, because even when hovered over => still opacity: 0*/
+}
+
+@media only screen and (max-width: $mobile-width) {
+  .button {
+    margin: $form-margin-mobile;
+  }
+  .search {
+    margin-left: 0;
+  }
+
+  .print-small {
+    position: absolute;
+    left: 80%;
+  }
+
+  .logout{
+    margin: 0;
+  }
+}

@@ -1,0 +1,57 @@
+changelog
+V1.0, 24-12-2021:
+    Made the project.
+    Made the folder structure.
+    Made VisualContext for passing through dark/light mode.
+    Made LanguageContext for passing through English/Dutch.
+    Made the NavLinks in the NavBar component.
+    Made it possible to switch Dutch/English with a dropdown button from the NavBar.
+    Made a dropdown menu for the login/registration/profile page.
+    Styled the navigation bar.
+V1.1, 28-12-2021:
+    Continued stiling the navigation bar for small media (phones etc.).
+    Combined both Dropdown components.
+    Made the useLanguageChooser helper function while making use of React hooks.
+    Made the background component.
+    Made the Input components for forms.
+    Started making the profile page.
+V1.2, 29-12-2021, 30-12-2021:
+    Made the Button components.
+    Change components which had style property to styling because of error.
+    Added the language buttons to profile page.
+    Made the mobile version of profilePage.
+    Made the whole registration page.
+    Made the whole login page.
+    Made the homepage with GET-request.
+    Started recipe page GET-request.
+    Made the recipe page.
+    Made the grocery list page.
+V1.3, 04-01-2022:
+    Recipe page finalized
+    Made the instructions button
+    Made the print button change color
+    Made animations and hover animations
+    Made the firebase backend part
+    Almost finished the fridge page
+    Cleaned the code
+V1.4, 04-01-2022:
+    Put firebase config data in .json file.
+V1.5, 05-01-2022, 11-01-2022:
+    Changed the Input component, now no register, name, required, validated, etc. need to be passed through as props.
+    The text of the page is all in one constant file with a class.
+    Added the possibility to translate on the recipe- and homepage. The recipe data now is automatically translated when application on Dutch.
+    Made AuthContext with login, update, register function. Goes to the NOVI authentication backend.
+    Added register and login error messages.
+    Added the title and favicon.ico to the HTML page.
+    Added testpulse to authentication server.
+    Added possibility for same name items in fridge.
+    Added checkbox markers on the fridge page.
+    Changed Firestore functions.
+V1.6, 17-01-2022:
+    Added ErrorStates constants.
+    Made the AuthenticationContext better and more readable.
+    Added helper states and text.
+V1.7, 01-02-2022:
+    Fine-tuned the code. Removed some excessive code.
+    Wrote tests for two helper functions (underscoreToEndpoint, spaceToUnderscore).
+    Added content to the README.md.

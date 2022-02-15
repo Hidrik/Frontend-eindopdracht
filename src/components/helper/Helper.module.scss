@@ -1,0 +1,50 @@
+@import '../../styling/colors';
+@import '../../styling/fonts';
+@import '../../styling/global';
+
+$manual-margin : 30px;
+
+.manual-icon{
+  height: 30px;
+  width: 30px;
+  margin: 10px;
+  align-self: flex-end;
+}
+
+.manual-icon.light {
+  color: $magnolia;
+}
+
+.manual-icon.dark {
+  color: $black;
+}
+
+.manual {
+  display: none;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.manual-icon:hover ~ .manual {
+  display: flex;
+  position: absolute;
+  top: 40%;
+  left: calc(30% - #{$manual-margin} / 2);
+  width: 40%;
+  background-color: $purple-dark;
+  border-radius: 20px;
+  padding: 15px;
+}
+
+.text p {
+  margin: 5px 0 5px 0;
+  font-size: 20px;
+}
+
+@media only screen and (max-width: $mobile-width) {
+  .manual-icon:hover ~ .manual {
+    left: calc(10% - #{$manual-margin}/2);
+    width: 80%;
+  }
+}

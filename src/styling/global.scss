@@ -1,0 +1,13 @@
+$mobile-width: 940px;
+
+$form-margin:30px;
+$form-margin-mobile: calc( #{$form-margin} / 8) calc(#{$form-margin} / 4) calc(#{$form-margin} / 8) calc(#{$form-margin} / 4);
+$form-width-username : calc(100% - 2 * #{$form-margin});
+$form-width-label: 50px;
+$form-width-input-short : calc(100% -  #{$form-width-label} );
+
+$input-height: 30px;
+
+$recipe-container-width: 300px;
+
+$box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);

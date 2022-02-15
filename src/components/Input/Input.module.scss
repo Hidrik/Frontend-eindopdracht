@@ -1,0 +1,152 @@
+@import '../../styling/colors';
+@import '../../styling/fonts';
+@import '../../styling/global';
+
+$form-width-label: 60px;
+$form-input-padding: 5px;
+$form-width-username : calc(100% - 2 * #{$form-margin} - #{$form-input-padding});
+
+$form-width-input-short : calc(100% -  #{$form-width-label} - #{$form-input-padding});
+
+
+
+.input, .text-long, .error, .form__container-short {
+  margin: calc(#{$form-margin}/4) $form-margin calc(#{$form-margin}/4) $form-margin;
+  padding: 0;
+  border: 0;
+  outline: none;
+}
+
+.input {
+  padding: 0 0 0 $form-input-padding;
+  color: $purple-dark;
+  height: $input-height;
+  border-radius: 10px;
+  box-shadow: $box-shadow;
+}
+
+.input::placeholder{
+  color: $purple-dark;
+}
+
+.text-short {
+  margin: 0;
+  width: $form-width-label;
+}
+
+.form__container-short{
+  display: flex;
+  flex-direction: row;
+}
+
+.form__container__input-long {
+  width: $form-width-username;
+}
+
+.form__container__input-short {
+  margin: 0 0 0 30px;
+  width: $form-width-input-short;
+}
+
+/*Colors*/
+
+
+.error {
+  color: $error-message;
+}
+
+
+.form__container__input-search, .form__container__input-search:focus {
+  width: 100%;
+  height: $input-height;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 10px 0 0 10px;
+  text-align: center;
+  box-shadow: $box-shadow;
+}
+
+.form__container-search {
+  width: 100%;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+/*Grocery*/
+.form__container-grocery{
+  width: 90%;
+  align-self: center;
+}
+
+.form__container__input-grocery {
+  width: 90%;
+  align-self: center;
+}
+
+/*Fridge*/
+.form__container-product, .form__container-product-good, .form__container-product-expired, .form__container-product-almost-expired {
+  min-width: 35%;
+  width: 90%;
+  flex-shrink: 1;
+}
+
+.form__container__input-product, .form__container__input-product-good, .form__container__input-product-expired, .form__container__input-product-almost-expired {
+  width: 90%;
+
+}
+
+.form__container__input-product-good, .form__container__input-product-expired, .form__container__input-product-almost-expired {
+  pointer-events: none;
+}
+
+.form__container__input-product-expired {
+  color: $error-message;
+}
+
+.form__container__input-product-almost-expired {
+  color: $almost-expired;
+}
+
+.form__container__input-short.light, .form__container__input-long.light, .form__container__input-search.light {
+  background-color: white;
+  color: $purple-dark;
+}
+
+.form__container__input-long.dark, .form__container__input-short.dark, .form__container__input-search.dark {
+  background-color: $magnolia;
+}
+
+
+/*Checkbox fridge page*/
+.form__container__input-checkbox, .form__container__input-checkbox-hidden {
+  color: transparent;
+  appearance: none;
+  width: 30px;
+  margin: 0 10px 0 0;
+  border: 2px solid $purple-light
+}
+
+.form__container__input-checkbox:checked {
+  background: $succes;
+}
+
+.form__container__input-checkbox-hidden {
+  visibility: hidden;
+}
+
+@media only screen and (max-width: $mobile-width) {
+  .input, .text-long {
+    margin: $form-margin-mobile;
+  }
+  .form__container__input-long {
+    width: calc(100% - #{$form-margin});
+  }
+
+  .form__container__input-search {
+    padding: 0;
+    border: 0;
+    margin: 0;
+  }
+}
+
